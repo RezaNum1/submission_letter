@@ -1,4 +1,4 @@
-# submission_letter
+# submission_letter + OCR (Optical Character Recognize)
 
 A new Flutter project.
 
