@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:submission_letter/RTRW_Page/presenter/detailEmployee_presenter.dart';
 import 'package:submission_letter/RTRW_Page/presenter/todo_presenter.dart';
 import 'package:submission_letter/RTRW_Page/views/detail_emp.dart';
 import 'package:submission_letter/Util/util_auth.dart';
@@ -11,7 +12,8 @@ class TODOEmp extends StatefulWidget {
 }
 
 class _TODOEmpState extends State<TODOEmp> {
-  Widget suratWidget(String id, String tipe, String nama, String tanggal) {
+  Widget suratWidget(
+      String id, String idSurat, String tipe, String nama, String tanggal) {
     String titleName;
     String subTitleName;
 
@@ -69,7 +71,16 @@ class _TODOEmpState extends State<TODOEmp> {
           ],
         ),
         onTap: () {
-          UtilAuth.movePage(context, DetailEmployeeData());
+          UtilAuth.movePage(
+            context,
+            DetailEmployeeData(
+              id: id,
+              idSurat: idSurat,
+              namaPenduduk: nama,
+              tanggal: tanggal,
+              tipe: tipe,
+            ),
+          );
         },
       ),
     );
@@ -105,6 +116,7 @@ class _TODOEmpState extends State<TODOEmp> {
                     print(snapshot.data[index]["tipe"].toString());
                     return suratWidget(
                       snapshot.data[index]["id"].toString(),
+                      snapshot.data[index]["idSurat"].toString(),
                       snapshot.data[index]["tipe"].toString(),
                       snapshot.data[index]["penduduk"],
                       UtilRTRW.convertDateTime(
