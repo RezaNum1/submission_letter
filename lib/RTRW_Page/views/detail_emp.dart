@@ -24,6 +24,11 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
   String nama;
   String jabatanText;
   int id;
+  var keteranganController = TextEditingController();
+  var komentarController = TextEditingController();
+
+  bool _validateKeterangan = false;
+  bool _validateKomentar = false;
 
   @override
   void initState() {
@@ -42,6 +47,16 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
 
   void dispose() {
     super.dispose();
+  }
+
+  void processData() async {
+    // Proses Approve
+    UtilAuth.loading(context);
+    DetailEmployeePresenter presenters = new DetailEmployeePresenter();
+    var process = await presenters.approveSurat(
+        widget.idSurat, id, keteranganController.text, komentarController.text);
+    print(process);
+    UtilAuth.successPopupDialog(context, process, HomeEmp());
   }
 
   Widget _detailWidget(
@@ -76,13 +91,25 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () async {
-                      UtilAuth.loading(context);
-                      DetailEmployeePresenter presenters =
-                          new DetailEmployeePresenter();
-                      var process =
-                          await presenters.approveSurat(widget.idSurat);
-                      print(process);
-                      UtilAuth.successPopupDialog(context, process, HomeEmp());
+                      if (keteranganController.text.isNotEmpty) {
+                        setState(() {
+                          _validateKeterangan = false;
+                        });
+                        if (komentarController.text.isNotEmpty) {
+                          setState(() {
+                            _validateKomentar = false;
+                          });
+                          processData();
+                        } else {
+                          setState(() {
+                            _validateKomentar = true;
+                          });
+                        }
+                      } else {
+                        setState(() {
+                          _validateKeterangan = true;
+                        });
+                      }
                     },
                   ),
                 )
@@ -193,6 +220,40 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
                 )
               ],
             ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: TextField(
+              decoration: InputDecoration(
+                  labelText: 'Keterangan Surat',
+                  hintText: "Masukkan Keterangan Surat Ini",
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
+                  ),
+                  errorText: _validateKeterangan
+                      ? "Keterangan Surat tidak boleh kosong!"
+                      : null),
+              controller: keteranganController,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: TextField(
+              decoration: InputDecoration(
+                  labelText: 'Komentar Surat',
+                  hintText: "Masukkan Komentar Untuk Surat Ini",
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
+                  ),
+                  errorText: _validateKomentar
+                      ? "Komentar Surat tidak boleh kosong!"
+                      : null),
+              controller: komentarController,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+            ),
           )
         ],
       ),
@@ -228,26 +289,15 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
         child: FutureBuilder(
           future: _getDetailSurat(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
+            if (snapshot.hasData) {
+              return _detailWidget(snapshot.data.keterangan, snapshot.data.rtrw,
+                  snapshot.data.noSuratRt, snapshot.data.noSuratRw);
+            } else {
               return Container(
                 child: Center(
-                  child: Text("Loading..."),
+                  child: Text('Loading...'),
                 ),
               );
-            } else {
-              if (snapshot.hasData) {
-                return _detailWidget(
-                    snapshot.data.keterangan,
-                    snapshot.data.rtrw,
-                    snapshot.data.noSuratRt,
-                    snapshot.data.noSuratRw);
-              } else {
-                return Container(
-                  child: Center(
-                    child: Text('Data Kosong'),
-                  ),
-                );
-              }
             }
           },
         ),

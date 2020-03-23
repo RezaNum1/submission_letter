@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:submission_letter/Notification/widget_function/messaging_widget.dart';
 import 'package:submission_letter/RTRW_Page/viewmodel/detailemp_viewmodel.dart';
 
 class DetailEmployeePresenter {
@@ -22,13 +23,23 @@ class DetailEmployeePresenter {
     return detailEmpViewModel;
   }
 
-  Future<String> approveSurat(String idSurat) async {
+  Future<String> approveSurat(
+      String idSurat, int id, String keterangan, String komentar) async {
     var url = "http://192.168.43.75:8000/api/rtrw/approveSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
+      "idUser": id.toString(),
+      "keterangan": keterangan.toString(),
+      "komentar": komentar.toString(),
     });
     var response = await dio.post(url, data: formData);
+    // if (response.data['token'] != null) {
+    //   print("Punya Kontroller" + response.data['token']);
+    //   NotificationClass.pushNotification(response.data['token']);
+    // } else {
+    //   print(response.data['email']);
+    // }
     return response.data['message'];
   }
 }
