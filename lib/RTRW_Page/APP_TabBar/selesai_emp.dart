@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:submission_letter/RTRW_Page/presenter/detailEmployeeSelesai_presenter.dart';
 import 'package:submission_letter/RTRW_Page/presenter/detailEmployee_presenter.dart';
 import 'package:submission_letter/RTRW_Page/presenter/selesai_presenter.dart';
 import 'package:submission_letter/RTRW_Page/presenter/todo_presenter.dart';
+import 'package:submission_letter/RTRW_Page/views/detai_empSelesai.dart';
 import 'package:submission_letter/RTRW_Page/views/detail_emp.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/Util/util_rtrw.dart';
@@ -14,7 +16,7 @@ class SelesaiEmp extends StatefulWidget {
 }
 
 class _SelesaiEmpState extends State<SelesaiEmp> {
-  Widget suratWidget(String idSuratRT, String idSurat, String tipe, String nama,
+  Widget suratWidget(String idJobPos, String idSurat, String tipe, String nama,
       String tanggal) {
     String titleName;
     String subTitleName;
@@ -73,7 +75,15 @@ class _SelesaiEmpState extends State<SelesaiEmp> {
           ],
         ),
         onTap: () {
-          print('Test');
+          UtilAuth.movePage(
+              context,
+              DetailEmpSelesai(
+                idJobPos: idJobPos,
+                idSurat: idSurat,
+                namaPenduduk: nama,
+                tanggal: tanggal,
+                tipe: tipe,
+              ));
         },
       ),
     );
@@ -108,7 +118,7 @@ class _SelesaiEmpState extends State<SelesaiEmp> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return suratWidget(
-                      snapshot.data[index]["idSuratRT"].toString(),
+                      snapshot.data[index]["idJobPos"].toString(),
                       snapshot.data[index]["idSurat"].toString(),
                       snapshot.data[index]["tipe"].toString(),
                       snapshot.data[index]["penduduk"],

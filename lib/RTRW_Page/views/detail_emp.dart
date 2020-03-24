@@ -111,6 +111,13 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
     UtilAuth.successPopupDialog(context, process.data['message'], HomeEmp());
   }
 
+  Future<void> tolakSurats() async {
+    UtilAuth.loading(context);
+    DetailEmployeePresenter presenter = new DetailEmployeePresenter();
+    var response = await presenter.tolakSurat(widget.idSurat);
+    UtilAuth.successPopupDialog(context, response, HomeEmp());
+  }
+
   Widget _detailWidget(
       String keterangan, String rtrwText, String noSuratRT, String noSuratRW) {
     return Container(
@@ -130,7 +137,25 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
-                      print("Hello");
+                      if (keteranganController.text.isNotEmpty) {
+                        setState(() {
+                          _validateKeterangan = false;
+                        });
+                        if (komentarController.text.isNotEmpty) {
+                          setState(() {
+                            _validateKomentar = false;
+                          });
+                          tolakSurats();
+                        } else {
+                          setState(() {
+                            _validateKomentar = true;
+                          });
+                        }
+                      } else {
+                        setState(() {
+                          _validateKeterangan = true;
+                        });
+                      }
                     },
                   ),
                 ),

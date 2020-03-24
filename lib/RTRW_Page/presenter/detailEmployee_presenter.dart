@@ -34,12 +34,18 @@ class DetailEmployeePresenter {
       "komentar": komentar.toString(),
     });
     var response = await dio.post(url, data: formData);
-    // if (response.data['token'] != null) {
-    //   print("Punya Kontroller" + response.data['token']);
-    //   NotificationClass.pushNotification(response.data['token']);
-    // } else {
-    //   print(response.data['email']);
-    // }
+
     return response;
+  }
+
+  Future<String> tolakSurat(String idSurat) async {
+    var url = "http://192.168.43.75:8000/api/rtrw/tolakSurat";
+    Dio dio = new Dio();
+    FormData formData = new FormData.fromMap({
+      "idSurat": idSurat,
+    });
+    var response = await dio.post(url, data: formData);
+
+    return response.data['message'];
   }
 }
