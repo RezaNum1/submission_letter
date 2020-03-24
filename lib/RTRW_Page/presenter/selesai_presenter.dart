@@ -1,25 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TODOPresenter {
-  TODOPresenter() {}
+class SelesaiPresenter {
+  SelesaiPresenter() {}
 
-  // List<Map<String, dynamic>> getAllDatas() {
-  //   var listSurat = <Map<String, dynamic>>[];
-  //   Map<String, dynamic> mapData = {
-  //     "id": 1,
-  //     "tipe": 1,
-  //     "nama": "Jhon Doe",
-  //     "tanggal": "14/02/2020"
-  //   };
-  //   listSurat.add(mapData);
-  //   print("success1");
-  //   return listSurat;
-  // }
-
-  Future<List<Map<String, dynamic>>> getAll() async {
+  Future<List<Map<String, dynamic>>> getAllSelesai() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var url = "http://192.168.43.75:8000/api/rtrw/getAllData";
+    var url = "http://192.168.43.75:8000/api/rtrw/getAllDataSelesai";
     var listSurat = <Map<String, dynamic>>[];
 
     // Disini Nanti Dikasih If Else untuk membedakan step antara rw = 2 dan rt = 1
@@ -30,13 +17,11 @@ class TODOPresenter {
     if (tipeJobPos > 13) {
       formData = new FormData.fromMap({
         "id": preferences.getInt("Id"),
-        "step": 1,
         "email": preferences.getString("Email")
       });
     } else {
       formData = new FormData.fromMap({
         "id": preferences.getInt("Id"),
-        "step": 2,
         "email": preferences.getString("Email")
       });
     }
