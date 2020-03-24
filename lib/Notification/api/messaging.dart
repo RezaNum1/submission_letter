@@ -7,7 +7,7 @@ class Messaging {
   static final Client client = Client();
 
   static const String serverKey =
-      'AAAAuZcJCZQ:APA91bHOorJQ53UZ5w5l6xNxRtVNEFgd-EaXWPyhVx_GXUnI1vaF2equ9vUqC1xN75ndDPuhqEWinO_C0UgWWOszh7PmvyydR_ys-IW4tMJWiTcM4SrApr20N3_SwU9ryY-LV6rSqLLAAAAmWcTVqo:APA91bEvawnofo6MoJW9zmsvJ9pV2kftwP12ukQv56zB5Dp1nG2sYQYNLuhl4Bnyz8CFrCqld0WLBxU96c4zctpq2dwyyI-z6vsWTej-0aXWtMcMHT_0wCv1dQ_ChvqsHO28zWPniI7g';
+      'AAAAxMhADXw:APA91bECq26dNxDr1eifU714EMwV9NuWPwMfLlcqZFMTwUqkR_wuKE37PNfwGqCc4DHj_u8UoA_j-JFf4RQdZkui_dlKfJoj5KV2-W1-FnVBcoBoEEPTgz8UfiQRldwWn5cbmSmOrEnp';
 
   static Future<Response> sendToAll({
     @required String title,

@@ -149,6 +149,33 @@ class UtilAuth {
     }
   }
 
+  static void emailsFlat(String emailUser) async {
+    String username = 'letteryou20@gmail.com';
+    String password = 'letteryou2020';
+
+    final smtpServer = gmail(username, password);
+    // Creating the Gmail server
+
+    // Create our email message.
+    final message = Message()
+      ..from = Address(username)
+      ..recipients.add(emailUser) //recipent email
+      ..subject =
+          'ULETTER :: Surat Masuk :: Mohon untuk segera di proses}' //subject of the email
+      ..text =
+          'Periksa TODO Index Anda, Ada Surat Masuk Butuh Di Proses'; //body of the email
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      // print('Message sent: ' +
+      //     sendReport.toString()); //print if the email is sent
+    } on MailerException catch (e) {
+      // print('Message not sent. \n' +
+      //     e.toString()); //print if the email is not sent
+      // e.toString() will show why the email is not sending
+    }
+  }
+
   static void clearUserPreference() async {
     var url = "http://192.168.43.75:8000/api/removeToken";
     SharedPreferences preferences = await SharedPreferences.getInstance();

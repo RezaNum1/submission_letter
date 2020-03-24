@@ -1,7 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:submission_letter/RTRW_Page/views/home_emp.dart';
-import 'package:submission_letter/Util/util_auth.dart';
 
 import '../model/message.dart';
 import '../api/messaging.dart';
@@ -23,7 +21,7 @@ class _MessagingWidgetState extends State<MessagingWidget> {
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.onTokenRefresh.listen(tokennya);
+    _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
     _firebaseMessaging.getToken();
     _firebaseMessaging.subscribeToTopic('all');
 
@@ -36,45 +34,63 @@ class _MessagingWidgetState extends State<MessagingWidget> {
           messages.add(Message(
               title: notification['title'], body: notification['body']));
         });
+        // Navigator.of(context).pushReplacement(
+        //     new MaterialPageRoute(builder: (BuildContext context) => Homes()));
       },
-      onLaunch: (Map<String, dynamic> message) async {
-        UtilAuth.movePage(context, HomeEmp());
+      onLaunch: (Map<String, dynamic> message) {
+        // print("onLaunch: $message");
+
+        // setState(() {
+        //   messages.add(Message(
+        //     title: '$message',
+        //     body: 'OnLaunch:',
+        //   ));
+        // });
+        // final notification = message['data'];
+        // setState(() {
+        //   messages.add(
+        //     Message(
+        //         title: "OnLaunch: ${notification['title']}",
+        //         body: "OnLaunch: ${notification['body']}"),
+        //   );
+        // });
+        // Navigator.of(context).pushReplacement(
+        //     new MaterialPageRoute(builder: (BuildContext context) => Homes()));
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        // Navigator.of(context).pushReplacement(
+        //     new MaterialPageRoute(builder: (BuildContext context) => Homes()));
+        // print("onResume: $message");
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
-  // @override
-  // Widget build(BuildContext context) => ListView(
-  //       children: [
-  //         TextFormField(
-  //           controller: titleController,
-  //           decoration: InputDecoration(labelText: 'Title'),
-  //         ),
-  //         TextFormField(
-  //           controller: bodyController,
-  //           decoration: InputDecoration(labelText: 'Body'),
-  //         ),
-  //         RaisedButton(
-  //           onPressed: buildSendNotification(),
-  //           child: Text('Send notification to Reza'),
-  //         ),
-  //       ]..addAll(messages.map(buildMessage).toList()),
-  //     );
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Text("Submission letter"),
-      ),
-    );
-  }
+  @override
+  Widget build(BuildContext context) => ListView(
+        children: [
+          TextFormField(
+            controller: titleController,
+            decoration: InputDecoration(labelText: 'Title'),
+          ),
+          TextFormField(
+            controller: bodyController,
+            decoration: InputDecoration(labelText: 'Body'),
+          ),
+          RaisedButton(
+            onPressed: buildSendNotification(),
+            child: Text('Send notification to Reza'),
+          ),
+          RaisedButton(
+            onPressed: buildSendNotification1(),
+            child: Text('Send notification to Mesa'),
+          ),
+        ]..addAll(messages.map(buildMessage).toList()),
+      );
 
   buildSendNotification() => sendNotification;
+  buildSendNotification1() => sendNotification1;
 
   Widget buildMessage(Message message) => ListTile(
         title: Text(message.title),
@@ -89,7 +105,24 @@ class _MessagingWidgetState extends State<MessagingWidget> {
         title: titleController.text,
         body: bodyController.text,
         fcmToken:
-            'fAzGeKMQL1I:APA91bHU5UmXDkfPCKFgN6KAI3mSsfg581PUnxbFLvERG9Fn40EjSPVGzsWAbsnuxYthh5yKDM46zniGe6OBp0c-ZQ2DqpmRB7g-OBh-9_QkZlGfF9xkctkm_bCwLtAa2XBlkclGbTFS');
+            'e2B5t5KxULI:APA91bHSB_1cKDE6iOlDRAaGHAovQ_6MLq8CEGT_E5nJJ_ePq469sNRVigcRxSBofmNYO5BuwT-OAcA1HV48G13PxlSZnhegdCxKykBZ4VmiwA-LfhKjDhcNK6ftc8KpeaXr5O0Jmnt8');
+    if (response.statusCode != 200) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content:
+            Text('[${response.statusCode}] Error Message: ${response.body}'),
+      ));
+    }
+  }
+
+  void sendNotification1() async {
+    // final response = await Messaging.sendToAll(
+    //     title: titleController.text, body: bodyController.text);
+
+    final response = await Messaging.sendTo(
+        title: titleController.text,
+        body: bodyController.text,
+        fcmToken:
+            'cS9uSChEhJQ:APA91bGkLurIAGDEaXI0bkTzCKDqHN9b3_DsUr7d3a98hJIWsE0l75BHIzh9LWKoV65IHUYtjQpAErYQDcpsbJDjtr3ZTkI01QvpJVaomHuUYlQtDYguDzDlmhXm6UI7Sdpd9JIiSPfM');
     if (response.statusCode != 200) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content:
@@ -100,13 +133,5 @@ class _MessagingWidgetState extends State<MessagingWidget> {
 
   void sendTokenToServer(String fcmToken) {
     print('TokenNya: $fcmToken');
-  }
-
-  void tokennya(String tokens) {
-    setState(() {
-      myToken = tokens;
-    });
-
-    print(myToken);
   }
 }

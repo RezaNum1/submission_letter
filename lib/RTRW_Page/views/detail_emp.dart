@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/Notification/api/messaging.dart';
+import 'package:submission_letter/Notification/model/message.dart';
 import 'package:submission_letter/RTRW_Page/presenter/detailEmployee_presenter.dart';
 import 'package:submission_letter/RTRW_Page/viewmodel/detailemp_viewmodel.dart';
 import 'package:submission_letter/RTRW_Page/views/home_emp.dart';
 import 'package:submission_letter/Theme/theme_emp.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:submission_letter/Util/util_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DetailEmployeeData extends StatefulWidget {
   String id;
@@ -21,6 +24,13 @@ class DetailEmployeeData extends StatefulWidget {
 }
 
 class _DetailEmployeeDataState extends State<DetailEmployeeData> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final List<Message> messages = [];
+  final TextEditingController titleController =
+      TextEditingController(text: 'Surat Masuk');
+  final TextEditingController bodyController = TextEditingController(
+      text: 'Periksa TODO Anda untuk segera proses surat');
+  //-------------------------
   String nama;
   String jabatanText;
   int id;
@@ -34,6 +44,26 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
   void initState() {
     setPreference();
     super.initState();
+
+    _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
+    _firebaseMessaging.getToken();
+    _firebaseMessaging.subscribeToTopic('all');
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+
+        final notification = message['notification'];
+        setState(() {
+          messages.add(Message(
+              title: notification['title'], body: notification['body']));
+        });
+      },
+      onLaunch: (Map<String, dynamic> message) {},
+      onResume: (Map<String, dynamic> message) async {},
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
   Future<void> setPreference() async {
@@ -43,6 +73,23 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
       jabatanText = pref.getString('Jabatan');
       id = pref.getInt("Id");
     });
+  }
+
+  void sendNotification(tokenEndUser) async {
+    final response = await Messaging.sendTo(
+        title: titleController.text,
+        body: bodyController.text,
+        fcmToken: '$tokenEndUser');
+    if (response.statusCode != 200) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content:
+            Text('[${response.statusCode}] Error Message: ${response.body}'),
+      ));
+    }
+  }
+
+  void sendTokenToServer(String fcmToken) {
+    print('TokenNya: $fcmToken');
   }
 
   void dispose() {
@@ -55,8 +102,13 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
     DetailEmployeePresenter presenters = new DetailEmployeePresenter();
     var process = await presenters.approveSurat(
         widget.idSurat, id, keteranganController.text, komentarController.text);
-    print(process);
-    UtilAuth.successPopupDialog(context, process, HomeEmp());
+    if (process.data['token'] != null) {
+      sendNotification(process.data['token']);
+    } else {
+      UtilAuth.emailsFlat(process.data['email']);
+    }
+
+    UtilAuth.successPopupDialog(context, process.data['message'], HomeEmp());
   }
 
   Widget _detailWidget(

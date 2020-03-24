@@ -23,7 +23,7 @@ class DetailEmployeePresenter {
     return detailEmpViewModel;
   }
 
-  Future<String> approveSurat(
+  Future<Response> approveSurat(
       String idSurat, int id, String keterangan, String komentar) async {
     var url = "http://192.168.43.75:8000/api/rtrw/approveSurat";
     Dio dio = new Dio();
@@ -40,6 +40,6 @@ class DetailEmployeePresenter {
     // } else {
     //   print(response.data['email']);
     // }
-    return response.data['message'];
+    return response;
   }
 }
