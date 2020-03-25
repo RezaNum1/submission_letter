@@ -22,9 +22,6 @@ class _AccountEmpState extends State<AccountEmp> {
       nama = pref.getString('Nama');
       jabatanText = pref.getString('Jabatan');
     });
-
-    print(nama);
-    print(jabatanText);
   }
 
   @override

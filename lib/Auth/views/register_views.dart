@@ -132,7 +132,6 @@ class _RegisterViewsState extends State<RegisterViews> {
       // UtilLetterU.stayPage(context);
       UtilAuth.failedPopupDialog(context, response.data['message']);
     }
-    print('Success');
   }
 
   Future getImage() async {

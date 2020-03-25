@@ -19,6 +19,7 @@ class DetailEmpSelesaiPresenter {
     viewModel.rtrwText = response.data['data']['RTRWText'];
     viewModel.noSuratRT = response.data['data']['noSuratRT'];
     viewModel.noSuratRW = response.data['data']['noSuratRW'];
+    viewModel.dataHistory = response.data['data']['history'];
     return viewModel;
   }
 }

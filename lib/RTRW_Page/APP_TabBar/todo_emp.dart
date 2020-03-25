@@ -113,7 +113,6 @@ class _TODOEmpState extends State<TODOEmp> {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    print(snapshot.data[index]["tipe"].toString());
                     return suratWidget(
                       snapshot.data[index]["id"].toString(),
                       snapshot.data[index]["idSurat"].toString(),

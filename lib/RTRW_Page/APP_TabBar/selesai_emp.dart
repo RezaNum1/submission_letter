@@ -92,7 +92,6 @@ class _SelesaiEmpState extends State<SelesaiEmp> {
   Future<List<Map<String, dynamic>>> _getListDataSelesai() async {
     SelesaiPresenter presenter = new SelesaiPresenter();
     var allData = await presenter.getAllSelesai();
-    print(allData);
     if (allData.isEmpty) {
       return null;
     } else {

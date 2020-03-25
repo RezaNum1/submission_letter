@@ -34,6 +34,7 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
   String nama;
   String jabatanText;
   int id;
+
   var keteranganController = TextEditingController();
   var komentarController = TextEditingController();
 
@@ -114,12 +115,13 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
   Future<void> tolakSurats() async {
     UtilAuth.loading(context);
     DetailEmployeePresenter presenter = new DetailEmployeePresenter();
-    var response = await presenter.tolakSurat(widget.idSurat);
+    var response =
+        await presenter.tolakSurat(widget.idSurat, id, komentarController.text);
     UtilAuth.successPopupDialog(context, response, HomeEmp());
   }
 
-  Widget _detailWidget(
-      String keterangan, String rtrwText, String noSuratRT, String noSuratRW) {
+  Widget _detailWidget(String keterangan, String rtrwText, String noSuratRT,
+      String noSuratRW, List history) {
     return Container(
       child: ListView(
         children: <Widget>[
@@ -331,6 +333,54 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               maxLines: null,
               keyboardType: TextInputType.multiline,
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
+            child: Text(
+              "History Pengajuan",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Divider(
+            thickness: 3,
+          ),
+          DataTable(
+            columns: [
+              DataColumn(
+                  label: Text(
+                "Tingkatan",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              )),
+              DataColumn(
+                label: Text(
+                  "Status",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+              )
+            ],
+            rows: [
+              for (var i = 0; i < history.length; i++)
+                DataRow(
+                  cells: [
+                    DataCell(Text(
+                      history[i]['tingkatan'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    )),
+                    DataCell(
+                      history[i]['status'] == 'Setuju'
+                          ? Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            )
+                          : Icon(Icons.close, color: Colors.red),
+                    )
+                  ],
+                ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
           )
         ],
       ),
@@ -342,6 +392,20 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
     var response =
         await presentesrs.getDetailDataSurat(widget.id, widget.idSurat);
     return response;
+  }
+
+  Widget listHistory(List historyData) {
+    return ListView.builder(
+      itemCount: historyData.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Row(
+          children: <Widget>[
+            Text(historyData[index]['tingkatan']),
+            Text(historyData[index]['status'])
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -367,8 +431,12 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
           future: _getDetailSurat(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return _detailWidget(snapshot.data.keterangan, snapshot.data.rtrw,
-                  snapshot.data.noSuratRt, snapshot.data.noSuratRw);
+              return _detailWidget(
+                  snapshot.data.keterangan,
+                  snapshot.data.rtrw,
+                  snapshot.data.noSuratRt,
+                  snapshot.data.noSuratRw,
+                  snapshot.data.dataHistory);
             } else {
               return Container(
                 child: Center(

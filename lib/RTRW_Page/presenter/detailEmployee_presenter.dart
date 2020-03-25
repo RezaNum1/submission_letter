@@ -20,6 +20,7 @@ class DetailEmployeePresenter {
     detailEmpViewModel.rtrw = response.data['data']['RTRWText'];
     detailEmpViewModel.noSuratRt = response.data['data']['noSuratRT'];
     detailEmpViewModel.noSuratRw = response.data['data']['noSuratRW'];
+    detailEmpViewModel.dataHistory = response.data['data']['history'];
     return detailEmpViewModel;
   }
 
@@ -38,11 +39,13 @@ class DetailEmployeePresenter {
     return response;
   }
 
-  Future<String> tolakSurat(String idSurat) async {
+  Future<String> tolakSurat(String idSurat, int id, String komentar) async {
     var url = "http://192.168.43.75:8000/api/rtrw/tolakSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
+      "idUser": id,
+      "komentar": komentar,
     });
     var response = await dio.post(url, data: formData);
 

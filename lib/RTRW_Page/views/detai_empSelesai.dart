@@ -48,8 +48,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
     });
   }
 
-  Widget _detailWidget(
-      String keterangan, String rtrwText, String noSuratRT, String noSuratRW) {
+  Widget _detailWidget(String keterangan, String rtrwText, String noSuratRT,
+      String noSuratRW, List history) {
     return Container(
       child: ListView(
         children: <Widget>[
@@ -176,6 +176,54 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               ],
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
+            child: Text(
+              "History Pengajuan",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Divider(
+            thickness: 3,
+          ),
+          DataTable(
+            columns: [
+              DataColumn(
+                  label: Text(
+                "Tingkatan",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              )),
+              DataColumn(
+                label: Text(
+                  "Status",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+              )
+            ],
+            rows: [
+              for (var i = 0; i < history.length; i++)
+                DataRow(
+                  cells: [
+                    DataCell(Text(
+                      history[i]['tingkatan'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    )),
+                    DataCell(
+                      history[i]['status'] == 'Setuju'
+                          ? Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            )
+                          : Icon(Icons.close, color: Colors.red),
+                    )
+                  ],
+                ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
@@ -215,7 +263,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                   snapshot.data.keterangan,
                   snapshot.data.rtrwText,
                   snapshot.data.noSuratRT,
-                  snapshot.data.noSuratRW);
+                  snapshot.data.noSuratRW,
+                  snapshot.data.dataHistory);
             } else {
               return Container(
                 child: Center(
