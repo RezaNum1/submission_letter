@@ -342,7 +342,7 @@ class _RegisterViewsState extends State<RegisterViews> {
                             ),
                           ),
                           onPressed: () {
-                            UtilAuth.movePage(
+                            UtilAuth.movePageScale(
                                 context, LoginViews(LoginPresenter()));
                           },
                         ),

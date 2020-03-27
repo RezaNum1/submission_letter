@@ -220,7 +220,7 @@ class _LoginViewsState extends State<LoginViews> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      UtilAuth.movePage(context,
+                                      UtilAuth.movePageScale(context,
                                           RegisterViews(RegisterPresenter()));
                                     },
                                   ),
@@ -237,7 +237,7 @@ class _LoginViewsState extends State<LoginViews> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      UtilAuth.movePage(
+                                      UtilAuth.movePageScale(
                                         context,
                                         ForgetPassword(
                                             ForgetPasswordPresenter()),

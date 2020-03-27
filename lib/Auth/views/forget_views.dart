@@ -59,7 +59,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 children: <Widget>[
                   Positioned(
                     child: FadeAnimation(
-                      1,
+                      0.4,
                       Container(
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                   Positioned(
                     child: FadeAnimation(
-                        1.5,
+                        0.5,
                         Container(
                           margin: EdgeInsets.only(top: 250),
                           child: Center(
@@ -93,7 +93,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               child: Column(
                 children: <Widget>[
                   FadeAnimation(
-                    1.8,
+                    0.6,
                     Container(
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
@@ -130,7 +130,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     height: 10,
                   ),
                   FadeAnimation(
-                    2,
+                    0.7,
                     Container(
                       width: double.infinity,
                       child: RaisedButton(
@@ -178,7 +178,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     height: 5,
                   ),
                   FadeAnimation(
-                    1.5,
+                    0.8,
                     Container(
                       child: FlatButton(
                         child: Text(
@@ -186,7 +186,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         onPressed: () {
-                          UtilAuth.movePage(
+                          UtilAuth.movePageScale(
                               context, LoginViews(LoginPresenter()));
                         },
                       ),

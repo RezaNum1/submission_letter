@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/Util/scale_route.dart';
 
 class UtilAuth {
   static bool emailValidate(String text) {
@@ -20,7 +21,15 @@ class UtilAuth {
 
   static movePage(context, Widget widget) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => widget),
+        CupertinoPageRoute(builder: (context) => widget),
+        (Route<dynamic> route) => false);
+  }
+
+  static movePageScale(context, Widget widget) {
+    Navigator.of(context).pushAndRemoveUntil(
+        ScaleRoute(
+          page: widget,
+        ),
         (Route<dynamic> route) => false);
   }
 
