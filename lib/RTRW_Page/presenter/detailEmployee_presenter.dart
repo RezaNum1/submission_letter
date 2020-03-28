@@ -21,6 +21,7 @@ class DetailEmployeePresenter {
     detailEmpViewModel.noSuratRt = response.data['data']['noSuratRT'];
     detailEmpViewModel.noSuratRw = response.data['data']['noSuratRW'];
     detailEmpViewModel.dataHistory = response.data['data']['history'];
+    detailEmpViewModel.namaFile = response.data['data']['namaFile'];
     return detailEmpViewModel;
   }
 
