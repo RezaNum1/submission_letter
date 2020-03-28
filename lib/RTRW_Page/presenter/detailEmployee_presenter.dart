@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:submission_letter/Notification/widget_function/messaging_widget.dart';
 import 'package:submission_letter/RTRW_Page/viewmodel/detailemp_viewmodel.dart';
@@ -51,5 +54,20 @@ class DetailEmployeePresenter {
     var response = await dio.post(url, data: formData);
 
     return response.data['message'];
+  }
+
+  Future<Uint8List> callFileToServer(String posisi, String idSurat) async {
+    var url = "http://192.168.43.75:8000/api/rtrw/callFile";
+
+    Dio dio = new Dio();
+
+    FormData formData = new FormData.fromMap({
+      "posisi": posisi,
+      "idSurat": idSurat,
+    });
+
+    var response = await dio.post(url, data: formData);
+    var base = Base64Decoder().convert(response.data['data'].toString());
+    return base;
   }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class FormWidget extends StatefulWidget {
   String judul;
   String buttonText;
-  String tipe;
   String posisi;
-  FormWidget({this.judul, this.buttonText, this.tipe, this.posisi});
+  String idSurat;
+  FormWidget({this.judul, this.buttonText, this.posisi, this.idSurat});
   @override
   _FormWidgetState createState() => _FormWidgetState();
 }
