@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:submission_letter/RTRW_Page/views/display_file.dart';
 
 class FormWidget extends StatefulWidget {
   String judul;
@@ -32,7 +34,15 @@ class _FormWidgetState extends State<FormWidget> {
                 side: BorderSide(color: Colors.orange),
               ),
               onPressed: () {
-                print("Hello"); // proses manggil halamanya di sini
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => DisplayFile(
+                      posisi: widget.posisi,
+                      idSurat: widget.idSurat,
+                    ),
+                  ),
+                ); // proses manggil halamanya di sini
               },
             ),
           ),

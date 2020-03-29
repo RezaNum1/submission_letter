@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:submission_letter/RTRW_Page/views/display_file.dart';
 import 'package:submission_letter/RTRW_Page/widget/form_widget.dart';
 
 class BerkasWidget extends StatefulWidget {
@@ -38,7 +40,15 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                       side: BorderSide(color: Colors.orange),
                     ),
                     onPressed: () {
-                      print("Hello"); // posisi 0
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => DisplayFile(
+                            posisi: "0",
+                            idSurat: widget.idSurat,
+                          ),
+                        ),
+                      ); // posisi 0
                     },
                   ),
                 ),
@@ -64,7 +74,15 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                       side: BorderSide(color: Colors.orange),
                     ),
                     onPressed: () {
-                      print("Hello"); // posisi 1
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => DisplayFile(
+                            posisi: "1",
+                            idSurat: widget.idSurat,
+                          ),
+                        ),
+                      ); // posisi 1
                     },
                   ),
                 ),
