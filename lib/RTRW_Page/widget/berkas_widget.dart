@@ -96,11 +96,13 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                       judul: "Foto Depan Rumah",
                       buttonText: "Lihat Foto Depan Rumah",
                       posisi: "2",
+                      idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "Foto Belakang Rumah",
                       buttonText: "Lihat Foto Belakang Rumah",
                       posisi: "3",
+                      idSurat: widget.idSurat,
                     ),
                   ],
                 )
@@ -109,6 +111,8 @@ class _BerkasWidgetState extends State<BerkasWidget> {
               ? FormWidget(
                   judul: "SPPT Terbaru",
                   buttonText: "Lihat Foto SPPT Terbaru",
+                  posisi: "2",
+                  idSurat: widget.idSurat,
                 )
               : Container(), //END SKU
           widget.tipe == "3" // Surat izin keramaian
@@ -116,6 +120,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                   judul: "Lampiran Pernyataan",
                   buttonText: "Lihat Lampiran Pernyatan Persetujuan Setempat",
                   posisi: "2",
+                  idSurat: widget.idSurat,
                 )
               : Container(), // End Surat Keramaian
           widget.tipe == "4" // SK Belum Menikah
@@ -125,16 +130,19 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                       judul: "KTP Orang Tua-1 (Ayah)",
                       buttonText: "Lihat KTP Orang Tua 1",
                       posisi: "2",
+                      idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "KTP Orang Tua-2 (Ibu)",
                       buttonText: "Lihat KTP Orang Tua 2",
                       posisi: "3",
+                      idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "Tanda Lunas PBB Tahun Berjalan",
                       buttonText: "Lihat Tanda Lunas PBB Tahun Berjalan",
                       posisi: "4",
+                      idSurat: widget.idSurat,
                     ),
                   ],
                 )
@@ -147,17 +155,20 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                       judul: "Akte Cerai",
                       buttonText: "Lihat Akte Cerai",
                       posisi: "2",
+                      idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "Pelunasan PBB Tahun Berjalan",
                       buttonText: "Lihat Pelunasan PBB Tahun Berjalan",
-                      posisi: "4",
+                      posisi: "3",
+                      idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul:
                           "Surat Keterangan Kematian Suami / Istri (Untuk Cerai Mati)",
                       buttonText: "Lihat Surat Keterangan Kematian",
-                      posisi: "3",
+                      posisi: "4",
+                      idSurat: widget.idSurat,
                     ),
                   ],
                 )
@@ -168,6 +179,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                       "Surat Keterangan Kematian Dari Rumah Sakit (Jika Ada)",
                   buttonText: "Lihat Surat Keterangan Kematian",
                   posisi: "2",
+                  idSurat: widget.idSurat,
                 )
               : Container(),
           widget.tipe == "8"
@@ -175,6 +187,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                   judul: "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
                   buttonText: "Lihat SKCK",
                   posisi: "2",
+                  idSurat: widget.idSurat,
                 )
               : Container()
         ],

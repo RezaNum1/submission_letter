@@ -31,8 +31,11 @@ class _DisplayFileState extends State<DisplayFile> {
         future: callFile(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return Container(
-              child: Image.memory(snapshot.data),
+            return RotatedBox(
+              quarterTurns: 1,
+              child: Container(
+                child: Image.memory(snapshot.data),
+              ),
             );
           } else {
             return Container(

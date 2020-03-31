@@ -336,6 +336,7 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
           BerkasWidget(
             namaFile: namaFile,
             tipe: "${widget.tipe}",
+            idSurat: widget.idSurat,
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),

@@ -67,7 +67,7 @@ class DetailEmployeePresenter {
     });
 
     var response = await dio.post(url, data: formData);
-    var base = Base64Decoder().convert(response.data['data'].toString());
+    var base = Base64Decoder().convert(response.data['data']);
     return base;
   }
 }
