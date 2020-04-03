@@ -13,6 +13,18 @@ class BerkasWidget extends StatefulWidget {
   _BerkasWidgetState createState() => _BerkasWidgetState();
 }
 
+//KODE BERKAS
+/**
+ * KTP,KK
+ * DR (Depan Rumah), BR(belakang rumah),
+ * SPPT,LP(Lampi.pernyataan)
+ * KTPOL, KTPOP, TLPBB(Tanda lunahs PBB)
+ * AC(Akte cerai), PPBB(Pelunasan PBB), SKK(Surt ket kematian)
+ * SKKDRS(S. ket kem dari rmh sakit)
+ * SKCK
+ * 
+ */
+
 class _BerkasWidgetState extends State<BerkasWidget> {
   @override
   Widget build(BuildContext context) {
@@ -44,7 +56,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                         context,
                         CupertinoPageRoute(
                           builder: (context) => DisplayFile(
-                            posisi: "0",
+                            berkas: "KTP",
                             idSurat: widget.idSurat,
                           ),
                         ),
@@ -78,7 +90,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                         context,
                         CupertinoPageRoute(
                           builder: (context) => DisplayFile(
-                            posisi: "1",
+                            berkas: "KK",
                             idSurat: widget.idSurat,
                           ),
                         ),
@@ -95,13 +107,13 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                     FormWidget(
                       judul: "Foto Depan Rumah",
                       buttonText: "Lihat Foto Depan Rumah",
-                      posisi: "2",
+                      berkas: "DR",
                       idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "Foto Belakang Rumah",
                       buttonText: "Lihat Foto Belakang Rumah",
-                      posisi: "3",
+                      berkas: "BR",
                       idSurat: widget.idSurat,
                     ),
                   ],
@@ -111,7 +123,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
               ? FormWidget(
                   judul: "SPPT Terbaru",
                   buttonText: "Lihat Foto SPPT Terbaru",
-                  posisi: "2",
+                  berkas: "SPPT",
                   idSurat: widget.idSurat,
                 )
               : Container(), //END SKU
@@ -119,7 +131,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
               ? FormWidget(
                   judul: "Lampiran Pernyataan",
                   buttonText: "Lihat Lampiran Pernyatan Persetujuan Setempat",
-                  posisi: "2",
+                  berkas: "LP",
                   idSurat: widget.idSurat,
                 )
               : Container(), // End Surat Keramaian
@@ -129,19 +141,19 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                     FormWidget(
                       judul: "KTP Orang Tua-1 (Ayah)",
                       buttonText: "Lihat KTP Orang Tua 1",
-                      posisi: "2",
+                      berkas: "KTPOL",
                       idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "KTP Orang Tua-2 (Ibu)",
                       buttonText: "Lihat KTP Orang Tua 2",
-                      posisi: "3",
+                      berkas: "KTPOP",
                       idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "Tanda Lunas PBB Tahun Berjalan",
                       buttonText: "Lihat Tanda Lunas PBB Tahun Berjalan",
-                      posisi: "4",
+                      berkas: "TLPBB",
                       idSurat: widget.idSurat,
                     ),
                   ],
@@ -154,20 +166,20 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                     FormWidget(
                       judul: "Akte Cerai",
                       buttonText: "Lihat Akte Cerai",
-                      posisi: "2",
+                      berkas: "AC",
                       idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul: "Pelunasan PBB Tahun Berjalan",
                       buttonText: "Lihat Pelunasan PBB Tahun Berjalan",
-                      posisi: "3",
+                      berkas: "PPBB",
                       idSurat: widget.idSurat,
                     ),
                     FormWidget(
                       judul:
                           "Surat Keterangan Kematian Suami / Istri (Untuk Cerai Mati)",
                       buttonText: "Lihat Surat Keterangan Kematian",
-                      posisi: "4",
+                      berkas: "SKK",
                       idSurat: widget.idSurat,
                     ),
                   ],
@@ -178,7 +190,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
                   judul:
                       "Surat Keterangan Kematian Dari Rumah Sakit (Jika Ada)",
                   buttonText: "Lihat Surat Keterangan Kematian",
-                  posisi: "2",
+                  berkas: "SKKDRS",
                   idSurat: widget.idSurat,
                 )
               : Container(),
@@ -186,7 +198,7 @@ class _BerkasWidgetState extends State<BerkasWidget> {
               ? FormWidget(
                   judul: "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
                   buttonText: "Lihat SKCK",
-                  posisi: "2",
+                  berkas: "SKCK",
                   idSurat: widget.idSurat,
                 )
               : Container()

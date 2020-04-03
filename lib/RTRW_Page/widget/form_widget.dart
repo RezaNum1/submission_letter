@@ -5,9 +5,9 @@ import 'package:submission_letter/RTRW_Page/views/display_file.dart';
 class FormWidget extends StatefulWidget {
   String judul;
   String buttonText;
-  String posisi;
+  String berkas;
   String idSurat;
-  FormWidget({this.judul, this.buttonText, this.posisi, this.idSurat});
+  FormWidget({this.judul, this.buttonText, this.berkas, this.idSurat});
   @override
   _FormWidgetState createState() => _FormWidgetState();
 }
@@ -38,7 +38,7 @@ class _FormWidgetState extends State<FormWidget> {
                   context,
                   CupertinoPageRoute(
                     builder: (context) => DisplayFile(
-                      posisi: widget.posisi,
+                      berkas: widget.berkas,
                       idSurat: widget.idSurat,
                     ),
                   ),

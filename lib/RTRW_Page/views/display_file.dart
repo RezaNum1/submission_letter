@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:submission_letter/RTRW_Page/presenter/detailEmployee_presenter.dart';
 
 class DisplayFile extends StatefulWidget {
-  String posisi;
+  String berkas;
   String idSurat;
 
-  DisplayFile({this.posisi, this.idSurat});
+  DisplayFile({this.berkas, this.idSurat});
   @override
   _DisplayFileState createState() => _DisplayFileState();
 }
@@ -17,7 +17,7 @@ class _DisplayFileState extends State<DisplayFile> {
   Future<Uint8List> callFile() async {
     DetailEmployeePresenter presenter = new DetailEmployeePresenter();
     var response =
-        await presenter.callFileToServer(widget.posisi, widget.idSurat);
+        await presenter.callFileToServer(widget.berkas, widget.idSurat);
     return response;
   }
 

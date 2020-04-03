@@ -56,13 +56,13 @@ class DetailEmployeePresenter {
     return response.data['message'];
   }
 
-  Future<Uint8List> callFileToServer(String posisi, String idSurat) async {
+  Future<Uint8List> callFileToServer(String berkas, String idSurat) async {
     var url = "http://192.168.43.75:8000/api/rtrw/callFile";
 
     Dio dio = new Dio();
 
     FormData formData = new FormData.fromMap({
-      "posisi": posisi,
+      "berkas": berkas,
       "idSurat": idSurat,
     });
 
