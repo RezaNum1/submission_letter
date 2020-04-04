@@ -36,7 +36,6 @@ class _PhoneWidgetState extends State<PhoneWidget> {
           });
         },
         decoration: InputDecoration(
-          border: InputBorder.none,
           hintText: 'Masukkan No Telepon Aktif Anda',
           labelText: 'No Telepon',
           labelStyle: TextStyle(

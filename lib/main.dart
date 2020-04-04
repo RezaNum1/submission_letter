@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:submission_letter/Auth/presenter/forget_presenter.dart';
 import 'package:submission_letter/Auth/presenter/login_presenter.dart';
 import 'package:submission_letter/Auth/presenter/resgister_presenter.dart';
+import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/forget_views.dart';
 import 'package:submission_letter/Auth/views/login_views.dart';
+import 'package:submission_letter/Auth/views/ocrPenduduk_views.dart';
 import 'package:submission_letter/Auth/views/register_views.dart';
 import 'package:submission_letter/RTRW_Page/presenter/setting_presenter.dart';
 import 'package:submission_letter/RTRW_Page/views/detail_emp.dart';
@@ -26,6 +28,9 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: HomeBase());
+        home: OcrPenduduk(
+          noTelepon: '0999',
+          presenter: UserAuthPresenter(),
+        ));
   }
 }

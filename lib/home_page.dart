@@ -4,8 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Animation/fade_animation.dart';
 import 'package:submission_letter/Auth/presenter/login_presenter.dart';
 import 'package:submission_letter/Auth/presenter/resgister_presenter.dart';
+import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/login_views.dart';
 import 'package:submission_letter/Auth/views/register_views.dart';
+import 'package:submission_letter/Auth/views/userAuth_views.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 
 class HomeBase extends StatefulWidget {
@@ -105,9 +107,12 @@ class _HomeBaseState extends State<HomeBase> {
                           ),
                         ),
                         onPressed: () async {
-                          SharedPreferences preferences =
-                              await SharedPreferences.getInstance();
-                          print(preferences.getString('Nama'));
+                          UtilAuth.movePage(
+                            context,
+                            UserAuth(
+                              presenter: UserAuthPresenter(),
+                            ),
+                          );
                         },
                       ),
                     ),

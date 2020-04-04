@@ -36,6 +36,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  camera:
+    dependency: transitive
+    description:
+      name: camera
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.7+4"
+  camera_camera:
+    dependency: "direct main"
+    description:
+      name: camera_camera
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.31"
   charcode:
     dependency: transitive
     description:
@@ -149,6 +163,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  image_crop:
+    dependency: "direct main"
+    description:
+      name: image_crop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   image_picker:
     dependency: "direct main"
     description:
@@ -198,6 +219,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+3"
+  native_device_orientation:
+    dependency: transitive
+    description:
+      name: native_device_orientation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
+  network_image_to_byte:
+    dependency: "direct main"
+    description:
+      name: network_image_to_byte
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   path:
     dependency: "direct main"
     description:
@@ -206,7 +241,7 @@ packages:
     source: hosted
     version: "1.6.4"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -261,6 +296,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.23.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -343,6 +385,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  tesseract_ocr:
+    dependency: "direct main"
+    description:
+      name: tesseract_ocr
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   test_api:
     dependency: transitive
     description:
@@ -371,6 +420,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
+  video_player:
+    dependency: transitive
+    description:
+      name: video_player
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.8+1"
+  video_player_platform_interface:
+    dependency: transitive
+    description:
+      name: video_player_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
+  video_player_web:
+    dependency: transitive
+    description:
+      name: video_player_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2+1"
+  wakelock:
+    dependency: transitive
+    description:
+      name: wakelock
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4+1"
   xml:
     dependency: transitive
     description:
@@ -386,5 +463,5 @@ packages:
     source: hosted
     version: "2.2.0"
 sdks:
-  dart: ">=2.5.0 <3.0.0"
+  dart: ">=2.7.0 <3.0.0"
   flutter: ">=1.12.13+hotfix.4 <2.0.0"
