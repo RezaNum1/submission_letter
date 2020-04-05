@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:submission_letter/Animation/fade_animation.dart';
 import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/phone_widget.dart';
+import 'package:submission_letter/Auth/views/ocrPenduduk_views.dart';
+import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/home_page.dart';
 
@@ -26,10 +29,17 @@ class _UserAuthState extends State<UserAuth> {
   void processData(String tlpNumber) async {
     UtilAuth.loading(context);
     var response = await widget.presenter.cekPhoneNumber(tlpNumber);
-    if (response.data['error'] == false) {
-      print('Success!');
+    if (response.data['exist'] == false) {
+      Navigator.of(context).pushAndRemoveUntil(
+          CupertinoPageRoute(
+              builder: (context) => OcrPenduduk(
+                    noTelepon: tlpNumber,
+                    presenter: UserAuthPresenter(),
+                  )),
+          (Route<dynamic> route) => false);
     } else {
-      UtilAuth.failedPopupDialogWithoutNav(context, response.data['message']);
+      // lgsng masuk
+      UtilAuth.successPopupDialog(context, 'Login Berhasil', HomePenduduk());
     }
   }
 

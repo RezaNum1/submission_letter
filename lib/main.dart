@@ -28,9 +28,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: OcrPenduduk(
-          noTelepon: '0999',
-          presenter: UserAuthPresenter(),
-        ));
+        home: HomeBase());
   }
 }

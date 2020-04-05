@@ -14,4 +14,17 @@ class UserAuthPresenter {
     var response = await dio.post(url, data: formData);
     return response;
   }
+
+  Future<Response> regisData(String phone, String nik) async {
+    var url = "http://192.168.43.75:8000/api/resgisPenduduk";
+    Dio dio = new Dio();
+
+    FormData formData = new FormData.fromMap({
+      "noTelepon": phone,
+      "nik": nik,
+    });
+
+    var response = await dio.post(url, data: formData);
+    return response;
+  }
 }
