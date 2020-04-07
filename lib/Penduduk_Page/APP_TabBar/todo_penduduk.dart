@@ -87,7 +87,12 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
           ],
         ),
         onTap: () {
-          UtilAuth.movePage(context, DetailpTodo());
+          UtilAuth.movePage(
+              context,
+              DetailpTodo(
+                idSurat: idSurat,
+                tipe: tipe,
+              ));
         },
       ),
     );

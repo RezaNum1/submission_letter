@@ -43,7 +43,7 @@ class DetailEmployeePresenter {
     return response;
   }
 
-  Future<String> tolakSurat(String idSurat, int id, String komentar) async {
+  Future<Response> tolakSurat(String idSurat, int id, String komentar) async {
     var url = "http://192.168.43.75:8000/api/rtrw/tolakSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
@@ -53,7 +53,7 @@ class DetailEmployeePresenter {
     });
     var response = await dio.post(url, data: formData);
 
-    return response.data['message'];
+    return response;
   }
 
   Future<Uint8List> callFileToServer(String berkas, String idSurat) async {

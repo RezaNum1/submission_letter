@@ -118,7 +118,10 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
     DetailEmployeePresenter presenter = new DetailEmployeePresenter();
     var response =
         await presenter.tolakSurat(widget.idSurat, id, komentarController.text);
-    UtilAuth.successPopupDialog(context, response, HomeEmp());
+    if (response.data['token'] != null) {
+      sendNotification(response.data['token']);
+    }
+    UtilAuth.successPopupDialog(context, response.data['message'], HomeEmp());
   }
 
   Widget _detailWidget(String keterangan, String rtrwText, String noSuratRT,

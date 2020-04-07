@@ -28,7 +28,7 @@ class _HomePendudukState extends State<HomePenduduk>
   Future<void> setPreference() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      idUser = pref.getInt("id");
+      idUser = pref.getInt("Id");
       noTelepon = pref.getString("NoTelepon");
       nik = pref.getString("Nik");
     });
