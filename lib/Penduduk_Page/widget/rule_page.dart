@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Theme/theme_penduduk.dart';
 
 class RulePage extends StatefulWidget {
@@ -11,6 +12,29 @@ class RulePage extends StatefulWidget {
 }
 
 class _RulePageState extends State<RulePage> {
+  int idUser;
+  String noTelepon;
+  String nik;
+
+  @override
+  void initState() {
+    setPreference();
+    super.initState();
+  }
+
+  Future<void> setPreference() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = pref.getInt("id");
+      noTelepon = pref.getString("NoTelepon");
+      nik = pref.getString("Nik");
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     String titleText;
@@ -47,7 +71,7 @@ class _RulePageState extends State<RulePage> {
           ),
         ),
       ),
-      drawer: ThemeAppPenduduk.sideBar(context),
+      drawer: ThemeAppPenduduk.sideBar(context, nik, noTelepon),
       body: Container(
         child: ListView(
           children: <Widget>[

@@ -14,7 +14,7 @@ import '../RTRW_Page/views/setting_views.dart' as settings;
 import '../Auth/views/login_views.dart' as loginPage;
 
 class ThemeAppPenduduk {
-  static sideBar(context) {
+  static sideBar(context, String nik, String noTelepon) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -27,10 +27,17 @@ class ThemeAppPenduduk {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
+                      Icon(
+                        Icons.people,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Container(
                         margin: EdgeInsets.only(right: 20),
                         child: Text(
-                          'Data User',
+                          'Masyarakat',
                           style: TextStyle(
                             fontSize: 30,
                             color: Colors.white,
@@ -39,7 +46,7 @@ class ThemeAppPenduduk {
                         ),
                       ),
                       SizedBox(
-                        width: 40,
+                        width: 25,
                       ),
                       Container(
                         height: 40,
@@ -57,9 +64,9 @@ class ThemeAppPenduduk {
                     thickness: 8,
                   ),
                   Text(
-                    'Data User',
+                    '$nik | $noTelepon',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -353,7 +360,7 @@ class ThemeAppPenduduk {
                 ),
               ),
               onTap: () {
-                UtilAuth.clearUserPreference();
+                UtilAuth.clearUserPreferencePenduduk();
                 UtilAuth.movePage(
                     context,
                     UserAuth(

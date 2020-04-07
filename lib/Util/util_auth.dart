@@ -196,4 +196,16 @@ class UtilAuth {
 
     preferences.clear();
   }
+
+  static void clearUserPreferencePenduduk() async {
+    var url = "http://192.168.43.75:8000/api/removeTokenPenduduk";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    var id = preferences.getInt('Id');
+    Dio dio = new Dio();
+    FormData formData = new FormData.fromMap({"id": id});
+    var response = await dio.post(url, data: formData);
+
+    preferences.clear();
+  }
 }

@@ -9,8 +9,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/nik_widget.dart';
+import 'package:submission_letter/Notification/UtilToken/getToken.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
@@ -173,10 +175,21 @@ class _OcrPendudukState extends State<OcrPenduduk> {
   }
 
   void processData(BuildContext context, String phone, String nik) async {
+    String tokens;
     UtilAuth.loading(context);
-    var response = await widget.presenter.regisData(phone, nik);
-    UtilAuth.successPopupDialog(
-        context, response.data['message'], HomePenduduk());
+    GetToken getToken = new GetToken();
+    tokens = await getToken.getFCMToken();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    var response = await widget.presenter.regisData(phone, nik, tokens);
+    if (response.data['error'] == true) {
+      UtilAuth.failedPopupDialog(context, response.data['message']);
+    } else {
+      preferences.setInt("id", response.data['data']['Id']);
+      preferences.setString("NoTelepon", response.data['data']['NoTelepon']);
+      preferences.setString("Nik", response.data['data']['Nik']);
+      UtilAuth.successPopupDialog(
+          context, response.data['message'], HomePenduduk());
+    }
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Penduduk_Page/APP_TabBar/selesai_penduduk.dart';
 import 'package:submission_letter/Penduduk_Page/APP_TabBar/todo_penduduk.dart';
 import 'package:submission_letter/Penduduk_Page/APP_TabBar/tolak_penduduk.dart';
@@ -13,11 +14,24 @@ class HomePenduduk extends StatefulWidget {
 class _HomePendudukState extends State<HomePenduduk>
     with SingleTickerProviderStateMixin {
   TabController controller;
+  int idUser;
+  String noTelepon;
+  String nik;
 
   @override
   void initState() {
     controller = TabController(length: 3, vsync: this);
+    setPreference();
     super.initState();
+  }
+
+  Future<void> setPreference() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = pref.getInt("id");
+      noTelepon = pref.getString("NoTelepon");
+      nik = pref.getString("Nik");
+    });
   }
 
   void dispose() {
@@ -47,23 +61,23 @@ class _HomePendudukState extends State<HomePenduduk>
           tabs: <Widget>[
             Tab(
               icon: Icon(Icons.assignment),
-              text: "TODO",
+              text: "DI PROSES",
             ),
             Tab(
               icon: Icon(Icons.check_box),
-              text: "SELESAI",
+              text: "KEMBALI",
             ),
             Tab(
               icon: Icon(Icons.cancel),
-              text: "KEMBALI",
+              text: "SELESAI",
             ),
           ],
         ),
       ),
-      drawer: ThemeAppPenduduk.sideBar(context),
+      drawer: ThemeAppPenduduk.sideBar(context, nik, noTelepon),
       body: TabBarView(
         controller: controller,
-        children: <Widget>[ToDoPenduduk(), SelesaiPenduduk(), TolakPenduduk()],
+        children: <Widget>[ToDoPenduduk(), TolakPenduduk(), SelesaiPenduduk()],
       ),
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Animation/fade_animation.dart';
 import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/phone_widget.dart';
 import 'package:submission_letter/Auth/views/ocrPenduduk_views.dart';
+import 'package:submission_letter/Notification/UtilToken/getToken.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/home_page.dart';
@@ -27,8 +29,12 @@ class _UserAuthState extends State<UserAuth> {
   }
 
   void processData(String tlpNumber) async {
+    String tokens;
     UtilAuth.loading(context);
-    var response = await widget.presenter.cekPhoneNumber(tlpNumber);
+    GetToken getToken = new GetToken();
+    tokens = await getToken.getFCMToken();
+    var response = await widget.presenter.cekPhoneNumber(tlpNumber, tokens);
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
     if (response.data['exist'] == false) {
       Navigator.of(context).pushAndRemoveUntil(
           CupertinoPageRoute(
@@ -39,6 +45,9 @@ class _UserAuthState extends State<UserAuth> {
           (Route<dynamic> route) => false);
     } else {
       // lgsng masuk
+      preferences.setInt("Id", response.data['data']['Id']);
+      preferences.setString("NoTelepon", response.data['data']['NoTelepon']);
+      preferences.setString("Nik", response.data['data']['Nik']);
       UtilAuth.successPopupDialog(context, 'Login Berhasil', HomePenduduk());
     }
   }
