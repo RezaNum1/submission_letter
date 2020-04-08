@@ -88,7 +88,12 @@ class _TolakPendudukState extends State<TolakPenduduk> {
           ],
         ),
         onTap: () {
-          UtilAuth.movePage(context, DetailpTolak());
+          UtilAuth.movePage(
+              context,
+              DetailpTolak(
+                idSurat: idSurat,
+                tipe: tipe,
+              ));
         },
       ),
     );
