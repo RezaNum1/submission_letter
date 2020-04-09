@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/detailp_tolak_presenter.dart';
 import 'package:submission_letter/Penduduk_Page/viewmodel/detailp_tolak_viewmodel.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
+import 'package:submission_letter/Penduduk_Page/widget/file_picker.dart';
 import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/Util/util_rtrw.dart';
@@ -164,6 +165,100 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
 //******************* ***************************************/
 
+//************************************** File Perbaikan ******** */
+//1
+  File _depanRumah;
+  File _belakangRumah;
+//2
+  File _spptTerbaru;
+//3
+  File _lampiranPer;
+//4
+  File _ktpOrtu1;
+  File _ktpOrtu2;
+  File _lunasPbb1;
+//5
+  File _akteCerai;
+  File _lunasPbb2;
+  File _skks;
+//7
+  File _skksdrs;
+//8
+  File _skck;
+
+  void setdepanRumah(File vals) {
+    setState(() {
+      _depanRumah = vals;
+    });
+  }
+
+  void setbelakangRumah(File vals) {
+    setState(() {
+      _belakangRumah = vals;
+    });
+  }
+
+  void setspptTerbaru(File vals) {
+    setState(() {
+      _spptTerbaru = vals;
+    });
+  }
+
+  void setlamper(File vals) {
+    setState(() {
+      _lampiranPer = vals;
+    });
+  }
+
+  void setktportu1(File vals) {
+    setState(() {
+      _ktpOrtu1 = vals;
+    });
+  }
+
+  void setktportu2(File vals) {
+    setState(() {
+      _ktpOrtu2 = vals;
+    });
+  }
+
+  void setlunaspbb1(File vals) {
+    setState(() {
+      _lunasPbb1 = vals;
+    });
+  }
+
+  void setaktecerai(File vals) {
+    setState(() {
+      _akteCerai = vals;
+    });
+  }
+
+  void setlunaspbb2(File vals) {
+    setState(() {
+      _lunasPbb2 = vals;
+    });
+  }
+
+  void setskks(File vals) {
+    setState(() {
+      _skks = vals;
+    });
+  }
+
+  void setskksdrs(File vals) {
+    setState(() {
+      _skksdrs = vals;
+    });
+  }
+
+  void setskck(File vals) {
+    setState(() {
+      _skck = vals;
+    });
+  }
+
+//************************************** END File Perbaikan ******** */
   @override
   void initState() {
     setPreference();
@@ -1162,6 +1257,80 @@ class _DetailpTolakState extends State<DetailpTolak> {
                         sendToServerkk(context);
                       }),
                 ),
+                widget.tipe == "1"
+                    ? Column(
+                        children: <Widget>[
+                          FilePickerForm(
+                            title: "Foto Depan Rumah",
+                            setFileAtt: setdepanRumah,
+                          ),
+                          FilePickerForm(
+                            title: "Foto Belakang Rumah",
+                            setFileAtt: setbelakangRumah,
+                          ),
+                        ],
+                      )
+                    : Container(),
+                widget.tipe == "2"
+                    ? FilePickerForm(
+                        title: "SPPT Terbaru",
+                        setFileAtt: setspptTerbaru,
+                      )
+                    : Container(),
+                widget.tipe == "3"
+                    ? FilePickerForm(
+                        title: "Lampiran Pernyataan",
+                        setFileAtt: setlamper,
+                      )
+                    : Container(),
+                widget.tipe == "4"
+                    ? Column(
+                        children: <Widget>[
+                          FilePickerForm(
+                            title: "KTP Orang Tua-1 (Ayah)",
+                            setFileAtt: setktportu1,
+                          ),
+                          FilePickerForm(
+                            title: "KTP Orang Tua-2 (Ibu)",
+                            setFileAtt: setktportu2,
+                          ),
+                          FilePickerForm(
+                            title: "Tanda Lunas PBB Tahun Berjalan",
+                            setFileAtt: setlunaspbb1,
+                          )
+                        ],
+                      )
+                    : Container(),
+                widget.tipe == "5"
+                    ? Column(
+                        children: <Widget>[
+                          FilePickerForm(
+                            title: "Akte Cerai",
+                            setFileAtt: setaktecerai,
+                          ),
+                          FilePickerForm(
+                              title: "Pelunasan PBB Tahun Berjalan",
+                              setFileAtt: setlunaspbb2),
+                          FilePickerForm(
+                            title: "Surat Keterangan Kematian Suami / Istri",
+                            setFileAtt: setskks,
+                          ),
+                        ],
+                      )
+                    : Container(),
+                widget.tipe == "7"
+                    ? FilePickerForm(
+                        title: "Surat Keterangan Kematian Dari Rumah Sakit",
+                        setFileAtt: setskksdrs,
+                      )
+                    : Container(),
+                widget.tipe == "8"
+                    ? FilePickerForm(
+                        title:
+                            "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
+                        setFileAtt: setskck,
+                      )
+                    : Container()
               ],
             ),
           ),
@@ -1268,8 +1437,24 @@ class _DetailpTolakState extends State<DetailpTolak> {
       datakk = null;
     }
     DetailpTolakPresenter presenter = new DetailpTolakPresenter();
-    var response =
-        await presenter.perbaikiDataToServer(widget.idSurat, data, datakk);
+    var response = await presenter.perbaikiDataToServer(
+      widget.idSurat,
+      widget.tipe,
+      data,
+      datakk,
+      _depanRumah,
+      _belakangRumah,
+      _spptTerbaru,
+      _lampiranPer,
+      _ktpOrtu1,
+      _ktpOrtu2,
+      _lunasPbb1,
+      _akteCerai,
+      _lunasPbb2,
+      _skks,
+      _skksdrs,
+      _skck,
+    );
     UtilAuth.successPopupDialog(
         context, response.data['message'], HomePenduduk());
   }
