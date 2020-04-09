@@ -166,6 +166,9 @@ class _DetailpTolakState extends State<DetailpTolak> {
 //******************* ***************************************/
 
 //************************************** File Perbaikan ******** */
+//Base
+  File ktpImage;
+  File kkImage;
 //1
   File _depanRumah;
   File _belakangRumah;
@@ -285,6 +288,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
     netralVariable();
     UtilAuth.loading(context);
     Dio dio = new Dio();
+
     var datas = FormData.fromMap(
         {"ktp": await MultipartFile.fromFile(val.path), "nama": "KTPME"});
 
@@ -317,6 +321,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
       _extractText = extractText;
       stat = true;
     });
+    print(_extractText);
 
     if (stat == true) {
       normalizationData(context);
@@ -335,209 +340,305 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
     List<String> arrOCR = _extractText.split("\n");
 
-    //NIK
-    var nik = arrOCR[0].split(':');
-    var arrNIK = new List<String>.from(nik[1].toString().split(''));
-    // if (isNumeric(nik[1].toString()) && arrNIK.length <= 18) {
-    // ADA translete value ? i atau yg lain
-    for (var i = 0; i < arrNIK.length; i++) {
-      if (arrNIK[i] == "?") {
-        arrNIK[i] = '7';
-      } else if (arrNIK[i] == 'D') {
-        arrNIK[i] = '0';
-      } else if (arrNIK[i] == 'L') {
-        arrNIK[i] = '1';
-      } else if (arrNIK[i] == 'i') {
-        arrNIK[i] = '1';
-      } else if (arrNIK[i] == 'I') {
-        arrNIK[i] = '1';
+    if (arrOCR.length >= 11) {
+      //NIK
+
+      if (arrOCR[0].contains(":")) {
+        var nik = arrOCR[0].split(':');
+        var arrNIK = new List<String>.from(nik[1].toString().split(''));
+        // if (isNumeric(nik[1].toString()) && arrNIK.length <= 18) {
+        // ADA translete value ? i atau yg lain
+        for (var i = 0; i < arrNIK.length; i++) {
+          if (arrNIK[i] == "?") {
+            arrNIK[i] = '7';
+          } else if (arrNIK[i] == 'D') {
+            arrNIK[i] = '0';
+          } else if (arrNIK[i] == 'L') {
+            arrNIK[i] = '1';
+          } else if (arrNIK[i] == 'i') {
+            arrNIK[i] = '1';
+          } else if (arrNIK[i] == 'I') {
+            arrNIK[i] = '1';
+          }
+        }
+
+        for (var i = 0; i < arrNIK.length; i++) {
+          arrNIK.remove(" ");
+          arrNIK.remove(" ");
+          arrNIK.remove("");
+          arrNIK.remove(' ');
+          arrNIK.remove('"');
+        }
+
+        // for (var i = 0; i < arrNIK.length; i++) {
+        //   if (isNumeric(arrNIK[i]) == false) {
+        //     arrNIK.removeAt(i);
+        //   }
+        // }
+        // Length harus < 17
+        setState(() {
+          nikText = arrNIK.join();
+        });
+      } else if (arrOCR[0].contains('"')) {
+        var nik = arrOCR[0].split('"');
+        var arrNIK = new List<String>.from(nik[1].toString().split(''));
+        // if (isNumeric(nik[1].toString()) && arrNIK.length <= 18) {
+        // ADA translete value ? i atau yg lain
+        for (var i = 0; i < arrNIK.length; i++) {
+          if (arrNIK[i] == "?") {
+            arrNIK[i] = '7';
+          } else if (arrNIK[i] == 'D') {
+            arrNIK[i] = '0';
+          } else if (arrNIK[i] == 'L') {
+            arrNIK[i] = '1';
+          } else if (arrNIK[i] == 'i') {
+            arrNIK[i] = '1';
+          } else if (arrNIK[i] == 'I') {
+            arrNIK[i] = '1';
+          }
+        }
+
+        for (var i = 0; i < arrNIK.length; i++) {
+          arrNIK.remove(" ");
+          arrNIK.remove(" ");
+          arrNIK.remove("");
+          arrNIK.remove(' ');
+          arrNIK.remove('"');
+        }
+
+        // for (var i = 0; i < arrNIK.length; i++) {
+        //   if (isNumeric(arrNIK[i]) == false) {
+        //     arrNIK.removeAt(i);
+        //   }
+        // }
+        // Length harus < 17
+        setState(() {
+          nikText = arrNIK.join();
+        });
+      } else {
+        var nik = arrOCR[0].split(' ');
+        var arrNIK = new List<String>.from(nik[1].toString().split(''));
+        // if (isNumeric(nik[1].toString()) && arrNIK.length <= 18) {
+        // ADA translete value ? i atau yg lain
+        for (var i = 0; i < arrNIK.length; i++) {
+          if (arrNIK[i] == "?") {
+            arrNIK[i] = '7';
+          } else if (arrNIK[i] == 'D') {
+            arrNIK[i] = '0';
+          } else if (arrNIK[i] == 'L') {
+            arrNIK[i] = '1';
+          } else if (arrNIK[i] == 'i') {
+            arrNIK[i] = '1';
+          } else if (arrNIK[i] == 'I') {
+            arrNIK[i] = '1';
+          }
+        }
+
+        for (var i = 0; i < arrNIK.length; i++) {
+          arrNIK.remove(" ");
+          arrNIK.remove(" ");
+          arrNIK.remove("");
+          arrNIK.remove(' ');
+          arrNIK.remove('"');
+        }
+
+        // for (var i = 0; i < arrNIK.length; i++) {
+        //   if (isNumeric(arrNIK[i]) == false) {
+        //     arrNIK.removeAt(i);
+        //   }
+        // }
+        // Length harus < 17
+        setState(() {
+          nikText = arrNIK.join();
+        });
       }
-    }
 
-    for (var i = 0; i < arrNIK.length; i++) {
-      arrNIK.remove(" ");
-      arrNIK.remove(" ");
-      arrNIK.remove("");
-      arrNIK.remove(' ');
-    }
+      //
 
-    // for (var i = 0; i < arrNIK.length; i++) {
-    //   if (isNumeric(arrNIK[i]) == false) {
-    //     arrNIK.removeAt(i);
-    //   }
-    // }
-    // Length harus < 17
-    setState(() {
-      nikText = arrNIK.join();
-    });
-    //
+      // if (isNumeric(arrNIK.join()) && arrNIK.length < 17) {}
+      // }
 
-    // if (isNumeric(arrNIK.join()) && arrNIK.length < 17) {}
-    // }
+      // ETC
+      // Nama
+      var namaFill = List<String>.from(arrOCR[1].split(''));
+      for (var i = 0; i < namaFill.length; i++) {
+        namaFill.remove('.');
+        namaFill.remove('_');
+        namaFill.remove('!');
+        namaFill.remove("-");
+        namaFill.remove('"');
+      }
 
-    // ETC
-    // Nama
-    var namaFill = List<String>.from(arrOCR[1].split(''));
-    // for (var i = 0; i < namaFill.length; i++) {
-    //   namaFill.remove('.');
-    //   namaFill.remove('_');
-    //   namaFill.remove('!');
-    //   namaFill.remove("-");
-    // }
+      var text1 = namaFill.join('');
 
-    var text1 = namaFill.join('');
-    var namaArr = List<String>.from(text1.split(':'));
-    setState(() {
-      namaText = namaArr[1];
-    });
-    // if (namaFill.contains(":")) {
-    //   var namaArr = List<String>.from(text1.split(':'));
-    //   setState(() {
-    //     namaText = namaArr[1];
-    //   });
-    // } else {
-    //   var namaArr = List<String>.from(text1.split(' '));
-    //   namaArr.removeAt(0);
-    //   setState(() {
-    //     namaText = namaArr.join(' ');
-    //   });
-    // }
+      if (namaFill.contains(":")) {
+        var namaArr = List<String>.from(text1.split(':'));
+        setState(() {
+          namaText = namaArr[1];
+        });
+      } else {
+        var namaArr = List<String>.from(text1.split(' '));
+        namaArr.removeAt(0);
+        setState(() {
+          namaText = namaArr.join(' ');
+        });
+      }
 
-    //Alamat
-    var alamatFill = List<String>.from(arrOCR[4].split(''));
-    for (var i = 0; i < alamatFill.length; i++) {
-      alamatFill.remove('.');
-      alamatFill.remove('_');
-      alamatFill.remove('!');
-      alamatFill.remove("-");
-    }
+      //Alamat
+      var alamatFill = List<String>.from(arrOCR[4].split(''));
+      for (var i = 0; i < alamatFill.length; i++) {
+        alamatFill.remove('.');
+        alamatFill.remove('_');
+        alamatFill.remove('!');
+        alamatFill.remove("-");
+        alamatFill.remove('"');
+      }
 
-    var text2 = alamatFill.join('');
-    if (alamatFill.contains(":")) {
-      var alamatArr = List<String>.from(text2.split(':'));
-      setState(() {
-        alamatText = alamatArr[1];
-      });
+      var text2 = alamatFill.join('');
+      if (alamatFill.contains(":")) {
+        var alamatArr = List<String>.from(text2.split(':'));
+        setState(() {
+          alamatText = alamatArr[1];
+        });
+      } else {
+        var alamatArr = List<String>.from(text2.split(' '));
+        alamatArr.removeAt(0);
+        setState(() {
+          alamatText = alamatArr.join(' ');
+        });
+      }
+
+      //RTRW
+      var rtrwFill = List<String>.from(arrOCR[5].split(''));
+      for (var i = 0; i < rtrwFill.length; i++) {
+        rtrwFill.remove('.');
+        rtrwFill.remove('_');
+        rtrwFill.remove('!');
+        rtrwFill.remove("-");
+        rtrwFill.remove('"');
+      }
+
+      var text3 = rtrwFill.join('');
+      if (rtrwFill.contains(":")) {
+        var rtrwArr = List<String>.from(text3.split(':'));
+        setState(() {
+          rtrwText = rtrwArr[1];
+        });
+      } else {
+        var rtrwArr = List<String>.from(text3.split(' '));
+        rtrwArr.removeAt(0);
+        setState(() {
+          rtrwText = rtrwArr.join(' ');
+        });
+      }
+
+      //Kelurahan
+      var kelFill = List<String>.from(arrOCR[6].split(''));
+      for (var i = 0; i < kelFill.length; i++) {
+        kelFill.remove('.');
+        kelFill.remove('_');
+        kelFill.remove('!');
+        kelFill.remove("-");
+        kelFill.remove('"');
+      }
+      var text4 = kelFill.join('');
+      if (kelFill.contains(":")) {
+        var kelArr = List<String>.from(text4.split(':'));
+        setState(() {
+          kelText = kelArr[1];
+        });
+      } else {
+        var kelArr = List<String>.from(text4.split(' '));
+        kelArr.removeAt(0);
+        setState(() {
+          kelText = kelArr.join(' ');
+        });
+      }
+
+      //Agama
+      var agamaFill = List<String>.from(arrOCR[8].split(''));
+      for (var i = 0; i < agamaFill.length; i++) {
+        agamaFill.remove('.');
+        agamaFill.remove('_');
+        agamaFill.remove('!');
+        agamaFill.remove("-");
+        agamaFill.remove('"');
+      }
+
+      var text5 = agamaFill.join('');
+      if (agamaFill.contains(":")) {
+        var agamaArr = List<String>.from(text5.split(':'));
+        setState(() {
+          agamaText = agamaArr[1];
+        });
+      } else {
+        var agamaArr = List<String>.from(text5.split(' '));
+        agamaArr.removeAt(0);
+        setState(() {
+          agamaText = agamaArr.join(' ');
+        });
+      }
+
+      //SP
+      var spFill = List<String>.from(arrOCR[9].split(''));
+      for (var i = 0; i < spFill.length; i++) {
+        spFill.remove('.');
+        spFill.remove('_');
+        spFill.remove('!');
+        spFill.remove("-");
+        spFill.remove('"');
+      }
+
+      var text6 = spFill.join('');
+      if (spFill.contains(":")) {
+        var spArr = List<String>.from(text6.split(':'));
+        setState(() {
+          spText = spArr[1];
+        });
+      } else {
+        var spArr = List<String>.from(text6.split(' '));
+        spArr.removeAt(0);
+        setState(() {
+          spText = spArr.join(' ');
+        });
+      }
+
+      //Pekerjaan
+      var workFill = List<String>.from(arrOCR[10].split(''));
+      for (var i = 0; i < workFill.length; i++) {
+        workFill.remove('.');
+        workFill.remove('_');
+        workFill.remove('!');
+        workFill.remove("-");
+        workFill.remove('"');
+      }
+
+      var text7 = workFill.join('');
+      if (workFill.contains(":")) {
+        var workArr = List<String>.from(text7.split(':'));
+        setState(() {
+          workText = workArr[1];
+        });
+      } else {
+        var workArr = List<String>.from(text7.split(' '));
+        workArr.removeAt(0);
+        setState(() {
+          workText = workArr.join(' ');
+        });
+      }
     } else {
-      var alamatArr = List<String>.from(text2.split(' '));
-      alamatArr.removeAt(0);
-      setState(() {
-        alamatText = alamatArr.join(' ');
-      });
-    }
-
-    //RTRW
-    var rtrwFill = List<String>.from(arrOCR[5].split(''));
-    for (var i = 0; i < rtrwFill.length; i++) {
-      rtrwFill.remove('.');
-      rtrwFill.remove('_');
-      rtrwFill.remove('!');
-      rtrwFill.remove("-");
-    }
-
-    var text3 = rtrwFill.join('');
-    if (rtrwFill.contains(":")) {
-      var rtrwArr = List<String>.from(text3.split(':'));
-      setState(() {
-        rtrwText = rtrwArr[1];
-      });
-    } else {
-      var rtrwArr = List<String>.from(text3.split(' '));
-      rtrwArr.removeAt(0);
-      setState(() {
-        rtrwText = rtrwArr.join(' ');
-      });
-    }
-
-    //Kelurahan
-    var kelFill = List<String>.from(arrOCR[6].split(''));
-    for (var i = 0; i < kelFill.length; i++) {
-      kelFill.remove('.');
-      kelFill.remove('_');
-      kelFill.remove('!');
-      kelFill.remove("-");
-    }
-    var text4 = kelFill.join('');
-    if (kelFill.contains(":")) {
-      var kelArr = List<String>.from(text4.split(':'));
-      setState(() {
-        kelText = kelArr[1];
-      });
-    } else {
-      var kelArr = List<String>.from(text4.split(' '));
-      kelArr.removeAt(0);
-      setState(() {
-        kelText = kelArr.join(' ');
-      });
-    }
-
-    //Agama
-    var agamaFill = List<String>.from(arrOCR[8].split(''));
-    for (var i = 0; i < agamaFill.length; i++) {
-      agamaFill.remove('.');
-      agamaFill.remove('_');
-      agamaFill.remove('!');
-      agamaFill.remove("-");
-    }
-
-    var text5 = agamaFill.join('');
-    if (agamaFill.contains(":")) {
-      var agamaArr = List<String>.from(text5.split(':'));
-      setState(() {
-        agamaText = agamaArr[1];
-      });
-    } else {
-      var agamaArr = List<String>.from(text5.split(' '));
-      agamaArr.removeAt(0);
-      setState(() {
-        agamaText = agamaArr.join(' ');
-      });
-    }
-
-    //SP
-    var spFill = List<String>.from(arrOCR[9].split(''));
-    for (var i = 0; i < spFill.length; i++) {
-      spFill.remove('.');
-      spFill.remove('_');
-      spFill.remove('!');
-      spFill.remove("-");
-    }
-
-    var text6 = spFill.join('');
-    if (spFill.contains(":")) {
-      var spArr = List<String>.from(text6.split(':'));
-      setState(() {
-        spText = spArr[1];
-      });
-    } else {
-      var spArr = List<String>.from(text6.split(' '));
-      spArr.removeAt(0);
-      setState(() {
-        spText = spArr.join(' ');
-      });
-    }
-
-    //Pekerjaan
-    var workFill = List<String>.from(arrOCR[10].split(''));
-    for (var i = 0; i < workFill.length; i++) {
-      workFill.remove('.');
-      workFill.remove('_');
-      workFill.remove('!');
-      workFill.remove("-");
-    }
-
-    var text7 = workFill.join('');
-    if (workFill.contains(":")) {
-      var workArr = List<String>.from(text7.split(':'));
-      setState(() {
-        workText = workArr[1];
-      });
-    } else {
-      var workArr = List<String>.from(text7.split(' '));
-      workArr.removeAt(0);
-      setState(() {
-        workText = workArr.join(' ');
-      });
+      nikText = "-";
+      provText = "-";
+      kota_kecText = "-";
+      tgl_lahirText = "-";
+      jenis_kelaminText = "-";
+      namaText = "-";
+      alamatText = "-";
+      rtrwText = "-";
+      kelText = "-";
+      agamaText = "-";
+      spText = "-";
+      workText = "-";
     }
 
     setState(() {
@@ -702,6 +803,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   spText = _spController.text;
                   workText = _workController.text;
                   okPressKtp = true;
+                  ktpImage = val;
                 });
                 Navigator.of(context).pop();
               },
@@ -769,6 +871,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
   Future<void> sendToServerkk(BuildContext context) async {
     UtilAuth.loading(context);
     Dio dio = new Dio();
+
     var datas = FormData.fromMap(
         {"kk": await MultipartFile.fromFile(valkk.path), "nama": "KKME"});
 
@@ -885,6 +988,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
               onPressed: () {
                 //SetState di sini
                 setState(() {
+                  kkImage = valkk;
                   nokkText = _kkController.text;
                   okPressKK = true;
                 });
@@ -1442,6 +1546,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
       widget.tipe,
       data,
       datakk,
+      ktpImage,
+      kkImage,
       _depanRumah,
       _belakangRumah,
       _spptTerbaru,

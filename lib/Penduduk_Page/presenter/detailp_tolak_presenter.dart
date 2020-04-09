@@ -36,6 +36,8 @@ class DetailpTolakPresenter {
       String tipe,
       Map<String, dynamic> dataKtp,
       String dataKK,
+      File ktp,
+      File kk,
       File depanRumah,
       File belakangRumah,
       File spptTerbaru,
@@ -55,6 +57,12 @@ class DetailpTolakPresenter {
       "tipe": tipe,
       "ktp": dataKtp,
       "kk": dataKK,
+      "ktpImage": ktp != null
+          ? await MultipartFile.fromFile(ktp.path, filename: "ktpImage")
+          : null,
+      "kkImage": kk != null
+          ? await MultipartFile.fromFile(kk.path, filename: "kkImage")
+          : null,
       "depanRumah": depanRumah != null
           ? await MultipartFile.fromFile(
               depanRumah.path,
