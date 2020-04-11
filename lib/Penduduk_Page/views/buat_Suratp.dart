@@ -1,33 +1,50 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/Auth/views/AuthComponent/text_widget.dart';
+import 'package:submission_letter/Penduduk_Page/presenter/buatSurat_presenter.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/detailp_tolak_presenter.dart';
-import 'package:submission_letter/Penduduk_Page/viewmodel/detailp_tolak_viewmodel.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
+import 'package:submission_letter/Penduduk_Page/widget/dropdown_widget.dart';
 import 'package:submission_letter/Penduduk_Page/widget/file_picker.dart';
+import 'package:submission_letter/Penduduk_Page/widget/file_picker_new.dart';
 import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
-import 'package:submission_letter/Util/util_rtrw.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
 
-class DetailpTolak extends StatefulWidget {
-  String idSurat;
+class BuatSuratP extends StatefulWidget {
   String tipe;
-  DetailpTolak({this.idSurat, this.tipe});
+  BuatSuratP({this.tipe});
   @override
-  _DetailpTolakState createState() => _DetailpTolakState();
+  _BuatSuratPState createState() => _BuatSuratPState();
 }
 
-class _DetailpTolakState extends State<DetailpTolak> {
+class _BuatSuratPState extends State<BuatSuratP> {
+  // ******************  Drop Down Data
+  String rwTextDrop;
+  String rtTextDrop;
+
+  void setRwText(String val) {
+    setState(() {
+      rwTextDrop = val;
+    });
+  }
+
+  void setRtText(String val) {
+    setState(() {
+      rtTextDrop = val;
+    });
+  }
+
+  // ********* END DROPDOWN
+
   // Note: Tambahin validasi di popup agar semua data terisi sebelum ok
   int idUser;
   String noTelepon;
@@ -281,14 +298,39 @@ class _DetailpTolakState extends State<DetailpTolak> {
     super.dispose();
   }
 
+  //************************* Validate *************************** */
+  String keteranganText;
+
+  bool _validateKeterangan;
+  bool _valKtpImage = true;
+  bool _valKkImage = true;
+  bool _valDepanRumahImage = true;
+  bool _valBelakangRumahImage = true;
+  bool _valspptTerbaru = true;
+  bool _valLampiranPer = true;
+  bool _valktpOrtu1 = true;
+  bool _valktportu2 = true;
+  bool _valLunasPbb1 = true;
+  bool _valAkteCerai = true;
+  bool _valLunasPbb2 = true;
+  bool _valskks = true;
+  bool _valskkdrs = true;
+  bool _valskck = true;
+
+  void setKeterangan(String val) {
+    setState(() {
+      keteranganText = val;
+    });
+  }
+
   //************************* OCR FUNCTION *************************** */
 
   //KAMERA
   Future<void> sendToServer(BuildContext context) async {
-    netralVariable();
     if (val == null) {
       return;
     }
+    netralVariable();
     UtilAuth.loading(context);
     Dio dio = new Dio();
 
@@ -1010,15 +1052,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
   //******************************************************************* */
 
-  Widget _detailWidget(
-      BuildContext context,
-      String keterangan,
-      String rtrwText,
-      String noPengajuan,
-      String tglBuat,
-      String noSuratRT,
-      String noSuratRW,
-      List history) {
+  @override
+  Widget build(BuildContext context) {
     String judulDetail;
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Miskin";
@@ -1037,492 +1072,491 @@ class _DetailpTolakState extends State<DetailpTolak> {
     } else if (widget.tipe == "8") {
       judulDetail = "Pengajuan Surat Keterangan Pindah";
     }
-    return Container(
-      child: ListView(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: RaisedButton(
-                    color: Colors.orange,
-                    child: Text(
-                      "Pengajuan Kembali",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      perbaikiData(context);
-                    },
-                  ),
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: new IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: Container(
+          margin: EdgeInsets.only(right: 50),
+          height: 50,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/dki.png'),
             ),
           ),
-          Divider(
-            color: Colors.orange,
-            thickness: 2,
-          ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 15),
+        ),
+      ),
+      drawer: ThemeAppPenduduk.sideBar(context, nikPref, noTelepon),
+      body: Container(
+        child: ListView(
+          children: <Widget>[
+            Divider(
+              color: Colors.orange,
+              thickness: 2,
+            ),
+            Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 15),
+                child: Text(
+                  "$judulDetail",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                      fontSize: 20),
+                ),
+              ),
+            ),
+            Divider(
+              color: Colors.orange,
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            DropDownWidget(
+              dataRt: setRtText,
+              dataRw: setRwText,
+            ),
+            Divider(
+              color: Colors.orange[200],
+              thickness: 3,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10, top: 10, bottom: 5),
               child: Text(
-                "$judulDetail",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.orange,
-                    fontSize: 20),
+                "Berkas Pengajuan",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-          ),
-          Divider(
-            color: Colors.orange,
-            thickness: 2,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Keterangan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: 300.0,
-                      maxWidth: 300.0,
-                      minHeight: 30.0,
-                      maxHeight: 100.0,
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              color: Colors.orange[200],
+              thickness: 3,
+            ),
+            _valKtpImage ||
+                    _valKkImage ||
+                    _valDepanRumahImage ||
+                    _valBelakangRumahImage ||
+                    _valLampiranPer ||
+                    _valktpOrtu1 ||
+                    _valktportu2 ||
+                    _valLunasPbb1 ||
+                    _valAkteCerai ||
+                    _valLunasPbb2 ||
+                    _valskks ||
+                    _valspptTerbaru ||
+                    _valskkdrs ||
+                    _valskck == false
+                ? Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _valKtpImage == false
+                            ? Text(
+                                "* Foto KTP Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valKkImage == false
+                            ? Text(
+                                "* Foto KK Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valDepanRumahImage == false
+                            ? Text(
+                                "* Foto Depan Rumah Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valBelakangRumahImage == false
+                            ? Text(
+                                "* Foto Belakang Rumah Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valAkteCerai == false
+                            ? Text(
+                                "* File Akta Cerai Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valLampiranPer == false
+                            ? Text(
+                                "* File Lampiran Pernyataan Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valLunasPbb1 == false
+                            ? Text(
+                                "* File Bukti Lunas PBB Tahun Berjalan Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valLunasPbb2 == false
+                            ? Text(
+                                "* File Bukti Lunas PBB Tahun Berjalan Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valktpOrtu1 == false
+                            ? Text(
+                                "* File KTP Orang Tua-1 (Ayah) Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valktportu2 == false
+                            ? Text(
+                                "* File KTP Orang Tua-2 (Ibu) Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valskck == false
+                            ? Text(
+                                "* File SKCK Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valskkdrs == false
+                            ? Text(
+                                "* File Surat Keterangan Kematian Dari Rumah Sakit Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valskks == false
+                            ? Text(
+                                "* File Surat Keterangan Kematian Suami / Istri Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valspptTerbaru == false
+                            ? Text(
+                                "* File SPPT Terbaru Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                      ],
                     ),
-                    child: AutoSizeText(
-                      "$keterangan",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 15.0),
+                  )
+                : Container(),
+            Container(
+              margin: EdgeInsets.only(left: 10, top: 10, bottom: 5, right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "KTP:",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: RaisedButton(
+                        child: Text(
+                          "Scan KTP",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        textColor: Colors.white,
+                        color: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Colors.orange),
+                        ),
+                        onPressed: () async {
+                          val = await showDialog(
+                              context: context,
+                              builder: (context) => Camera(
+                                    mode: CameraMode.normal,
+                                    orientationEnablePhoto:
+                                        CameraOrientation.all,
+                                    imageMask: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                          top: 10,
+                                          left: 20,
+                                          child: Container(
+                                            height: 530,
+                                            width: 330,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 3,
+                                                    color: Colors.white)),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 30,
+                                          right: 60,
+                                          child: Container(
+                                            width: 30,
+                                            height: 350,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: Colors.white)),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 10,
+                                          right: 340,
+                                          child: Container(
+                                            width: 40,
+                                            height: 500,
+                                            child: RotatedBox(
+                                              quarterTurns: 1,
+                                              child: Text(
+                                                "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                          setState(() {});
+
+                          sendToServer(context);
+                        }),
+                  ),
+                  Text(
+                    "KK:",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: RaisedButton(
+                        child: Text(
+                          "Scan Kartu Keluarga (KK)",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        textColor: Colors.white,
+                        color: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Colors.orange),
+                        ),
+                        onPressed: () async {
+                          valkk = await showDialog(
+                              context: context,
+                              builder: (context) => Camera(
+                                    mode: CameraMode.fullscreen,
+                                    orientationEnablePhoto:
+                                        CameraOrientation.all,
+                                    imageMask: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                          top: 200,
+                                          right: 20,
+                                          child: Container(
+                                            width: 20,
+                                            height: 200,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: Colors.white)),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 10,
+                                          right: 340,
+                                          child: Container(
+                                            width: 40,
+                                            height: 500,
+                                            child: RotatedBox(
+                                              quarterTurns: 1,
+                                              child: Text(
+                                                "*Pastikan No KK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                          setState(() {});
+                          sendToServerkk(context);
+                        }),
+                  ),
+                  widget.tipe == "1"
+                      ? Column(
+                          children: <Widget>[
+                            FilePickerNew(
+                              title: "Foto Depan Rumah",
+                              setFileAtt: setdepanRumah,
+                            ),
+                            FilePickerNew(
+                              title: "Foto Belakang Rumah",
+                              setFileAtt: setbelakangRumah,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  widget.tipe == "2"
+                      ? FilePickerNew(
+                          title: "SPPT Terbaru",
+                          setFileAtt: setspptTerbaru,
+                        )
+                      : Container(),
+                  widget.tipe == "3"
+                      ? FilePickerNew(
+                          title: "Lampiran Pernyataan",
+                          setFileAtt: setlamper,
+                        )
+                      : Container(),
+                  widget.tipe == "4"
+                      ? Column(
+                          children: <Widget>[
+                            FilePickerNew(
+                              title: "KTP Orang Tua-1 (Ayah)",
+                              setFileAtt: setktportu1,
+                            ),
+                            FilePickerNew(
+                              title: "KTP Orang Tua-2 (Ibu)",
+                              setFileAtt: setktportu2,
+                            ),
+                            FilePickerNew(
+                              title: "Tanda Lunas PBB Tahun Berjalan",
+                              setFileAtt: setlunaspbb1,
+                            )
+                          ],
+                        )
+                      : Container(),
+                  widget.tipe == "5"
+                      ? Column(
+                          children: <Widget>[
+                            FilePickerNew(
+                              title: "Akte Cerai",
+                              setFileAtt: setaktecerai,
+                            ),
+                            FilePickerNew(
+                                title: "Pelunasan PBB Tahun Berjalan",
+                                setFileAtt: setlunaspbb2),
+                            FilePickerNew(
+                              title: "Surat Keterangan Kematian Suami / Istri",
+                              setFileAtt: setskks,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  widget.tipe == "7"
+                      ? FilePickerNew(
+                          title: "Surat Keterangan Kematian Dari Rumah Sakit",
+                          setFileAtt: setskksdrs,
+                        )
+                      : Container(),
+                  widget.tipe == "8"
+                      ? FilePickerNew(
+                          title:
+                              "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
+                          setFileAtt: setskck,
+                        )
+                      : Container()
+                ],
+              ),
+            ),
+            Divider(
+              color: Colors.orange[200],
+              thickness: 3,
+            ),
+            TextWidget(
+              labelTexts: "Keterangan Pembuatan Surat",
+              hintTexts: "Masukkan Tujuan Anda Ingin Melakukan Pengajuan Ini",
+              messageEmpty: "Keterangan Tidak Boleh Kosong!",
+              pass: false,
+              emails: false,
+              callBackName: setKeterangan,
+              val: _validateKeterangan,
+            ),
+            Divider(
+              color: Colors.orange[200],
+              thickness: 3,
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20, top: 10),
+              width: double.infinity,
+              child: RaisedButton(
+                  color: Colors.orange,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.orange)),
+                  child: Text(
+                    "Buat Surat",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
-                )
-              ],
+                  onPressed: () {
+                    validateForm(context);
+                  }),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "No Pengajuan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "$noPengajuan",
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Tanggal Pengajuan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "${UtilRTRW.convertDateTime(tglBuat)}",
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "RT/RW: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "$rtrwText",
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "No Surat RT: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  noSuratRT != null ? "$noSuratRT" : "",
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "No Surat RW:",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  noSuratRW != null ? "$noSuratRW" : "",
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(
-            color: Colors.orange[200],
-            thickness: 3,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, top: 10, bottom: 5),
-            child: Text(
-              "Berkas Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(
-            color: Colors.orange[200],
-            thickness: 3,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, top: 10, bottom: 5, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "KTP:",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Container(
-                  width: double.infinity,
-                  child: RaisedButton(
-                      child: Text(
-                        "Scan KTP",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      textColor: Colors.white,
-                      color: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.orange),
-                      ),
-                      onPressed: () async {
-                        val = await showDialog(
-                            context: context,
-                            builder: (context) => Camera(
-                                  mode: CameraMode.normal,
-                                  orientationEnablePhoto: CameraOrientation.all,
-                                  imageMask: Stack(
-                                    children: <Widget>[
-                                      Positioned(
-                                        top: 10,
-                                        left: 20,
-                                        child: Container(
-                                          height: 530,
-                                          width: 330,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 3,
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 30,
-                                        right: 60,
-                                        child: Container(
-                                          width: 30,
-                                          height: 350,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 10,
-                                        right: 340,
-                                        child: Container(
-                                          width: 40,
-                                          height: 500,
-                                          child: RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Text(
-                                              "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                        setState(() {});
-
-                        sendToServer(context);
-                      }),
-                ),
-                Text(
-                  "KK:",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Container(
-                  width: double.infinity,
-                  child: RaisedButton(
-                      child: Text(
-                        "Scan Kartu Keluarga (KK)",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      textColor: Colors.white,
-                      color: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.orange),
-                      ),
-                      onPressed: () async {
-                        valkk = await showDialog(
-                            context: context,
-                            builder: (context) => Camera(
-                                  mode: CameraMode.fullscreen,
-                                  orientationEnablePhoto: CameraOrientation.all,
-                                  imageMask: Stack(
-                                    children: <Widget>[
-                                      Positioned(
-                                        top: 200,
-                                        right: 20,
-                                        child: Container(
-                                          width: 20,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 10,
-                                        right: 340,
-                                        child: Container(
-                                          width: 40,
-                                          height: 500,
-                                          child: RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Text(
-                                              "*Pastikan No KK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                        setState(() {});
-                        sendToServerkk(context);
-                      }),
-                ),
-                widget.tipe == "1"
-                    ? Column(
-                        children: <Widget>[
-                          FilePickerForm(
-                            title: "Foto Depan Rumah",
-                            setFileAtt: setdepanRumah,
-                          ),
-                          FilePickerForm(
-                            title: "Foto Belakang Rumah",
-                            setFileAtt: setbelakangRumah,
-                          ),
-                        ],
-                      )
-                    : Container(),
-                widget.tipe == "2"
-                    ? FilePickerForm(
-                        title: "SPPT Terbaru",
-                        setFileAtt: setspptTerbaru,
-                      )
-                    : Container(),
-                widget.tipe == "3"
-                    ? FilePickerForm(
-                        title: "Lampiran Pernyataan",
-                        setFileAtt: setlamper,
-                      )
-                    : Container(),
-                widget.tipe == "4"
-                    ? Column(
-                        children: <Widget>[
-                          FilePickerForm(
-                            title: "KTP Orang Tua-1 (Ayah)",
-                            setFileAtt: setktportu1,
-                          ),
-                          FilePickerForm(
-                            title: "KTP Orang Tua-2 (Ibu)",
-                            setFileAtt: setktportu2,
-                          ),
-                          FilePickerForm(
-                            title: "Tanda Lunas PBB Tahun Berjalan",
-                            setFileAtt: setlunaspbb1,
-                          )
-                        ],
-                      )
-                    : Container(),
-                widget.tipe == "5"
-                    ? Column(
-                        children: <Widget>[
-                          FilePickerForm(
-                            title: "Akte Cerai",
-                            setFileAtt: setaktecerai,
-                          ),
-                          FilePickerForm(
-                              title: "Pelunasan PBB Tahun Berjalan",
-                              setFileAtt: setlunaspbb2),
-                          FilePickerForm(
-                            title: "Surat Keterangan Kematian Suami / Istri",
-                            setFileAtt: setskks,
-                          ),
-                        ],
-                      )
-                    : Container(),
-                widget.tipe == "7"
-                    ? FilePickerForm(
-                        title: "Surat Keterangan Kematian Dari Rumah Sakit",
-                        setFileAtt: setskksdrs,
-                      )
-                    : Container(),
-                widget.tipe == "8"
-                    ? FilePickerForm(
-                        title:
-                            "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
-                        setFileAtt: setskck,
-                      )
-                    : Container()
-              ],
-            ),
-          ),
-          Divider(
-            color: Colors.orange[200],
-            thickness: 3,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
-            child: Text(
-              "History Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Divider(
-            thickness: 3,
-          ),
-          DataTable(
-            dataRowHeight: 90,
-            columnSpacing: 1,
-            columns: [
-              DataColumn(
-                  label: Text(
-                "Tingkatan",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-              )),
-              DataColumn(
-                label: Text(
-                  "Status",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  "Komentar",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-              )
-            ],
-            rows: [
-              for (var i = 0; i < history.length; i++)
-                DataRow(
-                  cells: [
-                    DataCell(Text(
-                      history[i]['tingkatan'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    )),
-                    DataCell(
-                      history[i]['status'] == 'Setuju'
-                          ? Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
-                          : Icon(Icons.close, color: Colors.red),
-                    ),
-                    DataCell(Text(
-                      history[i]['komentar'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                    )),
-                  ],
-                ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Future<DetailpTolakViewModel> _getDetailSurat() async {
-    DetailpTolakPresenter presentesrs = new DetailpTolakPresenter();
-    var response =
-        await presentesrs.getDetailDataSuratTolakPenduduk(widget.idSurat);
-    return response;
-  }
-
-  void perbaikiData(BuildContext context) async {
+  void prosesData(BuildContext context) async {
     UtilAuth.loading(context);
+
+    if (nikPref != nikText) {
+      UtilAuth.failedPopupDialog(
+          context, "Pengajuan Harus Menggunakan KTP Pribadi");
+      return;
+    }
     Map<String, dynamic> data;
     var datakk;
     if (okPressKtp == true) {
@@ -1546,12 +1580,15 @@ class _DetailpTolakState extends State<DetailpTolak> {
     } else {
       datakk = null;
     }
-    DetailpTolakPresenter presenter = new DetailpTolakPresenter();
-    var response = await presenter.perbaikiDataToServer(
-      widget.idSurat,
+    BuatSuratPresenter presenter = new BuatSuratPresenter();
+    var response = await presenter.buatSuratProcess(
       widget.tipe,
+      idUser,
+      rwTextDrop,
+      rtTextDrop,
       data,
       datakk,
+      keteranganText,
       ktpImage,
       kkImage,
       _depanRumah,
@@ -1571,49 +1608,156 @@ class _DetailpTolakState extends State<DetailpTolak> {
         context, response.data['message'], HomePenduduk());
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: new IconThemeData(color: Colors.white),
-        centerTitle: true,
-        title: Container(
-          margin: EdgeInsets.only(right: 50),
-          height: 50,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/dki.png'),
-            ),
-          ),
-        ),
-      ),
-      drawer: ThemeAppPenduduk.sideBar(context, nikPref, noTelepon),
-      body: Container(
-        child: FutureBuilder(
-          future: _getDetailSurat(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              print(snapshot.data.dataHistory);
-              return _detailWidget(
-                context,
-                snapshot.data.keterangan,
-                snapshot.data.rtrw,
-                snapshot.data.noPengajuan,
-                snapshot.data.tglBuat,
-                snapshot.data.noSuratRt,
-                snapshot.data.noSuratRw,
-                snapshot.data.dataHistory,
-              );
+  void validateForm(BuildContext context) {
+    if (ktpImage != null) {
+      setState(() {
+        _valKtpImage = true;
+      });
+      if (kkImage != null) {
+        setState(() {
+          _valKkImage = true;
+        });
+
+        //
+        //
+
+        if (widget.tipe == "1") {
+          if (_depanRumah != null) {
+            setState(() {
+              _valDepanRumahImage = true;
+            });
+            if (_belakangRumah != null) {
+              setState(() {
+                _valBelakangRumahImage = true;
+              });
+              prosesData(context);
             } else {
-              return Container(
-                child: Center(
-                  child: Text('Loading...'),
-                ),
-              );
+              setState(() {
+                _valBelakangRumahImage = false;
+              });
             }
-          },
-        ),
-      ),
-    );
+          } else {
+            setState(() {
+              _valDepanRumahImage = false;
+            });
+          }
+        } else if (widget.tipe == "2") {
+          if (_spptTerbaru != null) {
+            setState(() {
+              _valspptTerbaru = true;
+            });
+            prosesData(context);
+          } else {
+            setState(() {
+              _valspptTerbaru = false;
+            });
+          }
+        } else if (widget.tipe == "3") {
+          if (_lampiranPer != null) {
+            setState(() {
+              _valLampiranPer = true;
+            });
+            prosesData(context);
+          } else {
+            setState(() {
+              _valLampiranPer = false;
+            });
+          }
+        } else if (widget.tipe == "4") {
+          if (_ktpOrtu1 != null) {
+            setState(() {
+              _valktpOrtu1 = true;
+            });
+            if (_ktpOrtu2 != null) {
+              setState(() {
+                _valktportu2 = true;
+              });
+              if (_lunasPbb1 != null) {
+                setState(() {
+                  _valLunasPbb1 = true;
+                });
+                prosesData(context);
+              } else {
+                setState(() {
+                  _valLunasPbb1 = false;
+                });
+              }
+            } else {
+              setState(() {
+                _valktportu2 = false;
+              });
+            }
+          } else {
+            setState(() {
+              _valktpOrtu1 = false;
+            });
+          }
+        } else if (widget.tipe == "5") {
+          if (_akteCerai != null) {
+            setState(() {
+              _valAkteCerai = true;
+            });
+            if (_lunasPbb2 != null) {
+              setState(() {
+                _valLunasPbb2 = true;
+              });
+              if (_skks != null) {
+                setState(() {
+                  _valskks = true;
+                });
+                prosesData(context);
+              } else {
+                setState(() {
+                  _valskks = false;
+                });
+              }
+            } else {
+              setState(() {
+                _valLunasPbb2 = false;
+              });
+            }
+          } else {
+            setState(() {
+              _valAkteCerai = false;
+            });
+          }
+        } else if (widget.tipe == "6") {
+          prosesData(context);
+        } else if (widget.tipe == "7") {
+          if (_skksdrs != null) {
+            setState(() {
+              _valskkdrs = true;
+            });
+            prosesData(context);
+          } else {
+            setState(() {
+              _valskkdrs = false;
+            });
+          }
+        } else if (widget.tipe == "8") {
+          if (_skck != null) {
+            setState(() {
+              _valskck = true;
+            });
+            prosesData(context);
+          } else {
+            setState(() {
+              _valskck = false;
+            });
+          }
+        }
+
+        //
+        //
+      } else {
+        setState(() {
+          _valKkImage = false;
+        });
+      }
+    } else {
+      setState(() {
+        _valKtpImage = false;
+      });
+    }
   }
 }
