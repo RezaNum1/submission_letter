@@ -10,10 +10,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/text_widget.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/buatSurat_presenter.dart';
-import 'package:submission_letter/Penduduk_Page/presenter/detailp_tolak_presenter.dart';
+
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
 import 'package:submission_letter/Penduduk_Page/widget/dropdown_widget.dart';
-import 'package:submission_letter/Penduduk_Page/widget/file_picker.dart';
+
 import 'package:submission_letter/Penduduk_Page/widget/file_picker_new.dart';
 import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
@@ -316,6 +316,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
   bool _valskks = true;
   bool _valskkdrs = true;
   bool _valskck = true;
+  bool _valrtText = true;
+  bool _valrwText = true;
 
   void setKeterangan(String val) {
     setState(() {
@@ -1148,7 +1150,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                     _valskks ||
                     _valspptTerbaru ||
                     _valskkdrs ||
-                    _valskck == false
+                    _valskck ||
+                    _valrwText ||
+                    _valrtText == false
                 ? Container(
                     margin: EdgeInsets.only(left: 10, right: 10),
                     padding: EdgeInsets.all(10),
@@ -1275,6 +1279,24 @@ class _BuatSuratPState extends State<BuatSuratP> {
                         _valspptTerbaru == false
                             ? Text(
                                 "* File SPPT Terbaru Tidak Boleh Kosong !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valrwText == false
+                            ? Text(
+                                "* Kolom RW Belum Anda Dipilih !",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(),
+                        _valrtText == false
+                            ? Text(
+                                "* Kolom RT Belum Anda Dipilih !",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.red,
@@ -1617,138 +1639,155 @@ class _BuatSuratPState extends State<BuatSuratP> {
         setState(() {
           _valKkImage = true;
         });
-
-        //
-        //
-
-        if (widget.tipe == "1") {
-          if (_depanRumah != null) {
+        if (rwTextDrop != null) {
+          setState(() {
+            _valrwText = true;
+          });
+          if (rtTextDrop != null) {
             setState(() {
-              _valDepanRumahImage = true;
+              _valrtText = true;
             });
-            if (_belakangRumah != null) {
-              setState(() {
-                _valBelakangRumahImage = true;
-              });
+
+            //
+            //
+
+            if (widget.tipe == "1") {
+              if (_depanRumah != null) {
+                setState(() {
+                  _valDepanRumahImage = true;
+                });
+                if (_belakangRumah != null) {
+                  setState(() {
+                    _valBelakangRumahImage = true;
+                  });
+                  prosesData(context);
+                } else {
+                  setState(() {
+                    _valBelakangRumahImage = false;
+                  });
+                }
+              } else {
+                setState(() {
+                  _valDepanRumahImage = false;
+                });
+              }
+            } else if (widget.tipe == "2") {
+              if (_spptTerbaru != null) {
+                setState(() {
+                  _valspptTerbaru = true;
+                });
+                prosesData(context);
+              } else {
+                setState(() {
+                  _valspptTerbaru = false;
+                });
+              }
+            } else if (widget.tipe == "3") {
+              if (_lampiranPer != null) {
+                setState(() {
+                  _valLampiranPer = true;
+                });
+                prosesData(context);
+              } else {
+                setState(() {
+                  _valLampiranPer = false;
+                });
+              }
+            } else if (widget.tipe == "4") {
+              if (_ktpOrtu1 != null) {
+                setState(() {
+                  _valktpOrtu1 = true;
+                });
+                if (_ktpOrtu2 != null) {
+                  setState(() {
+                    _valktportu2 = true;
+                  });
+                  if (_lunasPbb1 != null) {
+                    setState(() {
+                      _valLunasPbb1 = true;
+                    });
+                    prosesData(context);
+                  } else {
+                    setState(() {
+                      _valLunasPbb1 = false;
+                    });
+                  }
+                } else {
+                  setState(() {
+                    _valktportu2 = false;
+                  });
+                }
+              } else {
+                setState(() {
+                  _valktpOrtu1 = false;
+                });
+              }
+            } else if (widget.tipe == "5") {
+              if (_akteCerai != null) {
+                setState(() {
+                  _valAkteCerai = true;
+                });
+                if (_lunasPbb2 != null) {
+                  setState(() {
+                    _valLunasPbb2 = true;
+                  });
+                  if (_skks != null) {
+                    setState(() {
+                      _valskks = true;
+                    });
+                    prosesData(context);
+                  } else {
+                    setState(() {
+                      _valskks = false;
+                    });
+                  }
+                } else {
+                  setState(() {
+                    _valLunasPbb2 = false;
+                  });
+                }
+              } else {
+                setState(() {
+                  _valAkteCerai = false;
+                });
+              }
+            } else if (widget.tipe == "6") {
               prosesData(context);
-            } else {
-              setState(() {
-                _valBelakangRumahImage = false;
-              });
-            }
-          } else {
-            setState(() {
-              _valDepanRumahImage = false;
-            });
-          }
-        } else if (widget.tipe == "2") {
-          if (_spptTerbaru != null) {
-            setState(() {
-              _valspptTerbaru = true;
-            });
-            prosesData(context);
-          } else {
-            setState(() {
-              _valspptTerbaru = false;
-            });
-          }
-        } else if (widget.tipe == "3") {
-          if (_lampiranPer != null) {
-            setState(() {
-              _valLampiranPer = true;
-            });
-            prosesData(context);
-          } else {
-            setState(() {
-              _valLampiranPer = false;
-            });
-          }
-        } else if (widget.tipe == "4") {
-          if (_ktpOrtu1 != null) {
-            setState(() {
-              _valktpOrtu1 = true;
-            });
-            if (_ktpOrtu2 != null) {
-              setState(() {
-                _valktportu2 = true;
-              });
-              if (_lunasPbb1 != null) {
+            } else if (widget.tipe == "7") {
+              if (_skksdrs != null) {
                 setState(() {
-                  _valLunasPbb1 = true;
+                  _valskkdrs = true;
                 });
                 prosesData(context);
               } else {
                 setState(() {
-                  _valLunasPbb1 = false;
+                  _valskkdrs = false;
                 });
               }
-            } else {
-              setState(() {
-                _valktportu2 = false;
-              });
-            }
-          } else {
-            setState(() {
-              _valktpOrtu1 = false;
-            });
-          }
-        } else if (widget.tipe == "5") {
-          if (_akteCerai != null) {
-            setState(() {
-              _valAkteCerai = true;
-            });
-            if (_lunasPbb2 != null) {
-              setState(() {
-                _valLunasPbb2 = true;
-              });
-              if (_skks != null) {
+            } else if (widget.tipe == "8") {
+              if (_skck != null) {
                 setState(() {
-                  _valskks = true;
+                  _valskck = true;
                 });
                 prosesData(context);
               } else {
                 setState(() {
-                  _valskks = false;
+                  _valskck = false;
                 });
               }
-            } else {
-              setState(() {
-                _valLunasPbb2 = false;
-              });
             }
+            //
+            //
           } else {
             setState(() {
-              _valAkteCerai = false;
+              _valrtText = false;
             });
           }
-        } else if (widget.tipe == "6") {
-          prosesData(context);
-        } else if (widget.tipe == "7") {
-          if (_skksdrs != null) {
-            setState(() {
-              _valskkdrs = true;
-            });
-            prosesData(context);
-          } else {
-            setState(() {
-              _valskkdrs = false;
-            });
-          }
-        } else if (widget.tipe == "8") {
-          if (_skck != null) {
-            setState(() {
-              _valskck = true;
-            });
-            prosesData(context);
-          } else {
-            setState(() {
-              _valskck = false;
-            });
-          }
+        } else {
+          setState(() {
+            _valrwText = false;
+          });
         }
-
-        //
-        //
       } else {
         setState(() {
           _valKkImage = false;

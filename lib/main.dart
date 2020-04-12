@@ -15,7 +15,6 @@ import 'package:submission_letter/RTRW_Page/presenter/setting_presenter.dart';
 import 'package:submission_letter/RTRW_Page/views/detail_emp.dart';
 import 'package:submission_letter/RTRW_Page/views/home_emp.dart';
 import 'package:submission_letter/RTRW_Page/views/setting_views.dart';
-import 'package:submission_letter/callPage.dart';
 import 'package:submission_letter/home_page.dart';
 import 'package:submission_letter/test.dart';
 

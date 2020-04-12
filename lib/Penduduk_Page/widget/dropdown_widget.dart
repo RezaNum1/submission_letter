@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 
@@ -10,106 +11,91 @@ class DropDownWidget extends StatefulWidget {
 }
 
 class _DropDownWidgetState extends State<DropDownWidget> {
-  String _myRw;
-  String _myRt;
+  String _mySelection;
+  String _mySelections;
   int index;
+  bool stat = false;
 
-  final formKey = new GlobalKey<FormState>();
+  final String url = "http://192.168.43.75:8000/api/penduduk/getJabatan";
 
-  bool statRt = false;
+  List data = List(); //edited line
+  List<dynamic> tmp = List();
+  List sec = List();
+
+  Future<String> getAllData() async {
+    Dio dio = new Dio();
+    var res = await dio.get(url);
+    setState(() {
+      data = res.data[0];
+      tmp = res.data[1];
+    });
+    return "Sucess";
+  }
 
   @override
   void initState() {
     super.initState();
-    _myRw = '';
-    _myRt = '';
+    this.getAllData();
   }
-
-  List<dynamic> rw = [
-    {
-      "display": "RW 01",
-      "value": "0",
-    },
-    {
-      "display": "RW 02",
-      "value": "1",
-    },
-    {
-      "display": "RW 03",
-      "value": "2",
-    },
-  ];
-
-  List<dynamic> rt = [
-    {
-      "display": "RT 001",
-      "value": "RT 001",
-    },
-    {
-      "display": "RT 002",
-      "value": "RT 002",
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(16),
-              child: DropDownFormField(
-                required: true,
-                titleText: 'Pilih RW',
-                hintText: 'Pilih RW Setempat',
-                value: _myRw,
-                onSaved: (value) {
-                  setState(() {
-                    _myRw = value;
-                  });
-                },
-                onChanged: (value) {
-                  setState(() {
-                    _myRw = value;
-                    widget.dataRw(rw[int.parse(value)]['display']);
-                    statRt = true;
-                  });
-                },
-                dataSource: rw,
-                textField: 'display',
-                valueField: 'value',
-              ),
-            ),
-            statRt
-                ? Container(
-                    padding: EdgeInsets.all(16),
-                    child: DropDownFormField(
-                      required: true,
-                      titleText: 'Pilih RT',
-                      hintText: 'Pilih RT Tempat Tinggal Anda',
-                      value: _myRt,
-                      onSaved: (value) {
-                        setState(() {
-                          _myRt = value;
-                        });
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          _myRt = value;
-                          widget.dataRt(value);
-                        });
-                      },
-                      dataSource: rt,
-                      textField: 'display',
-                      valueField: 'value',
+    return Container(
+      margin: EdgeInsets.only(left: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Pilih RW (Rukun Warga) Anda:",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          new DropdownButton(
+            items: data.map((item) {
+              return new DropdownMenuItem(
+                child: new Text(item['item_name']),
+                value: item['id'].toString(),
+              );
+            }).toList(),
+            onChanged: (newVal) {
+              setState(() {
+                _mySelection = newVal;
+                index = int.parse(newVal);
+                widget.dataRw(data[int.parse(newVal)]['item_name']);
+                sec = tmp[index];
+                _mySelections = sec[0];
+                stat = true;
+              });
+            },
+            value: _mySelection,
+          ),
+          stat
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Pilih RT (Rukun Tetangga) Anda:",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                  )
-                : Container(),
-          ],
-        ),
+                    new DropdownButton(
+                      items: sec.map((items) {
+                        return new DropdownMenuItem(
+                          child: new Text(items),
+                          value: items,
+                        );
+                      }).toList(),
+                      onChanged: (newVals) {
+                        setState(() {
+                          _mySelections = newVals;
+                          widget.dataRt(newVals);
+                        });
+                      },
+                      value: _mySelections,
+                    ),
+                  ],
+                )
+              : Container(),
+        ],
       ),
     );
   }
