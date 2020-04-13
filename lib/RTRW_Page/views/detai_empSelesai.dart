@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/RTRW_Page/presenter/detailEmployeeSelesai_presenter.dart';
 import 'package:submission_letter/RTRW_Page/viewmodel/detaiempSelesai_viewmodel.dart';
 import 'package:submission_letter/RTRW_Page/views/home_emp.dart';
+import 'package:submission_letter/RTRW_Page/widget/berkas_widget.dart';
+import 'package:submission_letter/RTRW_Page/widget/berkas_widgetd.dart';
 import 'package:submission_letter/Theme/theme_emp.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 
@@ -49,7 +51,25 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
   }
 
   Widget _detailWidget(String keterangan, String rtrwText, String noSuratRT,
-      String noSuratRW, List history) {
+      String noSuratRW, List history, List namaFile) {
+    String judulDetail;
+    if (widget.tipe == "1") {
+      judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
+    } else if (widget.tipe == "2") {
+      judulDetail = "Pengajuan Surat Keterangan Usaha";
+    } else if (widget.tipe == "3") {
+      judulDetail = "Pengajuan Surat Pengantar Izin Keramaian";
+    } else if (widget.tipe == "4") {
+      judulDetail = "Pengajuan Surat Keterangan Belum Menikah";
+    } else if (widget.tipe == "5") {
+      judulDetail = "Pengajuan Surat Keterangan Cerai Hidup / Mati";
+    } else if (widget.tipe == "6") {
+      judulDetail = "Pengajuan Surat Keterangan Domisili";
+    } else if (widget.tipe == "7") {
+      judulDetail = "Pengajuan Surat Keterangan Kematian";
+    } else if (widget.tipe == "8") {
+      judulDetail = "Pengajuan Surat Keterangan Pindah";
+    }
     return Container(
       child: ListView(
         children: <Widget>[
@@ -79,7 +99,7 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
             child: Container(
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                "Pengajuan Surat Keterangan Miskin",
+                "$judulDetail",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
@@ -176,6 +196,25 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               ],
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            child: Text(
+              "Berkas Pengajuan",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Divider(
+            color: Colors.orange[200],
+            thickness: 3,
+          ),
+          BerkasWidgetd(
+            namaFile: namaFile,
+            tipe: "${widget.tipe}",
+            idSurat: widget.idSurat,
+          ),
           Container(
             margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
             child: Text(
@@ -264,7 +303,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                   snapshot.data.rtrwText,
                   snapshot.data.noSuratRT,
                   snapshot.data.noSuratRW,
-                  snapshot.data.dataHistory);
+                  snapshot.data.dataHistory,
+                  snapshot.data.namaFile);
             } else {
               return Container(
                 child: Center(

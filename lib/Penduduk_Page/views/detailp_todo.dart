@@ -42,7 +42,7 @@ class _DetailpTodoState extends State<DetailpTodo> {
       String tglBuat, String noSuratRT, String noSuratRW, List history) {
     String judulDetail;
     if (widget.tipe == "1") {
-      judulDetail = "Pengajuan Surat Keterangan Miskin";
+      judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
       judulDetail = "Pengajuan Surat Keterangan Usaha";
     } else if (widget.tipe == "3") {

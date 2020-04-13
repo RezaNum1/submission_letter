@@ -41,7 +41,7 @@ class _RulePageState extends State<RulePage> {
   Widget build(BuildContext context) {
     String titleText;
     if (widget.tipe == "1") {
-      titleText = "Surat Keterangan Tanda Miskin";
+      titleText = "Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
       titleText = "Surat Keterangan Usaha";
     } else if (widget.tipe == "3") {

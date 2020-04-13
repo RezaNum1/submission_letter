@@ -128,7 +128,7 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
       String noSuratRW, List history, List namaFile) {
     String judulDetail;
     if (widget.tipe == "1") {
-      judulDetail = "Pengajuan Surat Keterangan Miskin";
+      judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
       judulDetail = "Pengajuan Surat Keterangan Usaha";
     } else if (widget.tipe == "3") {

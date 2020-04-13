@@ -4,10 +4,12 @@ class DetailEmpSelesaiViewModel {
   String noSuratRT;
   String noSuratRW;
   List dataHistory;
+  List namaFile;
   DetailEmpSelesaiViewModel(
       {this.keterangan,
       this.rtrwText,
       this.noSuratRT,
       this.noSuratRW,
-      this.dataHistory});
+      this.dataHistory,
+      this.namaFile});
 }
