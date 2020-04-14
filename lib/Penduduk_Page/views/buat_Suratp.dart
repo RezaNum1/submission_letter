@@ -3,12 +3,15 @@ import 'dart:typed_data';
 
 import 'package:camera_camera/camera_camera.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/text_widget.dart';
+import 'package:submission_letter/Notification/api/messaging.dart';
+import 'package:submission_letter/Notification/model/message.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/buatSurat_presenter.dart';
 
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
@@ -27,6 +30,16 @@ class BuatSuratP extends StatefulWidget {
 }
 
 class _BuatSuratPState extends State<BuatSuratP> {
+  // ******************** Notif
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final List<Message> messages = [];
+  final TextEditingController titleController =
+      TextEditingController(text: 'Surat Masuk');
+  final TextEditingController bodyController = TextEditingController(
+      text: 'Periksa TODO Anda untuk segera proses surat');
+
+  //*************************** */
   // ******************  Drop Down Data
   String rwTextDrop;
   String rtTextDrop;
@@ -283,6 +296,26 @@ class _BuatSuratPState extends State<BuatSuratP> {
   void initState() {
     setPreference();
     super.initState();
+
+    _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
+    _firebaseMessaging.getToken();
+    _firebaseMessaging.subscribeToTopic('all');
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+
+        final notification = message['notification'];
+        setState(() {
+          messages.add(Message(
+              title: notification['title'], body: notification['body']));
+        });
+      },
+      onLaunch: (Map<String, dynamic> message) {},
+      onResume: (Map<String, dynamic> message) async {},
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
   Future<void> setPreference() async {
@@ -292,6 +325,23 @@ class _BuatSuratPState extends State<BuatSuratP> {
       noTelepon = pref.getString("NoTelepon");
       nikPref = pref.getString("Nik");
     });
+  }
+
+  void sendNotification(BuildContext context, tokenEndUser) async {
+    final response = await Messaging.sendTo(
+        title: titleController.text,
+        body: bodyController.text,
+        fcmToken: '$tokenEndUser');
+    if (response.statusCode != 200) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content:
+            Text('[${response.statusCode}] Error Message: ${response.body}'),
+      ));
+    }
+  }
+
+  void sendTokenToServer(String fcmToken) {
+    print('TokenNya: $fcmToken');
   }
 
   void dispose() {
@@ -1626,6 +1676,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
       _skksdrs,
       _skck,
     );
+    if (response.data['token'] != null) {
+      sendNotification(context, response.data['token']);
+    } else {
+      UtilAuth.emailsFlat(response.data['email']);
+    }
     UtilAuth.successPopupDialog(
         context, response.data['message'], HomePenduduk());
   }

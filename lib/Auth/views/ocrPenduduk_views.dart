@@ -184,7 +184,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
     if (response.data['error'] == true) {
       UtilAuth.failedPopupDialog(context, response.data['message']);
     } else {
-      preferences.setInt("id", response.data['data']['Id']);
+      preferences.setInt("Id", response.data['data']['Id']);
       preferences.setString("NoTelepon", response.data['data']['NoTelepon']);
       preferences.setString("Nik", response.data['data']['Nik']);
       UtilAuth.successPopupDialog(
@@ -220,13 +220,26 @@ class _OcrPendudukState extends State<OcrPenduduk> {
                 Positioned(
                   left: 20,
                   top: 130,
-                  child: Text(
-                    'Masukkan No Telepon Anda',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange[300],
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Hallo, Anda Adalah Pengguna Baru',
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange[300],
+                        ),
+                      ),
+                      Text(
+                        'Silakan Scan KTP Anda',
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange[300],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

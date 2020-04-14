@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/todop_presenter.dart';
 import 'package:submission_letter/Penduduk_Page/views/detailp_todo.dart';
 import 'package:submission_letter/Util/util_auth.dart';
@@ -10,6 +11,29 @@ class ToDoPenduduk extends StatefulWidget {
 }
 
 class _ToDoPendudukState extends State<ToDoPenduduk> {
+  int idUser;
+  String noTelepon;
+  String nik;
+
+  @override
+  void initState() {
+    setPreference();
+    super.initState();
+  }
+
+  Future<void> setPreference() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = pref.getInt("Id");
+      noTelepon = pref.getString("NoTelepon");
+      nik = pref.getString("Nik");
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
   Widget suratWidget(
       String idSurat, String tipe, String noPengajuan, String tanggal) {
     String titleName;
@@ -100,7 +124,7 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
 
   Future<List<Map<String, dynamic>>> _getListData() async {
     TodopPresenter todoPresenter = new TodopPresenter();
-    var allData = await todoPresenter.getAllTodo();
+    var allData = await todoPresenter.getAllTodo(idUser);
     if (allData.isEmpty) {
       return null;
     } else {
