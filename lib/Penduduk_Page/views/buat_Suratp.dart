@@ -86,6 +86,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   String agamaText;
   String spText;
   String workText;
+  String pendidikanText;
 
   var _nikController = TextEditingController();
   var _kelurahanController = TextEditingController();
@@ -95,6 +96,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   var _alamatController = TextEditingController();
   var _namaController = TextEditingController();
   var _agamaController = TextEditingController();
+  var _pendidikanController = TextEditingController();
 
   // KAMERA
   File val;
@@ -880,6 +882,17 @@ class _BuatSuratPState extends State<BuatSuratP> {
                 ),
                 controller: _workController,
               ),
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'Pendidikan Terakhir',
+                  hintText: "Contoh: SMA, S1, S2",
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
+                  ),
+                ),
+                controller: _pendidikanController,
+              ),
             ],
           ),
           actions: <Widget>[
@@ -899,6 +912,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   agamaText = _agamaController.text;
                   spText = _spController.text;
                   workText = _workController.text;
+                  pendidikanText = _pendidikanController.text;
                   okPressKtp = true;
                   ktpImage = val;
                 });
@@ -1635,11 +1649,14 @@ class _BuatSuratPState extends State<BuatSuratP> {
       data = {
         "nik": nikText,
         "nama": namaText,
+        "jk": jenis_kelaminText,
+        "tgl": tgl_lahirText,
         "alamat":
             "${alamatText} ${rtrwText} Kel.${kelText} Kec.${kota_kecText}",
         "agama": agamaText,
         "sp": spText,
-        "pekerjaan": workText
+        "pekerjaan": workText,
+        "pendidikan": pendidikanText
       };
     } else {
       data = {

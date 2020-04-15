@@ -23,6 +23,15 @@ class DetailEmpSelesaiPresenter {
     viewModel.noSuratRT = response.data['data']['noSuratRT'];
     viewModel.noSuratRW = response.data['data']['noSuratRW'];
     viewModel.dataHistory = response.data['data']['history'];
+    viewModel.nama = response.data['data']['nama'];
+    viewModel.jk = response.data['data']['jk'];
+    viewModel.ttl = response.data['data']['ttl'];
+    viewModel.ktp = response.data['data']['ktp'];
+    viewModel.kk = response.data['data']['kk'];
+    viewModel.pendidikan = response.data['data']['pendidikan'];
+    viewModel.agama = response.data['data']['agama'];
+    viewModel.alamat = response.data['data']['alamat'];
+
     return viewModel;
   }
 

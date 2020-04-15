@@ -6,6 +6,7 @@ import 'package:submission_letter/RTRW_Page/viewmodel/detaiempSelesai_viewmodel.
 import 'package:submission_letter/RTRW_Page/views/home_emp.dart';
 import 'package:submission_letter/RTRW_Page/widget/berkas_widget.dart';
 import 'package:submission_letter/RTRW_Page/widget/berkas_widgetd.dart';
+import 'package:submission_letter/RTRW_Page/widget/report_view.dart';
 import 'package:submission_letter/Theme/theme_emp.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 
@@ -50,9 +51,25 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
     });
   }
 
-  Widget _detailWidget(String keterangan, String rtrwText, String noSuratRT,
-      String noSuratRW, List history, List namaFile) {
+  Widget _detailWidget(
+      String keterangan,
+      String rtrwText,
+      String noSuratRT,
+      String noSuratRW,
+      List history,
+      List namaFile,
+      String nama,
+      String jk,
+      String ttl,
+      String ktp,
+      String kk,
+      String pendidikan,
+      String agama,
+      String alamat) {
     String judulDetail;
+    var arrSplit = rtrwText.split("/");
+    var rtText = arrSplit[0].split(" ");
+    var rwText = arrSplit[1].split(" ");
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
@@ -87,6 +104,35 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                     ),
                     onPressed: () {
                       UtilAuth.movePage(context, HomeEmp());
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: RaisedButton(
+                    color: Colors.blue,
+                    child: Text(
+                      "Preview & Download Surat",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+                      reportView(
+                          context,
+                          nama,
+                          jk,
+                          ttl,
+                          ktp,
+                          kk,
+                          pendidikan,
+                          agama,
+                          alamat,
+                          keterangan,
+                          noSuratRT,
+                          noSuratRW,
+                          rtText[1],
+                          rwText[1],
+                          widget.tanggal);
                     },
                   ),
                 ),
@@ -299,12 +345,21 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return _detailWidget(
-                  snapshot.data.keterangan,
-                  snapshot.data.rtrwText,
-                  snapshot.data.noSuratRT,
-                  snapshot.data.noSuratRW,
-                  snapshot.data.dataHistory,
-                  snapshot.data.namaFile);
+                snapshot.data.keterangan,
+                snapshot.data.rtrwText,
+                snapshot.data.noSuratRT,
+                snapshot.data.noSuratRW,
+                snapshot.data.dataHistory,
+                snapshot.data.namaFile,
+                snapshot.data.nama,
+                snapshot.data.jk,
+                snapshot.data.ttl,
+                snapshot.data.ktp,
+                snapshot.data.kk,
+                snapshot.data.pendidikan,
+                snapshot.data.agama,
+                snapshot.data.alamat,
+              );
             } else {
               return Container(
                 child: Center(

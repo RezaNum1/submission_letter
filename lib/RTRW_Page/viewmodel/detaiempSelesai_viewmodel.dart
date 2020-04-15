@@ -5,11 +5,28 @@ class DetailEmpSelesaiViewModel {
   String noSuratRW;
   List dataHistory;
   List namaFile;
-  DetailEmpSelesaiViewModel(
-      {this.keterangan,
-      this.rtrwText,
-      this.noSuratRT,
-      this.noSuratRW,
-      this.dataHistory,
-      this.namaFile});
+  String nama;
+  String jk;
+  String ttl;
+  String ktp;
+  String kk;
+  String pendidikan;
+  String agama;
+  String alamat;
+  DetailEmpSelesaiViewModel({
+    this.keterangan,
+    this.rtrwText,
+    this.noSuratRT,
+    this.noSuratRW,
+    this.dataHistory,
+    this.namaFile,
+    this.nama,
+    this.jk,
+    this.ttl,
+    this.ktp,
+    this.kk,
+    this.pendidikan,
+    this.agama,
+    this.alamat,
+  });
 }
