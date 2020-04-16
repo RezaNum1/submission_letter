@@ -64,11 +64,11 @@ class _HomePendudukState extends State<HomePenduduk>
               text: "DI PROSES",
             ),
             Tab(
-              icon: Icon(Icons.check_box),
+              icon: Icon(Icons.cancel),
               text: "KEMBALI",
             ),
             Tab(
-              icon: Icon(Icons.cancel),
+              icon: Icon(Icons.check_box),
               text: "SELESAI",
             ),
           ],

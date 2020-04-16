@@ -291,21 +291,6 @@ class _DetailpTodoState extends State<DetailpTodo> {
     return response;
   }
 
-  // // Widget listHistory(List historyData) {
-  // //   return ListView.builder(
-  // //     itemCount: historyData.length,
-  // //     itemBuilder: (BuildContext context, int index) {
-  // //       return Row(
-  // //         children: <Widget>[
-  // //           Text(historyData[index]['tingkatan']),
-  // //           Text(historyData[index]['status']),
-  // //           Text(historyData[index]['komentar']),
-  // //         ],
-  // //       );
-  // //     },
-  // //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

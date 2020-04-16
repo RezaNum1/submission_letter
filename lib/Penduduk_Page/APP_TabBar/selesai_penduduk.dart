@@ -87,7 +87,12 @@ class _SelesaiPendudukState extends State<SelesaiPenduduk> {
           ],
         ),
         onTap: () {
-          UtilAuth.movePage(context, DetailpSelesai());
+          UtilAuth.movePage(
+              context,
+              DetailpSelesai(
+                idSurat: idSurat,
+                tipe: tipe,
+              ));
         },
       ),
     );
