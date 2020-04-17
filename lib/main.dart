@@ -6,6 +6,7 @@ import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/forget_views.dart';
 import 'package:submission_letter/Auth/views/login_views.dart';
 import 'package:submission_letter/Auth/views/ocrPenduduk_views.dart';
+import 'package:submission_letter/Auth/views/otp_views.dart';
 import 'package:submission_letter/Auth/views/register_views.dart';
 import 'package:submission_letter/Penduduk_Page/views/buat_Suratp.dart';
 import 'package:submission_letter/Penduduk_Page/views/detailp_tolak.dart';

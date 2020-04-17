@@ -5,6 +5,7 @@ import 'package:submission_letter/Animation/fade_animation.dart';
 import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/phone_widget.dart';
 import 'package:submission_letter/Auth/views/ocrPenduduk_views.dart';
+import 'package:submission_letter/Auth/views/otp_views.dart';
 import 'package:submission_letter/Notification/UtilToken/getToken.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
@@ -38,9 +39,8 @@ class _UserAuthState extends State<UserAuth> {
     if (response.data['exist'] == false) {
       Navigator.of(context).pushAndRemoveUntil(
           CupertinoPageRoute(
-              builder: (context) => OcrPenduduk(
-                    noTelepon: tlpNumber,
-                    presenter: UserAuthPresenter(),
+              builder: (context) => OtpViews(
+                    noTelepon: noTelepon,
                   )),
           (Route<dynamic> route) => false);
     } else {
