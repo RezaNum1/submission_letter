@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -77,5 +79,25 @@ class DetailEmpSelesaiPresenter {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<String> getSignatureRT() async {
+    var url = "http://192.168.43.75:8000/api/rtrw/getSignatureRT";
+
+    Dio dio = new Dio();
+
+    var response = await dio.get(url);
+    // var base = Base64Decoder().convert(response.data['data']);
+    return response.data['data'];
+  }
+
+  Future<String> getSignatureRW() async {
+    var url = "http://192.168.43.75:8000/api/rtrw/getSignatureRW";
+
+    Dio dio = new Dio();
+
+    var response = await dio.get(url);
+    // var base = Base64Decoder().convert(response.data['data']);
+    return response.data['data'];
   }
 }

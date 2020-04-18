@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,14 +36,32 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
   String jabatanText;
   int id;
 
+  String sign1;
+  String sign2;
+
+  bool prosesInit = false;
+
   @override
   void initState() {
     setPreference();
+    getAllSign();
     super.initState();
   }
 
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> getAllSign() async {
+    DetailEmpSelesaiPresenter presenter = new DetailEmpSelesaiPresenter();
+    var milRT = await presenter.getSignatureRT();
+    var milRW = await presenter.getSignatureRW();
+
+    setState(() {
+      sign1 = milRT;
+      sign2 = milRW;
+      prosesInit = true;
+    });
   }
 
   Future<void> setPreference() async {
@@ -117,6 +139,9 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
+                      Uint8List docRT = Base64Decoder().convert(sign1);
+
+                      Uint8List docRW = Base64Decoder().convert(sign2);
                       reportView(
                           context,
                           nama,
@@ -131,8 +156,10 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                           noSuratRT,
                           noSuratRW,
                           rtText[1],
-                          rwText[1],
-                          widget.tanggal);
+                          rwText[2],
+                          widget.tanggal,
+                          docRT,
+                          docRW);
                     },
                   ),
                 ),
@@ -146,6 +173,7 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 "$judulDetail",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
@@ -343,7 +371,7 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
         child: FutureBuilder(
           future: _getDetailSurat(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && prosesInit == true) {
               return _detailWidget(
                 snapshot.data.keterangan,
                 snapshot.data.rtrwText,
