@@ -350,6 +350,22 @@ class _BuatSuratPState extends State<BuatSuratP> {
     super.dispose();
   }
 
+  //************************* VALIDATE POPUP */
+
+  bool _valpnik = true;
+  bool _valpnama = true;
+  bool _valpalamat = true;
+  bool _valpkelurahan = true;
+  bool _valprtrw = true;
+  bool _valpjk = true;
+  bool _valppendidikan = true;
+  bool _valp = true;
+  bool _valpagama = true;
+  bool _valppekerjaan = true;
+  bool _valpperkawawinan = true;
+  bool _valpkk = true;
+  //****************************** */
+
   //************************* Validate *************************** */
   String keteranganText;
 
@@ -802,6 +818,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText:
+                      _valpnik == false ? "Nik Tidak Boleh Kosong!" : null,
                 ),
                 controller: _nikController,
               ),
@@ -813,6 +831,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText:
+                      (_valpnama == false) ? "Nama Tidak Boleh Kosong!" : null,
                 ),
                 controller: _namaController,
               ),
@@ -824,6 +844,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valpalamat == false)
+                      ? "Alamat Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _alamatController,
               ),
@@ -835,6 +858,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valprtrw == false)
+                      ? "RT/RW Anda Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _rtrwController,
               ),
@@ -846,6 +872,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valpkelurahan == false)
+                      ? "Kelurahan Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _kelurahanController,
               ),
@@ -857,6 +886,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valpagama == false)
+                      ? "Agama Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _agamaController,
               ),
@@ -868,6 +900,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valpperkawawinan == false)
+                      ? "Status Perkawinan Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _spController,
               ),
@@ -879,6 +914,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valppekerjaan == false)
+                      ? "Pekerjaan Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _workController,
               ),
@@ -890,6 +928,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
+                  errorText: (_valppendidikan == false)
+                      ? "Pendidikan Terakhir Tidak Boleh Kosong!"
+                      : null,
                 ),
                 controller: _pendidikanController,
               ),
@@ -897,26 +938,107 @@ class _BuatSuratPState extends State<BuatSuratP> {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Ok'),
+              child: Text('Oks'),
               onPressed: () {
-                var arrNIK = new List<String>.from(
-                    _nikController.text.toString().split(''));
-                transleteNIK(arrNIK);
-                //SetState di sini
-                setState(() {
-                  nikText = _nikController.text;
-                  namaText = _namaController.text;
-                  alamatText = _alamatController.text;
-                  rtrwText = _rtrwController.text;
-                  kelText = _kelurahanController.text;
-                  agamaText = _agamaController.text;
-                  spText = _spController.text;
-                  workText = _workController.text;
-                  pendidikanText = _pendidikanController.text;
-                  okPressKtp = true;
-                  ktpImage = val;
-                });
-                Navigator.of(context).pop();
+                if (_nikController.text != "") {
+                  setState(() {
+                    _valpnik = true;
+                  });
+                  if (_namaController.text.isNotEmpty) {
+                    setState(() {
+                      _valpnama = true;
+                    });
+                    if (_alamatController.text.isNotEmpty) {
+                      setState(() {
+                        _valpalamat = true;
+                      });
+                      if (_rtrwController.text.isNotEmpty) {
+                        setState(() {
+                          _valprtrw = true;
+                        });
+                        if (_kelurahanController.text.isNotEmpty) {
+                          setState(() {
+                            _valpkelurahan = true;
+                          });
+                          if (_agamaController.text.isNotEmpty) {
+                            setState(() {
+                              _valpagama = true;
+                            });
+                            if (_spController.text.isNotEmpty) {
+                              setState(() {
+                                _valpperkawawinan = true;
+                              });
+                              if (_workController.text.isNotEmpty) {
+                                setState(() {
+                                  _valppekerjaan = true;
+                                });
+                                if (_pendidikanController.text.isNotEmpty) {
+                                  setState(() {
+                                    _valppendidikan = true;
+                                  });
+                                  var arrNIK = new List<String>.from(
+                                      _nikController.text.toString().split(''));
+                                  transleteNIK(arrNIK);
+                                  //SetState di sini
+                                  setState(() {
+                                    nikText = _nikController.text;
+                                    namaText = _namaController.text;
+                                    alamatText = _alamatController.text;
+                                    rtrwText = _rtrwController.text;
+                                    kelText = _kelurahanController.text;
+                                    agamaText = _agamaController.text;
+                                    spText = _spController.text;
+                                    workText = _workController.text;
+                                    pendidikanText = _pendidikanController.text;
+                                    okPressKtp = true;
+                                    ktpImage = val;
+                                  });
+                                  Navigator.of(context).pop();
+                                } else {
+                                  setState(() {
+                                    _valppendidikan = false;
+                                  });
+                                }
+                              } else {
+                                setState(() {
+                                  _valppekerjaan = false;
+                                });
+                              }
+                            } else {
+                              setState(() {
+                                _valpperkawawinan = false;
+                              });
+                            }
+                          } else {
+                            setState(() {
+                              _valpagama = false;
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            _valpkelurahan = false;
+                          });
+                        }
+                      } else {
+                        setState(() {
+                          _valprtrw = false;
+                        });
+                      }
+                    } else {
+                      setState(() {
+                        _valpalamat = false;
+                      });
+                    }
+                  } else {
+                    setState(() {
+                      _valpnama = false;
+                    });
+                  }
+                } else {
+                  setState(() {
+                    _valpnik = false;
+                  });
+                }
               },
             )
           ],
@@ -1093,6 +1215,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
               hintStyle: TextStyle(
                 color: Colors.grey[400],
               ),
+              errorText:
+                  (_valpkk == false) ? "No KK Tidak Boleh Kosong!" : null,
             ),
             controller: _kkController,
           ),
@@ -1100,12 +1224,20 @@ class _BuatSuratPState extends State<BuatSuratP> {
             FlatButton(
               child: Text('Ok'),
               onPressed: () {
+                if (_kkController.text != "") {
+                  setState(() {
+                    _valpkk = true;
+                    kkImage = valkk;
+                    nokkText = _kkController.text;
+                    okPressKK = true;
+                  });
+                } else {
+                  setState(() {
+                    _valpkk = false;
+                  });
+                }
                 //SetState di sini
-                setState(() {
-                  kkImage = valkk;
-                  nokkText = _kkController.text;
-                  okPressKK = true;
-                });
+
                 Navigator.of(context).pop();
               },
             )
