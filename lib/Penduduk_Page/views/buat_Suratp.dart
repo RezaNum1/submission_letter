@@ -15,6 +15,7 @@ import 'package:submission_letter/Notification/model/message.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/buatSurat_presenter.dart';
 
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
+import 'package:submission_letter/Penduduk_Page/widget/cancle_btn.dart';
 import 'package:submission_letter/Penduduk_Page/widget/dropdown_widget.dart';
 
 import 'package:submission_letter/Penduduk_Page/widget/file_picker_new.dart';
@@ -293,6 +294,108 @@ class _BuatSuratPState extends State<BuatSuratP> {
     });
   }
 
+  // ************ Set Null File
+  void setKtpImageNull() {
+    setState(() {
+      okPressKtp = false;
+      ktpImage = null;
+
+      nikText = null;
+      provText = null;
+      kota_kecText = null;
+      tgl_lahirText = null;
+      jenis_kelaminText = null;
+      namaText = null;
+      alamatText = null;
+      rtrwText = null;
+      kelText = null;
+      agamaText = null;
+      spText = null;
+      workText = null;
+      pendidikanText = null;
+    });
+  }
+
+  void setKKImageNull() {
+    setState(() {
+      okPressKK = false;
+      kkImage = null;
+      nokkText = null;
+    });
+  }
+
+  void setdepanRumahNull() {
+    setState(() {
+      _depanRumah = null;
+    });
+  }
+
+  void setbelakangRumahNull() {
+    setState(() {
+      _belakangRumah = null;
+    });
+  }
+
+  void setspptTerbaruNull() {
+    setState(() {
+      _spptTerbaru = null;
+    });
+  }
+
+  void setlamperNull() {
+    setState(() {
+      _lampiranPer = null;
+    });
+  }
+
+  void setktportu1Null() {
+    setState(() {
+      _ktpOrtu1 = null;
+    });
+  }
+
+  void setktportu2Null() {
+    setState(() {
+      _ktpOrtu2 = null;
+    });
+  }
+
+  void setlunaspbb1Null() {
+    setState(() {
+      _lunasPbb1 = null;
+    });
+  }
+
+  void setakteceraiNull() {
+    setState(() {
+      _akteCerai = null;
+    });
+  }
+
+  void setlunaspbb2Null() {
+    setState(() {
+      _lunasPbb2 = null;
+    });
+  }
+
+  void setskksNull() {
+    setState(() {
+      _skks = null;
+    });
+  }
+
+  void setskksdrsNull() {
+    setState(() {
+      _skksdrs = null;
+    });
+  }
+
+  void setskckNull() {
+    setState(() {
+      _skck = null;
+    });
+  }
+
 //************************************** END File Perbaikan ******** */
   @override
   void initState() {
@@ -350,22 +453,6 @@ class _BuatSuratPState extends State<BuatSuratP> {
     super.dispose();
   }
 
-  //************************* VALIDATE POPUP */
-
-  bool _valpnik = true;
-  bool _valpnama = true;
-  bool _valpalamat = true;
-  bool _valpkelurahan = true;
-  bool _valprtrw = true;
-  bool _valpjk = true;
-  bool _valppendidikan = true;
-  bool _valp = true;
-  bool _valpagama = true;
-  bool _valppekerjaan = true;
-  bool _valpperkawawinan = true;
-  bool _valpkk = true;
-  //****************************** */
-
   //************************* Validate *************************** */
   String keteranganText;
 
@@ -395,13 +482,14 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   //************************* OCR FUNCTION *************************** */
 
-  //KAMERA
+  // //KAMERA
   Future<void> sendToServer(BuildContext context) async {
     if (val == null) {
       return;
     }
     netralVariable();
     UtilAuth.loading(context);
+
     Dio dio = new Dio();
 
     var datas = FormData.fromMap(
@@ -763,13 +851,6 @@ class _BuatSuratPState extends State<BuatSuratP> {
     if (normProcess == true) {
       popups(context);
     }
-    // print("Nama : ${namaText}");
-    // print("RT/RW : ${rtrwText}");
-    // print("Kelurahan: ${kelText}");
-    // print("Agama: ${agamaText}");
-    // print("Status Perkawinan: ${spText}");
-    // print("Pekerjaan: ${workText}");
-    //
   }
 
   void manageData(List<String> arrFill, String setText) {
@@ -800,249 +881,269 @@ class _BuatSuratPState extends State<BuatSuratP> {
     _spController.text = spText;
     _workController.text = workText;
 
+    //************************* VALIDATE POPUP */
+    bool _valpnik = true;
+    bool _valpnama = true;
+    bool _valpalamat = true;
+    bool _valpkelurahan = true;
+    bool _valprtrw = true;
+    bool _valppendidikan = true;
+    bool _valpagama = true;
+    bool _valppekerjaan = true;
+    bool _valpperkawawinan = true;
+
+    //****************************** */
+
     Navigator.of(context, rootNavigator: true).pop();
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        // return Dialog(
-        return AlertDialog(
-          title: Text('Peringatan!'),
-          content: ListView(
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'NIK',
-                  hintText: "Masukkan NIK Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: Text('Form Biodata KTP'),
+            content: ListView(
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'NIK',
+                    hintText: "Masukkan NIK Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText:
+                        _valpnik == false ? "Nik Tidak Boleh Kosong!" : null,
                   ),
-                  errorText:
-                      _valpnik == false ? "Nik Tidak Boleh Kosong!" : null,
+                  controller: _nikController,
                 ),
-                controller: _nikController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Nama',
-                  hintText: "Masukkan Nama Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Nama',
+                    hintText: "Masukkan Nama Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valpnama == false)
+                        ? "Nama Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText:
-                      (_valpnama == false) ? "Nama Tidak Boleh Kosong!" : null,
+                  controller: _namaController,
                 ),
-                controller: _namaController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Alamat',
-                  hintText: "Masukkan Alamat Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Alamat',
+                    hintText: "Masukkan Alamat Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valpalamat == false)
+                        ? "Alamat Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valpalamat == false)
-                      ? "Alamat Tidak Boleh Kosong!"
-                      : null,
+                  controller: _alamatController,
                 ),
-                controller: _alamatController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'RT/RW',
-                  hintText: "Masukkan RTRW Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'RT/RW',
+                    hintText: "Masukkan RTRW Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valprtrw == false)
+                        ? "RT/RW Anda Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valprtrw == false)
-                      ? "RT/RW Anda Tidak Boleh Kosong!"
-                      : null,
+                  controller: _rtrwController,
                 ),
-                controller: _rtrwController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Kelurahan',
-                  hintText: "Masukkan Kelurahan Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Kelurahan',
+                    hintText: "Masukkan Kelurahan Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valpkelurahan == false)
+                        ? "Kelurahan Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valpkelurahan == false)
-                      ? "Kelurahan Tidak Boleh Kosong!"
-                      : null,
+                  controller: _kelurahanController,
                 ),
-                controller: _kelurahanController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Agama',
-                  hintText: "Masukkan Agama Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Agama',
+                    hintText: "Masukkan Agama Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valpagama == false)
+                        ? "Agama Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valpagama == false)
-                      ? "Agama Tidak Boleh Kosong!"
-                      : null,
+                  controller: _agamaController,
                 ),
-                controller: _agamaController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Status Perkawinan',
-                  hintText: "Masukkan Status Perkawinan Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Status Perkawinan',
+                    hintText: "Masukkan Status Perkawinan Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valpperkawawinan == false)
+                        ? "Status Perkawinan Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valpperkawawinan == false)
-                      ? "Status Perkawinan Tidak Boleh Kosong!"
-                      : null,
+                  controller: _spController,
                 ),
-                controller: _spController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Pekerjaan',
-                  hintText: "Masukkan Pekerjaan Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Pekerjaan',
+                    hintText: "Masukkan Pekerjaan Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valppekerjaan == false)
+                        ? "Pekerjaan Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valppekerjaan == false)
-                      ? "Pekerjaan Tidak Boleh Kosong!"
-                      : null,
+                  controller: _workController,
                 ),
-                controller: _workController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Pendidikan Terakhir',
-                  hintText: "Contoh: SMA, S1, S2",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Pendidikan Terakhir',
+                    hintText: "Contoh: SMA, S1, S2",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText: (_valppendidikan == false)
+                        ? "Pendidikan Terakhir Tidak Boleh Kosong!"
+                        : null,
                   ),
-                  errorText: (_valppendidikan == false)
-                      ? "Pendidikan Terakhir Tidak Boleh Kosong!"
-                      : null,
+                  controller: _pendidikanController,
                 ),
-                controller: _pendidikanController,
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Oks'),
-              onPressed: () {
-                if (_nikController.text != "") {
-                  setState(() {
-                    _valpnik = true;
-                  });
-                  if (_namaController.text.isNotEmpty) {
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Oks'),
+                onPressed: () {
+                  if (_nikController.text != "") {
                     setState(() {
-                      _valpnama = true;
+                      _valpnik = true;
                     });
-                    if (_alamatController.text.isNotEmpty) {
+
+                    if (_namaController.text.isNotEmpty) {
                       setState(() {
-                        _valpalamat = true;
+                        _valpnama = true;
                       });
-                      if (_rtrwController.text.isNotEmpty) {
+                      if (_alamatController.text.isNotEmpty) {
                         setState(() {
-                          _valprtrw = true;
+                          _valpalamat = true;
                         });
-                        if (_kelurahanController.text.isNotEmpty) {
+                        if (_rtrwController.text.isNotEmpty) {
                           setState(() {
-                            _valpkelurahan = true;
+                            _valprtrw = true;
                           });
-                          if (_agamaController.text.isNotEmpty) {
+                          if (_kelurahanController.text.isNotEmpty) {
                             setState(() {
-                              _valpagama = true;
+                              _valpkelurahan = true;
                             });
-                            if (_spController.text.isNotEmpty) {
+                            if (_agamaController.text.isNotEmpty) {
                               setState(() {
-                                _valpperkawawinan = true;
+                                _valpagama = true;
                               });
-                              if (_workController.text.isNotEmpty) {
+                              if (_spController.text.isNotEmpty) {
                                 setState(() {
-                                  _valppekerjaan = true;
+                                  _valpperkawawinan = true;
                                 });
-                                if (_pendidikanController.text.isNotEmpty) {
+                                if (_workController.text.isNotEmpty) {
                                   setState(() {
-                                    _valppendidikan = true;
+                                    _valppekerjaan = true;
                                   });
-                                  var arrNIK = new List<String>.from(
-                                      _nikController.text.toString().split(''));
-                                  transleteNIK(arrNIK);
-                                  //SetState di sini
-                                  setState(() {
-                                    nikText = _nikController.text;
-                                    namaText = _namaController.text;
-                                    alamatText = _alamatController.text;
-                                    rtrwText = _rtrwController.text;
-                                    kelText = _kelurahanController.text;
-                                    agamaText = _agamaController.text;
-                                    spText = _spController.text;
-                                    workText = _workController.text;
-                                    pendidikanText = _pendidikanController.text;
-                                    okPressKtp = true;
-                                    ktpImage = val;
-                                  });
-                                  Navigator.of(context).pop();
+                                  if (_pendidikanController.text.isNotEmpty) {
+                                    setState(() {
+                                      _valppendidikan = true;
+                                    });
+                                    var arrNIK = new List<String>.from(
+                                        _nikController.text
+                                            .toString()
+                                            .split(''));
+                                    transleteNIK(arrNIK);
+                                    //SetState di sini
+                                    setState(() {
+                                      nikText = _nikController.text;
+                                      namaText = _namaController.text;
+                                      alamatText = _alamatController.text;
+                                      rtrwText = _rtrwController.text;
+                                      kelText = _kelurahanController.text;
+                                      agamaText = _agamaController.text;
+                                      spText = _spController.text;
+                                      workText = _workController.text;
+                                      pendidikanText =
+                                          _pendidikanController.text;
+                                      okPressKtp = true;
+                                      ktpImage = val;
+                                    });
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    setState(() {
+                                      _valppendidikan = false;
+                                    });
+                                  }
                                 } else {
                                   setState(() {
-                                    _valppendidikan = false;
+                                    _valppekerjaan = false;
                                   });
                                 }
                               } else {
                                 setState(() {
-                                  _valppekerjaan = false;
+                                  _valpperkawawinan = false;
                                 });
                               }
                             } else {
                               setState(() {
-                                _valpperkawawinan = false;
+                                _valpagama = false;
                               });
                             }
                           } else {
                             setState(() {
-                              _valpagama = false;
+                              _valpkelurahan = false;
                             });
                           }
                         } else {
                           setState(() {
-                            _valpkelurahan = false;
+                            _valprtrw = false;
                           });
                         }
                       } else {
                         setState(() {
-                          _valprtrw = false;
+                          _valpalamat = false;
                         });
                       }
                     } else {
                       setState(() {
-                        _valpalamat = false;
+                        _valpnama = false;
                       });
                     }
                   } else {
                     setState(() {
-                      _valpnama = false;
+                      _valpnik = false;
                     });
                   }
-                } else {
-                  setState(() {
-                    _valpnik = false;
-                  });
-                }
-              },
-            )
-          ],
-        );
+                },
+              )
+            ],
+          );
+        });
+
         // );
       },
     );
@@ -1198,52 +1299,55 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   Widget popupskk(BuildContext context) {
     _kkController.text = nokkText;
+    bool _valpkk = true;
 
     Navigator.of(context, rootNavigator: true).pop();
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        // return Dialog(
-        return AlertDialog(
-          title: Text('Form No KK'),
-          content: TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              labelText: 'No Kartu Keluarga',
-              hintText: "Masukkan No KK Anda",
-              hintStyle: TextStyle(
-                color: Colors.grey[400],
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Form No KK'),
+              content: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'No Kartu Keluarga',
+                  hintText: "Masukkan No KK Anda",
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
+                  ),
+                  errorText:
+                      (_valpkk == false) ? "No KK Tidak Boleh Kosong!" : null,
+                ),
+                controller: _kkController,
               ),
-              errorText:
-                  (_valpkk == false) ? "No KK Tidak Boleh Kosong!" : null,
-            ),
-            controller: _kkController,
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Ok'),
-              onPressed: () {
-                if (_kkController.text != "") {
-                  setState(() {
-                    _valpkk = true;
-                    kkImage = valkk;
-                    nokkText = _kkController.text;
-                    okPressKK = true;
-                  });
-                } else {
-                  setState(() {
-                    _valpkk = false;
-                  });
-                }
-                //SetState di sini
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    if (_kkController.text != "") {
+                      setState(() {
+                        _valpkk = true;
+                        kkImage = valkk;
+                        nokkText = _kkController.text;
+                        okPressKK = true;
+                      });
+                    } else {
+                      setState(() {
+                        _valpkk = false;
+                      });
+                    }
+                    //SetState di sini
 
-                Navigator.of(context).pop();
-              },
-            )
-          ],
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          },
         );
-        // );
       },
     );
   }
@@ -1512,214 +1616,316 @@ class _BuatSuratPState extends State<BuatSuratP> {
                     "KTP:",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
-                  Container(
-                    width: double.infinity,
-                    child: RaisedButton(
-                        child: Text(
-                          "Scan KTP",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        textColor: Colors.white,
-                        color: Colors.orange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: Colors.orange),
-                        ),
-                        onPressed: () async {
-                          val = await showDialog(
-                              context: context,
-                              builder: (context) => Camera(
-                                    mode: CameraMode.normal,
-                                    orientationEnablePhoto:
-                                        CameraOrientation.all,
-                                    imageMask: Stack(
-                                      children: <Widget>[
-                                        Positioned(
-                                          top: 10,
-                                          left: 20,
-                                          child: Container(
-                                            height: 530,
-                                            width: 330,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 3,
-                                                    color: Colors.white)),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 30,
-                                          right: 60,
-                                          child: Container(
-                                            width: 30,
-                                            height: 350,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.white)),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 10,
-                                          right: 340,
-                                          child: Container(
-                                            width: 40,
-                                            height: 500,
-                                            child: RotatedBox(
-                                              quarterTurns: 1,
-                                              child: Text(
-                                                "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                  ktpImage == null
+                      ? Container(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              child: Text(
+                                "Scan KTP",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              textColor: Colors.white,
+                              color: Colors.orange,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(color: Colors.orange),
+                              ),
+                              onPressed: () async {
+                                val = await showDialog(
+                                    context: context,
+                                    builder: (context) => Camera(
+                                          mode: CameraMode.normal,
+                                          orientationEnablePhoto:
+                                              CameraOrientation.all,
+                                          imageMask: Stack(
+                                            children: <Widget>[
+                                              Positioned(
+                                                top: 10,
+                                                left: 20,
+                                                child: Container(
+                                                  height: 530,
+                                                  width: 330,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 3,
+                                                          color: Colors.white)),
+                                                ),
                                               ),
-                                            ),
+                                              Positioned(
+                                                top: 30,
+                                                right: 60,
+                                                child: Container(
+                                                  width: 30,
+                                                  height: 350,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2,
+                                                          color: Colors.white)),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 10,
+                                                right: 340,
+                                                child: Container(
+                                                  width: 40,
+                                                  height: 500,
+                                                  child: RotatedBox(
+                                                    quarterTurns: 1,
+                                                    child: Text(
+                                                      "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                          setState(() {});
+                                        ));
+                                setState(() {});
+                                UtilAuth.loading(context);
 
-                          sendToServer(context);
-                        }),
-                  ),
+                                sendToServer(context);
+                              }),
+                        )
+                      : Container(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              child: Text(
+                                "Batal",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              textColor: Colors.white,
+                              color: Colors.red,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(color: Colors.red),
+                              ),
+                              onPressed: () {
+                                setKtpImageNull();
+                              }),
+                        ),
                   Text(
                     "KK:",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
-                  Container(
-                    width: double.infinity,
-                    child: RaisedButton(
-                        child: Text(
-                          "Scan Kartu Keluarga (KK)",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        textColor: Colors.white,
-                        color: Colors.orange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: Colors.orange),
-                        ),
-                        onPressed: () async {
-                          valkk = await showDialog(
-                              context: context,
-                              builder: (context) => Camera(
-                                    mode: CameraMode.fullscreen,
-                                    orientationEnablePhoto:
-                                        CameraOrientation.all,
-                                    imageMask: Stack(
-                                      children: <Widget>[
-                                        Positioned(
-                                          top: 200,
-                                          right: 20,
-                                          child: Container(
-                                            width: 20,
-                                            height: 200,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.white)),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 10,
-                                          right: 340,
-                                          child: Container(
-                                            width: 40,
-                                            height: 500,
-                                            child: RotatedBox(
-                                              quarterTurns: 1,
-                                              child: Text(
-                                                "*Pastikan No KK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                  kkImage == null
+                      ? Container(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              child: Text(
+                                "Scan Kartu Keluarga (KK)",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              textColor: Colors.white,
+                              color: Colors.orange,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(color: Colors.orange),
+                              ),
+                              onPressed: () async {
+                                valkk = await showDialog(
+                                    context: context,
+                                    builder: (context) => Camera(
+                                          mode: CameraMode.fullscreen,
+                                          orientationEnablePhoto:
+                                              CameraOrientation.all,
+                                          imageMask: Stack(
+                                            children: <Widget>[
+                                              Positioned(
+                                                top: 200,
+                                                right: 20,
+                                                child: Container(
+                                                  width: 20,
+                                                  height: 200,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2,
+                                                          color: Colors.white)),
+                                                ),
                                               ),
-                                            ),
+                                              Positioned(
+                                                top: 10,
+                                                right: 340,
+                                                child: Container(
+                                                  width: 40,
+                                                  height: 500,
+                                                  child: RotatedBox(
+                                                    quarterTurns: 1,
+                                                    child: Text(
+                                                      "*Pastikan No KK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                          setState(() {});
-                          sendToServerkk(context);
-                        }),
-                  ),
+                                        ));
+                                setState(() {});
+                                sendToServerkk(context);
+                              }),
+                        )
+                      : Container(
+                          width: double.infinity,
+                          child: RaisedButton(
+                              child: Text(
+                                "Batal",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              textColor: Colors.white,
+                              color: Colors.red,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(color: Colors.red),
+                              ),
+                              onPressed: () {
+                                setKKImageNull();
+                              }),
+                        ),
                   widget.tipe == "1"
                       ? Column(
                           children: <Widget>[
-                            FilePickerNew(
-                              title: "Foto Depan Rumah",
-                              setFileAtt: setdepanRumah,
-                            ),
-                            FilePickerNew(
-                              title: "Foto Belakang Rumah",
-                              setFileAtt: setbelakangRumah,
-                            ),
+                            _depanRumah == null
+                                ? FilePickerNew(
+                                    title: "Foto Depan Rumah",
+                                    setFileAtt: setdepanRumah,
+                                  )
+                                : CancleBtn(
+                                    title: "Foto Depan Rumah",
+                                    setFileNull: setdepanRumahNull,
+                                  ),
+                            _belakangRumah == null
+                                ? FilePickerNew(
+                                    title: "Foto Belakang Rumah",
+                                    setFileAtt: setbelakangRumah,
+                                  )
+                                : CancleBtn(
+                                    title: "Foto Belakang Rumah",
+                                    setFileNull: setbelakangRumahNull,
+                                  )
                           ],
                         )
                       : Container(),
                   widget.tipe == "2"
-                      ? FilePickerNew(
-                          title: "SPPT Terbaru",
-                          setFileAtt: setspptTerbaru,
-                        )
+                      ? _spptTerbaru == null
+                          ? FilePickerNew(
+                              title: "SPPT Terbaru",
+                              setFileAtt: setspptTerbaru,
+                            )
+                          : CancleBtn(
+                              title: "SPPT Terbaru",
+                              setFileNull: setspptTerbaruNull,
+                            )
                       : Container(),
                   widget.tipe == "3"
-                      ? FilePickerNew(
-                          title: "Lampiran Pernyataan",
-                          setFileAtt: setlamper,
-                        )
+                      ? _lampiranPer == null
+                          ? FilePickerNew(
+                              title: "Lampiran Pernyataan",
+                              setFileAtt: setlamper,
+                            )
+                          : CancleBtn(
+                              title: "Lampiran Pernyataan",
+                              setFileNull: setlamperNull,
+                            )
                       : Container(),
                   widget.tipe == "4"
                       ? Column(
                           children: <Widget>[
-                            FilePickerNew(
-                              title: "KTP Orang Tua-1 (Ayah)",
-                              setFileAtt: setktportu1,
-                            ),
-                            FilePickerNew(
-                              title: "KTP Orang Tua-2 (Ibu)",
-                              setFileAtt: setktportu2,
-                            ),
-                            FilePickerNew(
-                              title: "Tanda Lunas PBB Tahun Berjalan",
-                              setFileAtt: setlunaspbb1,
-                            )
+                            _ktpOrtu1 == null
+                                ? FilePickerNew(
+                                    title: "KTP Orang Tua-1 (Ayah)",
+                                    setFileAtt: setktportu1,
+                                  )
+                                : CancleBtn(
+                                    title: "KTP Orang Tua-1 (Ayah)",
+                                    setFileNull: setktportu1Null,
+                                  ),
+                            _ktpOrtu2 == null
+                                ? FilePickerNew(
+                                    title: "KTP Orang Tua-2 (Ibu)",
+                                    setFileAtt: setktportu2,
+                                  )
+                                : CancleBtn(
+                                    title: "KTP Orang Tua-2 (Ibu)",
+                                    setFileNull: setktportu2Null,
+                                  ),
+                            _lunasPbb1 == null
+                                ? FilePickerNew(
+                                    title: "Tanda Lunas PBB Tahun Berjalan",
+                                    setFileAtt: setlunaspbb1,
+                                  )
+                                : CancleBtn(
+                                    title: "Tanda Lunas PBB Tahun Berjalan",
+                                    setFileNull: setlunaspbb1Null,
+                                  )
                           ],
                         )
                       : Container(),
                   widget.tipe == "5"
                       ? Column(
                           children: <Widget>[
-                            FilePickerNew(
-                              title: "Akte Cerai",
-                              setFileAtt: setaktecerai,
-                            ),
-                            FilePickerNew(
-                                title: "Pelunasan PBB Tahun Berjalan",
-                                setFileAtt: setlunaspbb2),
-                            FilePickerNew(
-                              title: "Surat Keterangan Kematian Suami / Istri",
-                              setFileAtt: setskks,
-                            ),
+                            _akteCerai == null
+                                ? FilePickerNew(
+                                    title: "Akte Cerai",
+                                    setFileAtt: setaktecerai,
+                                  )
+                                : CancleBtn(
+                                    title: "Akte Cerai",
+                                    setFileNull: setakteceraiNull,
+                                  ),
+                            _lunasPbb2 == null
+                                ? FilePickerNew(
+                                    title: "Pelunasan PBB Tahun Berjalan",
+                                    setFileAtt: setlunaspbb2)
+                                : CancleBtn(
+                                    title: "Pelunasan PBB Tahun Berjalan",
+                                    setFileNull: setlunaspbb2Null,
+                                  ),
+                            _skks == null
+                                ? FilePickerNew(
+                                    title:
+                                        "Surat Keterangan Kematian Suami / Istri",
+                                    setFileAtt: setskks,
+                                  )
+                                : CancleBtn(
+                                    title:
+                                        "Surat Keterangan Kematian Suami / Istri",
+                                    setFileNull: setskksNull,
+                                  )
                           ],
                         )
                       : Container(),
                   widget.tipe == "7"
-                      ? FilePickerNew(
-                          title: "Surat Keterangan Kematian Dari Rumah Sakit",
-                          setFileAtt: setskksdrs,
-                        )
+                      ? _skksdrs == null
+                          ? FilePickerNew(
+                              title:
+                                  "Surat Keterangan Kematian Dari Rumah Sakit",
+                              setFileAtt: setskksdrs,
+                            )
+                          : CancleBtn(
+                              title:
+                                  "Surat Keterangan Kematian Dari Rumah Sakit",
+                              setFileNull: setskksdrsNull,
+                            )
                       : Container(),
                   widget.tipe == "8"
-                      ? FilePickerNew(
-                          title:
-                              "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
-                          setFileAtt: setskck,
-                        )
+                      ? _skck == null
+                          ? FilePickerNew(
+                              title:
+                                  "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
+                              setFileAtt: setskck,
+                            )
+                          : CancleBtn(
+                              title:
+                                  "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
+                              setFileNull: setskckNull,
+                            )
                       : Container()
                 ],
               ),
