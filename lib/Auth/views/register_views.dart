@@ -7,12 +7,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:submission_letter/Animation/fade_animation.dart';
 import 'package:submission_letter/Auth/presenter/login_presenter.dart';
 import 'package:submission_letter/Auth/presenter/resgister_presenter.dart';
+import 'package:submission_letter/Auth/views/AuthComponent/dropdownregis_widget.dart';
+import 'package:submission_letter/Auth/views/AuthComponent/filePickerRegis_widget.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/phone_widget.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/text_widget.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:submission_letter/Auth/views/AuthComponent/uploadButton.dart';
 import 'package:submission_letter/Auth/views/login_views.dart';
+import 'package:submission_letter/Penduduk_Page/widget/cancle_btn.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/home_page.dart';
 
@@ -25,13 +28,27 @@ class RegisterViews extends StatefulWidget {
 
 class _RegisterViewsState extends State<RegisterViews> {
   var urls = 'http://192.168.43.75:8000/api/register';
-  String rwText;
-  String rtText;
+  String rwTextDrop;
+  String rtTextDrop;
   String namaPegawai;
   String username;
   String passwords;
   String email;
   String noTelepon;
+
+  // ******************  Drop Down Data
+
+  void setRwText(String val) {
+    setState(() {
+      rwTextDrop = val;
+    });
+  }
+
+  void setRtText(String val) {
+    setState(() {
+      rtTextDrop = val;
+    });
+  }
 
   File _image1;
   File _image2;
@@ -78,17 +95,43 @@ class _RegisterViewsState extends State<RegisterViews> {
     });
   }
 
-  void callBackRt(String texts) {
+  void callBackFile1(File val) {
     setState(() {
-      rtText = texts;
+      _image1 = val;
     });
   }
 
-  void callBackRw(String texts) {
+  void callBackFile2(File val) {
     setState(() {
-      rwText = texts;
+      _image2 = val;
     });
   }
+
+  // ******** Cancle Btn Function
+
+  void cancleFile1() {
+    setState(() {
+      _image1 = null;
+    });
+  }
+
+  void cancleFile2() {
+    setState(() {
+      _image2 = null;
+    });
+  }
+
+  // void callBackRt(String texts) {
+  //   setState(() {
+  //     rtText = texts;
+  //   });
+  // }
+
+  // void callBackRw(String texts) {
+  //   setState(() {
+  //     rwText = texts;
+  //   });
+  // }
 
   Future<void> processData(
     String namas,
@@ -100,6 +143,7 @@ class _RegisterViewsState extends State<RegisterViews> {
     String rws,
   ) async {
     UtilAuth.loading(context);
+
     var fileName = _image1.path.split('/').last;
     var fileNames = _image2.path.split('/').last;
     var allData = FormData.fromMap({
@@ -144,6 +188,8 @@ class _RegisterViewsState extends State<RegisterViews> {
     setState(() {
       _image1 = image;
     });
+
+    print(image);
   }
 
   Future getImages() async {
@@ -207,6 +253,41 @@ class _RegisterViewsState extends State<RegisterViews> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _validateRw == false
+                                ? Text(
+                                    "*RW Tidak Boleh Kosong !",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : Container(),
+                            _validateRt == false
+                                ? Text(
+                                    "*RT Tidak Boleh Kosong !",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : Container(),
+                            _validateFile1 == false
+                                ? Text(
+                                    "*Foto Surat Jabatan Harus Anda Upload !",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : Container(),
+                            _validateFile2 == false
+                                ? Text(
+                                    "*Sampel TTD Elektronik Harus Anda Upload !",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : Container(),
+                          ],
+                        ),
+                      ),
                       FadeAnimation(
                         0.7,
                         TextWidget(
@@ -264,48 +345,60 @@ class _RegisterViewsState extends State<RegisterViews> {
                       // DropDownRT(rtText, callBack2, validateDropDownRT),
                       FadeAnimation(
                         1.2,
-                        TextWidget(
-                          callBackName: callBackRw,
-                          hintTexts: 'Contoh: RW 01',
-                          labelTexts: 'Rukun Warga (RW)',
-                          messageEmpty: 'RW Tidak Boleh Kosong!',
-                          val: _validateRw,
-                          emails: false,
-                          pass: false,
-                        ),
+                        DropDownRegis(dataRt: setRtText, dataRw: setRwText),
                       ),
-                      FadeAnimation(
-                        1.3,
-                        TextWidget(
-                          callBackName: callBackRt,
-                          hintTexts: 'Contoh: RT 001',
-                          labelTexts: 'Rukun Tetangga (RT)',
-                          messageEmpty: '',
-                          val: _validateRt,
-                          emails: false,
-                          pass: false,
-                        ),
-                      ),
-                      FadeAnimation(
-                        1.3,
-                        UploadButton(
-                          title: 'Upload File Surat Jabatan',
-                          textButton: 'Surat Jabatan Dari Kelurahan',
-                          redText:
-                              'Bentuk FIle Yang Diterima: .jpg / .jpeg / .png',
-                          setFile: getImage,
-                        ),
-                      ),
-                      FadeAnimation(
-                        1.3,
-                        UploadButton(
-                          title: 'Upload File Tanda Tangan',
-                          textButton: 'Tanda Tangan Elektronik Anda',
-                          redText:
-                              'Bentuk File Yang Diterima: .jpg / .jpeg / .png',
-                          setFile: getImages,
-                        ),
-                      ),
+                      _image1 == null
+                          ? FadeAnimation(
+                              0.1,
+                              FilePickerRegis(
+                                title: "Surat Jabatan Dari Kelurahan",
+                                setFileAtt: callBackFile1,
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  child: Text(
+                                    "Batal",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  textColor: Colors.white,
+                                  color: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(color: Colors.red),
+                                  ),
+                                  onPressed: () {
+                                    cancleFile1();
+                                  }),
+                            ),
+                      SizedBox(height: 10),
+                      _image2 == null
+                          ? FadeAnimation(
+                              0.1,
+                              FilePickerRegis(
+                                title: "File Scan TTD & Stample",
+                                setFileAtt: callBackFile2,
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                  child: Text(
+                                    "Batal",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  textColor: Colors.white,
+                                  color: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(color: Colors.red),
+                                  ),
+                                  onPressed: () {
+                                    cancleFile2();
+                                  }),
+                            ),
+                      SizedBox(height: 20),
                       FadeAnimation(
                         1.4,
                         Container(
@@ -325,8 +418,95 @@ class _RegisterViewsState extends State<RegisterViews> {
                                   fontWeight: FontWeight.bold),
                             ),
                             onPressed: () {
-                              processData(namaPegawai, username, passwords,
-                                  email, noTelepon, rtText, rwText);
+                              if (namaPegawai != null) {
+                                setState(() {
+                                  _validate = true;
+                                });
+                                if (username != null) {
+                                  setState(() {
+                                    _validateUsername = true;
+                                  });
+                                  if (passwords != null) {
+                                    setState(() {
+                                      _validatePass = true;
+                                    });
+                                    if (email != null) {
+                                      setState(() {
+                                        _validateemail = true;
+                                      });
+                                      if (noTelepon != null) {
+                                        setState(() {
+                                          _validateNoTelepon = true;
+                                        });
+                                        if (rwTextDrop != null) {
+                                          setState(() {
+                                            _validateRw = true;
+                                          });
+                                          if (rtTextDrop != null) {
+                                            setState(() {
+                                              _validateRt = true;
+                                            });
+                                            if (_image1 != null) {
+                                              setState(() {
+                                                _validateFile1 = true;
+                                              });
+                                              if (_image2 != null) {
+                                                setState(() {
+                                                  _validateFile2 = true;
+                                                });
+                                                processData(
+                                                    namaPegawai,
+                                                    username,
+                                                    passwords,
+                                                    email,
+                                                    noTelepon,
+                                                    rtTextDrop,
+                                                    rwTextDrop);
+                                              } else {
+                                                setState(() {
+                                                  _validateFile2 = false;
+                                                });
+                                              }
+                                            } else {
+                                              setState(() {
+                                                _validateFile1 = false;
+                                              });
+                                            }
+                                          } else {
+                                            setState(() {
+                                              _validateRt = false;
+                                            });
+                                          }
+                                        } else {
+                                          setState(() {
+                                            _validateRw = false;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          _validateNoTelepon = false;
+                                        });
+                                      }
+                                    } else {
+                                      setState(() {
+                                        _validateemail = false;
+                                      });
+                                    }
+                                  } else {
+                                    setState(() {
+                                      _validatePass = false;
+                                    });
+                                  }
+                                } else {
+                                  setState(() {
+                                    _validateUsername = false;
+                                  });
+                                }
+                              } else {
+                                setState(() {
+                                  _validate = false;
+                                });
+                              }
                             },
                           ),
                         ),
@@ -342,8 +522,10 @@ class _RegisterViewsState extends State<RegisterViews> {
                             ),
                           ),
                           onPressed: () {
-                            UtilAuth.movePageScale(
-                                context, LoginViews(LoginPresenter()));
+                            print(rtTextDrop);
+                            print(rwTextDrop);
+                            // UtilAuth.movePageScale(
+                            //     context, LoginViews(LoginPresenter()));
                           },
                         ),
                       ),

@@ -19,16 +19,16 @@ class _CancleBtnState extends State<CancleBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "${widget.title}:",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-          ),
-          RaisedButton(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "${widget.title}:",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+        ),
+        Container(
+          width: double.infinity,
+          child: RaisedButton(
               child: Text(
                 "Batal",
                 style: TextStyle(fontSize: 20),
@@ -42,8 +42,8 @@ class _CancleBtnState extends State<CancleBtn> {
               onPressed: () {
                 setNullFile();
               }),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

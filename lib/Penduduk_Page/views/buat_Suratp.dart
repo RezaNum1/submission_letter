@@ -1685,7 +1685,6 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                           ),
                                         ));
                                 setState(() {});
-                                UtilAuth.loading(context);
 
                                 sendToServer(context);
                               }),

@@ -29,6 +29,7 @@ class _PhoneWidgetState extends State<PhoneWidget> {
         ),
       ),
       child: TextField(
+        maxLength: 13,
         inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         onChanged: (text) {
           setState(() {
