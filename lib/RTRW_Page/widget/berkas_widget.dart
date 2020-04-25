@@ -15,6 +15,7 @@ class BerkasWidget extends StatefulWidget {
 
 //KODE BERKAS
 /**
+ * SKTM(Surat Keterangan Tidak Mampu)
  * KTP,KK
  * DR (Depan Rumah), BR(belakang rumah),
  * SPPT,LP(Lampi.pernyataan)
@@ -22,6 +23,34 @@ class BerkasWidget extends StatefulWidget {
  * AC(Akte cerai), PPBB(Pelunasan PBB), SKK(Surt ket kematian)
  * SKKDRS(S. ket kem dari rmh sakit)
  * SKCK
+ * 
+ */
+
+//KODE BERKAS
+/**
+ * Tipe 1. SKTM (Surat Keterangan Tidak Mampu)
+ * => KTP,KK, DR (Depan Rumah), BR(belakang rumah)
+ * 
+ * Tipe 2. SKU(Surat Keterangan Usaha)
+ * => KTP,KK, SPPT
+ * 
+ * Tipe 3. Surat pengantar izin keramaian
+ * => KTP, KK, LP(Lampiran pernyataan Lokasi Keramaian)
+ * 
+ * Tipe 4. Surat Keterangan Belum Menikah
+ * KTP, KK, KTP Ortu Ayah, KTP Ortu Ibu, TLPBB(Tanda lunahs PBB)
+ * 
+ * Tipe 5. Surat Keterangan Cerai Hidup/Mati
+ * KTP, KK, AC(Akte cerai), PPBB(Pelunasan PBB), SKK(Surat ket kematian)
+ * 
+ * Tipe 6. Surat Keterangan Domisili
+ * KTP, KK
+ * '
+ * Tipe 7. Surat Keteranga kematian
+ * => KTP, KK, SKKDRS(S. ket kem dari rmh sakit)
+ * 
+ * Tipe 8. Surat Keterangan Pindah
+ * => KTP, KK, SKCK
  * 
  */
 

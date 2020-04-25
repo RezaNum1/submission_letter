@@ -9,7 +9,7 @@ class DetailpTodoPresenter {
       String idSurat) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var idUser = preferences.getInt("Id");
-    var url = "http://192.168.43.75:8000/api/penduduk/getDetailSuratTodo";
+    var url = "http://192.168.1.106:8000/api/penduduk/getDetailSuratTodo";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idUser": idUser,

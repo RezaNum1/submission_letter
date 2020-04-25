@@ -19,7 +19,7 @@ reportViewPenduduk(
     String pekerjaan,
     String body,
     String tanggal,
-    int nosk) async {
+    String nosk) async {
   final Document pdf = Document();
 
   PdfImage logoImage = await pdfImageFromImageProvider(
@@ -96,7 +96,7 @@ reportViewPenduduk(
                   margin: EdgeInsets.only(top: -5, bottom: -5),
                   width: 130,
                   child: Header(child: Container())),
-              Text("Nomor   : $nosk.1/1.755.0/2020")
+              Text("Nomor   : $nosk")
             ]))),
             SizedBox(height: 30),
             Container(

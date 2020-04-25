@@ -15,7 +15,7 @@ class _DropDownRegisState extends State<DropDownRegis> {
   int index;
   bool stat = false;
 
-  final String url = "http://192.168.43.75:8000/api/auth/getJabatanRegis";
+  final String url = "http://192.168.1.106:8000/api/auth/getJabatanRegis";
 
   List data = List(); //edited line
   List<dynamic> tmp = List();

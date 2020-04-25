@@ -55,7 +55,7 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
       String alamat,
       String pekerajaan,
       String body,
-      int nosk) {
+      String nosk) {
     String judulDetail;
     String tglConv = UtilRTRW.convertDateTime(tglBuat);
     if (widget.tipe == "1") {

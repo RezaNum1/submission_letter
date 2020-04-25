@@ -11,7 +11,7 @@ class DetailpTolakPresenter {
       String idSurat) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var idUser = preferences.getInt("Id");
-    var url = "http://192.168.43.75:8000/api/penduduk/getDetailSuratTolak";
+    var url = "http://192.168.1.106:8000/api/penduduk/getDetailSuratTolak";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idUser": idUser,
@@ -50,7 +50,7 @@ class DetailpTolakPresenter {
       File skks,
       File skkdrs,
       File skck) async {
-    var url = "http://192.168.43.75:8000/api/penduduk/perbaikanData";
+    var url = "http://192.168.1.106:8000/api/penduduk/perbaikanData";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,

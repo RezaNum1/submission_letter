@@ -8,7 +8,7 @@ class LoginPresenter {
 
   Future<Response> loginProcess(
       String username, String password, String tokens) async {
-    var url = "http://192.168.43.75:8000/api/logins";
+    var url = "http://192.168.1.106:8000/api/logins";
     Dio dio = new Dio();
 
     FormData formData = new FormData.fromMap(

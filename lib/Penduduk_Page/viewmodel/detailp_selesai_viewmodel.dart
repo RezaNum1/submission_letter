@@ -11,7 +11,7 @@ class DetailpSelesaiViewModel {
   String alamat;
   String pekerjaan;
   String body;
-  int nosk;
+  String nosk;
 
   DetailpSelesaiViewModel(
       {this.keterangan,

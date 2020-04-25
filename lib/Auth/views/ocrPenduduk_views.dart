@@ -37,7 +37,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
   //******** */
   // KAMERA
   File val;
-  var url = "http://192.168.43.75:8000/api/cropnik";
+  var url = "http://192.168.1.106:8000/api/cropnik";
   bool status = false;
   //************* */
 
@@ -66,7 +66,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
     );
 
     Uint8List bytes = await networkImageToByte(
-        "http://192.168.43.75/auth/file/Ktp/KtpTmp.jpeg");
+        "http://192.168.1.106/auth/file/Ktp/KtpTmp.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");

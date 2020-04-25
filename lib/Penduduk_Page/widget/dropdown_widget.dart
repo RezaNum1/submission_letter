@@ -15,7 +15,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   int index;
   bool stat = false;
 
-  final String url = "http://192.168.43.75:8000/api/penduduk/getJabatan";
+  final String url = "http://192.168.1.101:8000/api/penduduk/getJabatan";
 
   List data = List(); //edited line
   List<dynamic> tmp = List();

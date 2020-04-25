@@ -6,7 +6,7 @@ class SelesaipPresenter {
 
   Future<List<Map<String, dynamic>>> getSelesaiSurat() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var url = "http://192.168.43.75:8000/api/penduduk/getAllDataSelesai";
+    var url = "http://192.168.1.106:8000/api/penduduk/getAllDataSelesai";
     var listSurat = <Map<String, dynamic>>[];
 
     Dio dio = new Dio();

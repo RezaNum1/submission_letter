@@ -27,7 +27,7 @@ class BuatSuratPresenter {
       File skks,
       File skkdrs,
       File skck) async {
-    var url = "http://192.168.43.75:8000/api/penduduk/buatSurat"; //perbaiki
+    var url = "http://192.168.1.106:8000/api/penduduk/buatSurat"; //perbaiki
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "tipe": tipe,

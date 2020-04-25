@@ -19,7 +19,7 @@ class TODOPresenter {
 
   Future<List<Map<String, dynamic>>> getAll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var url = "http://192.168.43.75:8000/api/rtrw/getAllData";
+    var url = "http://192.168.1.106:8000/api/rtrw/getAllData";
     var listSurat = <Map<String, dynamic>>[];
 
     // Disini Nanti Dikasih If Else untuk membedakan step antara rw = 2 dan rt = 1

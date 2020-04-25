@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:submission_letter/Auth/presenter/login_presenter.dart';
 import 'package:submission_letter/RTRW_Page/presenter/setting_presenter.dart';
+import 'package:submission_letter/RTRW_Page/views/search_emp.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 
 import '../RTRW_Page/views/home_emp.dart' as homeEmp;
@@ -77,6 +78,21 @@ class ThemeApp {
               ),
               onTap: () {
                 UtilAuth.movePage(context, homeEmp.HomeEmp());
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(
+                "Cari Surat Selesai",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                UtilAuth.movePage(context, SearchEmp());
               },
             ),
           ),

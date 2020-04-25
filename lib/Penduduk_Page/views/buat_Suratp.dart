@@ -101,7 +101,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   // KAMERA
   File val;
-  var urlKtp = "http://192.168.43.75:8000/api/cropktp";
+  var urlKtp = "http://192.168.1.106:8000/api/cropktp";
   bool status = false;
   //************* */
 
@@ -194,7 +194,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   //******** */
   // KAMERA
   File valkk;
-  var urlkk = "http://192.168.43.75:8000/api/cropkk";
+  var urlkk = "http://192.168.1.106:8000/api/cropkk";
 
 //******************* ***************************************/
 
@@ -512,7 +512,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
     );
 
     Uint8List bytes = await networkImageToByte(
-        "http://192.168.43.75/auth/file/Ktp/KTPME.jpeg");
+        "http://192.168.1.106/auth/file/Ktp/KTPME.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");
@@ -1235,7 +1235,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
     // );
 
     Uint8List bytes = await networkImageToByte(
-        "http://192.168.43.75/auth/file/Ktp/KKME.jpeg");
+        "http://192.168.1.106/auth/file/Ktp/KKME.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");

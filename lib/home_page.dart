@@ -19,7 +19,7 @@ class _HomeBaseState extends State<HomeBase> {
   Future getDataTest() async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("http://192.168.43.75:8000/api/test");
+    response = await dio.get("http://192.168.1.106:8000/api/test");
   }
 
   @override

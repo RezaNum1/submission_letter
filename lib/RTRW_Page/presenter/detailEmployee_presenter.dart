@@ -10,7 +10,7 @@ class DetailEmployeePresenter {
 
   Future<DetailEmpViewModel> getDetailDataSurat(
       String idApprover, String idSurat) async {
-    var url = "http://192.168.43.75:8000/api/rtrw/getDetailSurat";
+    var url = "http://192.168.1.106:8000/api/rtrw/getDetailSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idApprover": idApprover,
@@ -30,7 +30,7 @@ class DetailEmployeePresenter {
 
   Future<Response> approveSurat(
       String idSurat, int id, String keterangan, String komentar) async {
-    var url = "http://192.168.43.75:8000/api/rtrw/approveSurat";
+    var url = "http://192.168.1.106:8000/api/rtrw/approveSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
@@ -44,7 +44,7 @@ class DetailEmployeePresenter {
   }
 
   Future<Response> tolakSurat(String idSurat, int id, String komentar) async {
-    var url = "http://192.168.43.75:8000/api/rtrw/tolakSurat";
+    var url = "http://192.168.1.106:8000/api/rtrw/tolakSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
@@ -57,7 +57,7 @@ class DetailEmployeePresenter {
   }
 
   Future<Uint8List> callFileToServer(String berkas, String idSurat) async {
-    var url = "http://192.168.43.75:8000/api/rtrw/callFile";
+    var url = "http://192.168.1.106:8000/api/rtrw/callFile";
 
     Dio dio = new Dio();
 

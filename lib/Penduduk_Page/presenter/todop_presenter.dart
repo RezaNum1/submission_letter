@@ -5,7 +5,7 @@ class TodopPresenter {
   TodopPresenter() {}
 
   Future<List<Map<String, dynamic>>> getAllTodo(int idUser) async {
-    var url = "http://192.168.43.75:8000/api/penduduk/getAllDataTodo";
+    var url = "http://192.168.1.106:8000/api/penduduk/getAllDataTodo";
     var listSurat = <Map<String, dynamic>>[];
 
     Dio dio = new Dio();

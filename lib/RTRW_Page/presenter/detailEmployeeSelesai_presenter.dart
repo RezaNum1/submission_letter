@@ -11,7 +11,7 @@ class DetailEmpSelesaiPresenter {
 
   Future<DetailEmpSelesaiViewModel> getAllDetailSelesai(
       String idJobPos, String idSurat) async {
-    var url = "http://192.168.43.75:8000/api/rtrw/getDetailSuratSelesai";
+    var url = "http://192.168.1.106:8000/api/rtrw/getDetailSuratSelesai";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idJobPos": idJobPos,
@@ -45,7 +45,7 @@ class DetailEmpSelesaiPresenter {
 
   Future<String> download(String idSurat, String berkas) async {
     Dio dio = new Dio();
-    var urlDownload = "http://192.168.43.75:8000/api/rtrw/download";
+    var urlDownload = "http://192.168.1.106:8000/api/rtrw/download";
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
       "berkas": berkas,
@@ -82,7 +82,7 @@ class DetailEmpSelesaiPresenter {
   }
 
   Future<String> getSignatureRT() async {
-    var url = "http://192.168.43.75:8000/api/rtrw/getSignatureRT";
+    var url = "http://192.168.1.106:8000/api/rtrw/getSignatureRT";
 
     Dio dio = new Dio();
 
@@ -92,7 +92,7 @@ class DetailEmpSelesaiPresenter {
   }
 
   Future<String> getSignatureRW() async {
-    var url = "http://192.168.43.75:8000/api/rtrw/getSignatureRW";
+    var url = "http://192.168.1.106:8000/api/rtrw/getSignatureRW";
 
     Dio dio = new Dio();
 

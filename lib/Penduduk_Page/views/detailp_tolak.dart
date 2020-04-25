@@ -70,7 +70,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
   // KAMERA
   File val;
-  var urlKtp = "http://192.168.43.75:8000/api/cropktp";
+  var urlKtp = "http://192.168.1.106:8000/api/cropktp";
   bool status = false;
   //************* */
 
@@ -163,7 +163,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
   //******** */
   // KAMERA
   File valkk;
-  var urlkk = "http://192.168.43.75:8000/api/cropkk";
+  var urlkk = "http://192.168.1.101:8000/api/cropkk";
 
 //******************* ***************************************/
 
@@ -352,7 +352,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
     );
 
     Uint8List bytes = await networkImageToByte(
-        "http://192.168.43.75/auth/file/Ktp/KTPME.jpeg");
+        "http://192.168.1.106/auth/file/Ktp/KTPME.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");
@@ -1062,7 +1062,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
     // );
 
     Uint8List bytes = await networkImageToByte(
-        "http://192.168.43.75/auth/file/Ktp/KKME.jpeg");
+        "http://192.168.1.101/auth/file/Ktp/KKME.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");

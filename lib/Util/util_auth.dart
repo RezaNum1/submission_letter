@@ -186,7 +186,7 @@ class UtilAuth {
   }
 
   static void clearUserPreference() async {
-    var url = "http://192.168.43.75:8000/api/removeToken";
+    var url = "http://192.168.1.106:8000/api/removeToken";
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     var id = preferences.getInt('Id');
@@ -198,7 +198,7 @@ class UtilAuth {
   }
 
   static void clearUserPreferencePenduduk() async {
-    var url = "http://192.168.43.75:8000/api/removeTokenPenduduk";
+    var url = "http://192.168.1.106:8000/api/removeTokenPenduduk";
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     var id = preferences.getInt('Id');

@@ -8,7 +8,7 @@ class ForgetPasswordPresenter {
   ForgetPasswordPresenter() {}
 
   Future<Response> forgetProcess(String emailUser, String noTeleponUser) async {
-    var url = 'http://192.168.43.75:8000/api/forgetPassword';
+    var url = 'http://192.168.1.106:8000/api/forgetPassword';
 
     Dio dio = new Dio();
 

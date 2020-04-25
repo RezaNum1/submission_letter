@@ -5,7 +5,7 @@ class SettingPresenter {
 
   Future<Response> changeMyPassword(
       int id, String oldPassword, String newPassword) async {
-    var url = 'http://192.168.43.75:8000/api/changePassword';
+    var url = 'http://192.168.1.106:8000/api/changePassword';
 
     Dio dio = new Dio();
 
