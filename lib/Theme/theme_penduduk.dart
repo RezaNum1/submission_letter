@@ -4,6 +4,7 @@ import 'package:submission_letter/Auth/presenter/login_presenter.dart';
 import 'package:submission_letter/Auth/presenter/userAuth_presenter.dart';
 import 'package:submission_letter/Auth/views/userAuth_views.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
+import 'package:submission_letter/Penduduk_Page/views/search_penduduk.dart';
 import 'package:submission_letter/Penduduk_Page/widget/rule_page.dart';
 import 'package:submission_letter/RTRW_Page/presenter/setting_presenter.dart';
 import 'package:submission_letter/Util/util_auth.dart';
@@ -330,6 +331,21 @@ class ThemeAppPenduduk {
               ),
               onTap: () {
                 UtilAuth.movePage(context, HomePenduduk());
+              },
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text(
+                "Cari Surat Seleasi",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                UtilAuth.movePage(context, SearchPenduduk());
               },
             ),
           ),

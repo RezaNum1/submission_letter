@@ -6,6 +6,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Util/scale_route.dart';
+import 'package:submission_letter/main.dart';
 
 class UtilAuth {
   static bool emailValidate(String text) {
@@ -186,7 +187,7 @@ class UtilAuth {
   }
 
   static void clearUserPreference() async {
-    var url = "http://192.168.1.106:8000/api/removeToken";
+    var url = "${MyApp.route}/api/removeToken";
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     var id = preferences.getInt('Id');
@@ -198,7 +199,7 @@ class UtilAuth {
   }
 
   static void clearUserPreferencePenduduk() async {
-    var url = "http://192.168.1.106:8000/api/removeTokenPenduduk";
+    var url = "${MyApp.route}/api/removeTokenPenduduk";
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     var id = preferences.getInt('Id');

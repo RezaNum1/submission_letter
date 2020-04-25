@@ -9,6 +9,7 @@ import 'package:submission_letter/Auth/views/login_views.dart';
 import 'package:submission_letter/Auth/views/register_views.dart';
 import 'package:submission_letter/Auth/views/userAuth_views.dart';
 import 'package:submission_letter/Util/util_auth.dart';
+import 'package:submission_letter/main.dart';
 
 class HomeBase extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _HomeBaseState extends State<HomeBase> {
   Future getDataTest() async {
     Response response;
     Dio dio = new Dio();
-    response = await dio.get("http://192.168.1.106:8000/api/test");
+    response = await dio.get("${MyApp.route}/api/test");
   }
 
   @override

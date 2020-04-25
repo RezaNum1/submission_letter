@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/main.dart';
 
 class TODOPresenter {
   TODOPresenter() {}
@@ -19,7 +20,7 @@ class TODOPresenter {
 
   Future<List<Map<String, dynamic>>> getAll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var url = "http://192.168.1.106:8000/api/rtrw/getAllData";
+    var url = "${MyApp.route}/api/rtrw/getAllData";
     var listSurat = <Map<String, dynamic>>[];
 
     // Disini Nanti Dikasih If Else untuk membedakan step antara rw = 2 dan rt = 1

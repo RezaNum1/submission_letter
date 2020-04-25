@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/main.dart';
 
 class SelesaiPresenter {
   SelesaiPresenter() {}
 
   Future<List<Map<String, dynamic>>> getAllSelesai() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var url = "http://192.168.1.106:8000/api/rtrw/getAllDataSelesai";
+    var url = "${MyApp.route}/api/rtrw/getAllDataSelesai";
     var listSurat = <Map<String, dynamic>>[];
 
     // Disini Nanti Dikasih If Else untuk membedakan step antara rw = 2 dan rt = 1
@@ -36,7 +37,7 @@ class SelesaiPresenter {
 
   Future<List<Map<String, dynamic>>> findDataSelesaiApi(
       String keyword, String tipe, int idUser) async {
-    var url = "http://192.168.1.106:8000/api/rtrw/findDataSuratSelesai";
+    var url = "${MyApp.route}/api/rtrw/findDataSuratSelesai";
     var listSurat = <Map<String, dynamic>>[];
 
     Dio dio = new Dio();

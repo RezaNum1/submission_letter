@@ -21,6 +21,7 @@ import 'package:submission_letter/Penduduk_Page/widget/dropdown_widget.dart';
 import 'package:submission_letter/Penduduk_Page/widget/file_picker_new.dart';
 import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
+import 'package:submission_letter/main.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
 
 class BuatSuratP extends StatefulWidget {
@@ -101,7 +102,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   // KAMERA
   File val;
-  var urlKtp = "http://192.168.1.106:8000/api/cropktp";
+  var urlKtp = "${MyApp.route}/api/cropktp";
   bool status = false;
   //************* */
 
@@ -194,7 +195,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   //******** */
   // KAMERA
   File valkk;
-  var urlkk = "http://192.168.1.106:8000/api/cropkk";
+  var urlkk = "${MyApp.route}/api/cropkk";
 
 //******************* ***************************************/
 
@@ -511,8 +512,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
       "new.jpg",
     );
 
-    Uint8List bytes = await networkImageToByte(
-        "http://192.168.1.106/auth/file/Ktp/KTPME.jpeg");
+    Uint8List bytes =
+        await networkImageToByte("${MyApp.routeOCR}/auth/file/Ktp/KTPME.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");
@@ -1234,8 +1235,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
     //   data.lengthInBytes,
     // );
 
-    Uint8List bytes = await networkImageToByte(
-        "http://192.168.1.106/auth/file/Ktp/KKME.jpeg");
+    Uint8List bytes =
+        await networkImageToByte("${MyApp.routeOCR}/auth/file/Ktp/KKME.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");

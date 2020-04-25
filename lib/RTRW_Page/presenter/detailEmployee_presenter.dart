@@ -4,13 +4,14 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:submission_letter/Notification/widget_function/messaging_widget.dart';
 import 'package:submission_letter/RTRW_Page/viewmodel/detailemp_viewmodel.dart';
+import 'package:submission_letter/main.dart';
 
 class DetailEmployeePresenter {
   DetailEmployeePresenter() {}
 
   Future<DetailEmpViewModel> getDetailDataSurat(
       String idApprover, String idSurat) async {
-    var url = "http://192.168.1.106:8000/api/rtrw/getDetailSurat";
+    var url = "${MyApp.route}/api/rtrw/getDetailSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idApprover": idApprover,
@@ -30,7 +31,7 @@ class DetailEmployeePresenter {
 
   Future<Response> approveSurat(
       String idSurat, int id, String keterangan, String komentar) async {
-    var url = "http://192.168.1.106:8000/api/rtrw/approveSurat";
+    var url = "${MyApp.route}/api/rtrw/approveSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
@@ -44,7 +45,7 @@ class DetailEmployeePresenter {
   }
 
   Future<Response> tolakSurat(String idSurat, int id, String komentar) async {
-    var url = "http://192.168.1.106:8000/api/rtrw/tolakSurat";
+    var url = "${MyApp.route}/api/rtrw/tolakSurat";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,
@@ -57,7 +58,7 @@ class DetailEmployeePresenter {
   }
 
   Future<Uint8List> callFileToServer(String berkas, String idSurat) async {
-    var url = "http://192.168.1.106:8000/api/rtrw/callFile";
+    var url = "${MyApp.route}/api/rtrw/callFile";
 
     Dio dio = new Dio();
 

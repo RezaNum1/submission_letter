@@ -15,6 +15,7 @@ import 'package:submission_letter/Auth/views/AuthComponent/nik_widget.dart';
 import 'package:submission_letter/Notification/UtilToken/getToken.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
+import 'package:submission_letter/main.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
 
 class OcrPenduduk extends StatefulWidget {
@@ -37,7 +38,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
   //******** */
   // KAMERA
   File val;
-  var url = "http://192.168.1.106:8000/api/cropnik";
+  var url = "${MyApp.route}/api/cropnik";
   bool status = false;
   //************* */
 
@@ -65,8 +66,8 @@ class _OcrPendudukState extends State<OcrPenduduk> {
       "new.jpg",
     );
 
-    Uint8List bytes = await networkImageToByte(
-        "http://192.168.1.106/auth/file/Ktp/KtpTmp.jpeg");
+    Uint8List bytes =
+        await networkImageToByte("${MyApp.routeOCR}/auth/file/Ktp/KtpTmp.jpeg");
     await File(imagePath).writeAsBytes(bytes);
 
     extractText = await TesseractOcr.extractText(imagePath, language: "ind");

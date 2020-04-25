@@ -2,37 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Animation/fade_animation.dart';
-import 'package:submission_letter/RTRW_Page/presenter/selesai_presenter.dart';
-import 'package:submission_letter/RTRW_Page/views/detai_empSelesai.dart';
-import 'package:submission_letter/RTRW_Page/widget/dropdown_searchEmp.dart';
+import 'package:submission_letter/Penduduk_Page/APP_TabBar/selesai_penduduk.dart';
+import 'package:submission_letter/Penduduk_Page/presenter/selesaip_presenter.dart';
+import 'package:submission_letter/Penduduk_Page/views/detailp_selesai.dart';
+import 'package:submission_letter/Penduduk_Page/widget/dropdown_searchpend.dart';
 import 'package:submission_letter/Theme/theme_emp.dart';
+import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/Util/util_rtrw.dart';
 
-class SearchEmp extends StatefulWidget {
+class SearchPenduduk extends StatefulWidget {
   @override
-  _SearchEmpState createState() => _SearchEmpState();
+  _SearchPendudukState createState() => _SearchPendudukState();
 }
 
-class _SearchEmpState extends State<SearchEmp> {
+class _SearchPendudukState extends State<SearchPenduduk> {
   bool clicked = false;
   bool noPengajuanStat = false;
-  bool nikStat = false;
-  bool noSuratRTRWStat = false;
   bool startDateStat = false;
   bool toDateStat = false;
 
   //validate
   bool _valNoPengajuan = true;
-  bool _valNik = true;
-  bool _valSuratRTRW = true;
   bool _valStartDateStat = true;
   bool _valToDateStat = true;
 
   // Controller
   var noPengajuanController = new TextEditingController();
-  var nikController = new TextEditingController();
-  var noSuratRTRWController = new TextEditingController();
   String startDate;
   String toDate;
 
@@ -53,45 +49,39 @@ class _SearchEmpState extends State<SearchEmp> {
   String nama;
   String jabatanText;
   int id;
-  @override
-  void initState() {
-    setPreference();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   setPreference();
+  //   super.initState();
+  // }
 
-  Future<void> setPreference() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      nama = pref.getString('Nama');
-      jabatanText = pref.getString('Jabatan');
-      id = pref.getInt("Id");
-    });
-  }
+  // Future<void> setPreference() async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     nama = pref.getString('Nama');
+  //     jabatanText = pref.getString('Jabatan');
+  //     id = pref.getInt("Id");
+  //   });
+  // }
 
-  void dispose() {
-    super.dispose();
-  }
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   void resetData() {
     setState(() {
       clicked = false;
       noPengajuanStat = false;
-      nikStat = false;
-      noSuratRTRWStat = false;
       startDateStat = false;
       toDateStat = false;
 
       //validate
       _valNoPengajuan = true;
-      _valNik = true;
-      _valSuratRTRW = true;
       _valStartDateStat = true;
       _valToDateStat = true;
 
       // Controller
       noPengajuanController.text = "";
-      nikController.text = "";
-      noSuratRTRWController.text = "";
       startDate = "";
       toDate = "";
       //Search Code
@@ -118,37 +108,15 @@ class _SearchEmpState extends State<SearchEmp> {
       setState(() {
         noPengajuanStat = true;
         searchCode = txt;
-        nikStat = false;
-        noSuratRTRWStat = false;
         startDateStat = false;
         toDateStat = false;
       });
     } else if (txt == "2") {
       setState(() {
-        nikStat = true;
-        searchCode = txt;
-        noPengajuanStat = false;
-        noSuratRTRWStat = false;
-        startDateStat = false;
-        toDateStat = false;
-      });
-    } else if (txt == "3") {
-      setState(() {
-        noSuratRTRWStat = true;
-        searchCode = txt;
-        noPengajuanStat = false;
-        nikStat = false;
-        startDateStat = false;
-        toDateStat = false;
-      });
-    } else if (txt == "4") {
-      setState(() {
         startDateStat = true;
         toDateStat = true;
         searchCode = txt;
-        noSuratRTRWStat = false;
         noPengajuanStat = false;
-        nikStat = false;
       });
     }
   }
@@ -169,8 +137,7 @@ class _SearchEmpState extends State<SearchEmp> {
           ),
         ),
       ),
-      drawer:
-          ThemeApp.sideBar(context, nama.toString(), jabatanText.toString()),
+      drawer: ThemeAppPenduduk.sideBar(context, "31992039290192", "0188291881"),
       body: Container(
         child: master == false
             ? ListView(
@@ -196,7 +163,7 @@ class _SearchEmpState extends State<SearchEmp> {
                             ],
                           ),
                         ),
-                        DropDownSearchEmp(
+                        DropDownSearchPend(
                           changeFunc: changeFuncStat,
                         ),
                         noPengajuanStat
@@ -226,60 +193,6 @@ class _SearchEmpState extends State<SearchEmp> {
                                   ),
                                 ),
                               )
-                            : Container(),
-                        nikStat
-                            ? FadeAnimation(
-                                0.1,
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.grey[300],
-                                      ),
-                                    ),
-                                  ),
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        labelText: 'NIK Pemohon',
-                                        hintText: "Masukkan Nik Pemohon",
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                        ),
-                                        errorText: _valNik == false
-                                            ? "Masukkan Nama Pemohon!"
-                                            : null),
-                                    controller: nikController,
-                                  ),
-                                ))
-                            : Container(),
-                        noSuratRTRWStat
-                            ? FadeAnimation(
-                                0.1,
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.grey[300],
-                                      ),
-                                    ),
-                                  ),
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        labelText: 'No Surat RT / RW',
-                                        hintText: "Masukkan No Surat RT / RW",
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                        ),
-                                        errorText: _valSuratRTRW == false
-                                            ? "Masukkan No Surat RT / RW!"
-                                            : null),
-                                    controller: noSuratRTRWController,
-                                  ),
-                                ))
                             : Container(),
                         startDateStat
                             ? FadeAnimation(
@@ -383,29 +296,6 @@ class _SearchEmpState extends State<SearchEmp> {
                                         });
                                       }
                                     } else if (searchCode == "2") {
-                                      if (nikController.text.isNotEmpty) {
-                                        setState(() {
-                                          _valNik = true;
-                                        });
-                                        _findDataSelesai();
-                                      } else {
-                                        setState(() {
-                                          _valNik = false;
-                                        });
-                                      }
-                                    } else if (searchCode == "3") {
-                                      if (noSuratRTRWController
-                                          .text.isNotEmpty) {
-                                        setState(() {
-                                          _valSuratRTRW = true;
-                                        });
-                                        _findDataSelesai();
-                                      } else {
-                                        setState(() {
-                                          _valSuratRTRW = false;
-                                        });
-                                      }
-                                    } else if (searchCode == "4") {
                                       if (startDate != null) {
                                         setState(() {
                                           _valStartDateStat = true;
@@ -444,10 +334,9 @@ class _SearchEmpState extends State<SearchEmp> {
                       itemCount: dataFull.length,
                       itemBuilder: (BuildContext context, int index) {
                         return suratWidget(
-                          dataFull[index]["idJobPos"].toString(),
                           dataFull[index]["idSurat"].toString(),
                           dataFull[index]["tipe"].toString(),
-                          dataFull[index]["penduduk"],
+                          dataFull[index]["noPengajuan"],
                           UtilRTRW.convertDateTime(
                             dataFull[index]["tanggal"],
                           ),
@@ -477,20 +366,15 @@ class _SearchEmpState extends State<SearchEmp> {
   }
 
   Future<void> _findDataSelesai() async {
-    SelesaiPresenter presenter = new SelesaiPresenter();
+    SelesaipPresenter presenter = new SelesaipPresenter();
     List<Map<String, dynamic>> allData;
     if (searchCode == "1") {
-      allData = await presenter.findDataSelesaiApi(
-          noPengajuanController.text, searchCode, id);
+      allData = await presenter.findDataSelesaiApiPenduduk(
+          noPengajuanController.text, searchCode, 1);
     } else if (searchCode == "2") {
-      allData = await presenter.findDataSelesaiApi(
-          nikController.text, searchCode, id);
-    } else if (searchCode == "3") {
-      allData = await presenter.findDataSelesaiApi(
-          noSuratRTRWController.text, searchCode, id);
-    } else if (searchCode == "4") {
       var startEnd = "$startDate $toDate";
-      allData = await presenter.findDataSelesaiApi(startEnd, searchCode, id);
+      allData =
+          await presenter.findDataSelesaiApiPenduduk(startEnd, searchCode, 1);
     }
 
     if (allData.isEmpty) {
@@ -508,8 +392,8 @@ class _SearchEmpState extends State<SearchEmp> {
     });
   }
 
-  Widget suratWidget(String idJobPos, String idSurat, String tipe, String nama,
-      String tanggal) {
+  Widget suratWidget(
+      String idSurat, String tipe, String noPengajuan, String tanggal) {
     String titleName;
     String subTitleName;
 
@@ -520,6 +404,24 @@ class _SearchEmpState extends State<SearchEmp> {
     } else if (tipe == "2") {
       titleName = "SD";
       subTitleName = "Pengajuan Surat Keterangan Domisili";
+    } else if (tipe == "3") {
+      titleName = "SPIK";
+      subTitleName = "Pengajuan Surat Pengantar Izin Keramaian";
+    } else if (tipe == "4") {
+      titleName = "SKBM";
+      subTitleName = "Pengajuan Surat Keterangan Belum Menikah";
+    } else if (tipe == "5") {
+      titleName = "SKC";
+      subTitleName = "Pengajuan Surat Keterangan Cerai Hidup / Mati";
+    } else if (tipe == "6") {
+      titleName = "SKD";
+      subTitleName = "Pengajuan Surat Keterangan Domisili";
+    } else if (tipe == "7") {
+      titleName = "SKK";
+      subTitleName = "Pengajuan Surat Keterangan Kematian";
+    } else if (tipe == "8") {
+      titleName = "SKP";
+      subTitleName = "Pengajuan Surat Keterangan Pindah";
     }
     return Card(
       child: ListTile(
@@ -555,7 +457,7 @@ class _SearchEmpState extends State<SearchEmp> {
                   ),
                 ),
                 Text(
-                  "Pemohon : $nama",
+                  "No Pengajuan : $noPengajuan",
                   style: TextStyle(color: Colors.black54, fontSize: 13),
                 ),
                 Text(
@@ -569,11 +471,8 @@ class _SearchEmpState extends State<SearchEmp> {
         onTap: () {
           UtilAuth.movePage(
               context,
-              DetailEmpSelesai(
-                idJobPos: idJobPos,
+              DetailpSelesai(
                 idSurat: idSurat,
-                namaPenduduk: nama,
-                tanggal: tanggal,
                 tipe: tipe,
               ));
         },

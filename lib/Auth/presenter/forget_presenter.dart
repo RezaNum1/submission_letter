@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:submission_letter/Util/util_auth.dart';
+import 'package:submission_letter/main.dart';
 
 class ForgetPasswordPresenter {
   ForgetPasswordPresenter() {}
 
   Future<Response> forgetProcess(String emailUser, String noTeleponUser) async {
-    var url = 'http://192.168.1.106:8000/api/forgetPassword';
+    var url = '${MyApp.route}/api/forgetPassword';
 
     Dio dio = new Dio();
 

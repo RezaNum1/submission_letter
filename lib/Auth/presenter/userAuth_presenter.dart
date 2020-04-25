@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'dart:math' as math;
 
+import 'package:submission_letter/main.dart';
+
 class UserAuthPresenter {
   UserAuthPresenter() {}
 
   Future<Response> cekPhoneNumber(String phoneNum, String token) async {
-    var url = "http://192.168.1.106:8000/api/cekPhoneNumber";
+    var url = "${MyApp.route}/api/cekPhoneNumber";
     Dio dio = new Dio();
 
     FormData formData = new FormData.fromMap({
@@ -18,7 +20,7 @@ class UserAuthPresenter {
   }
 
   Future<Response> regisData(String phone, String nik, String tokens) async {
-    var url = "http://192.168.1.106:8000/api/resgisPenduduk";
+    var url = "${MyApp.route}/api/resgisPenduduk";
     Dio dio = new Dio();
 
     FormData formData = new FormData.fromMap({

@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:submission_letter/main.dart';
 
 class SettingPresenter {
   SettingPresenter() {}
 
   Future<Response> changeMyPassword(
       int id, String oldPassword, String newPassword) async {
-    var url = 'http://192.168.1.106:8000/api/changePassword';
+    var url = '${MyApp.route}/api/changePassword';
 
     Dio dio = new Dio();
 

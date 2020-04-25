@@ -18,6 +18,7 @@ import 'package:submission_letter/Auth/views/login_views.dart';
 import 'package:submission_letter/Penduduk_Page/widget/cancle_btn.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/home_page.dart';
+import 'package:submission_letter/main.dart';
 
 class RegisterViews extends StatefulWidget {
   final RegisterPresenter presenter;
@@ -27,7 +28,7 @@ class RegisterViews extends StatefulWidget {
 }
 
 class _RegisterViewsState extends State<RegisterViews> {
-  var urls = 'http://192.168.43.75:8000/api/register';
+  var urls = '${MyApp.route}/api/register';
   String rwTextDrop;
   String rtTextDrop;
   String namaPegawai;

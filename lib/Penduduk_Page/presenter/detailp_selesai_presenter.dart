@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:submission_letter/Penduduk_Page/viewmodel/detailp_selesai_viewmodel.dart';
+import 'package:submission_letter/main.dart';
 
 class DetailPSelesaiPresenter {
   DetailPSelesaiPresenter() {}
@@ -9,7 +10,7 @@ class DetailPSelesaiPresenter {
       String idSurat) async {
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // var idUser = preferences.getInt("Id");
-    var url = "http://192.168.1.106:8000/api/penduduk/getDetailSuratSel";
+    var url = "${MyApp.route}/api/penduduk/getDetailSuratSel";
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "idSurat": idSurat,

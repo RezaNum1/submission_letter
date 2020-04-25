@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:submission_letter/main.dart';
 
 class BuatSuratPresenter {
   BuatSuratPresenter() {}
@@ -27,7 +28,7 @@ class BuatSuratPresenter {
       File skks,
       File skkdrs,
       File skck) async {
-    var url = "http://192.168.1.106:8000/api/penduduk/buatSurat"; //perbaiki
+    var url = "${MyApp.route}/api/penduduk/buatSurat"; //perbaiki
     Dio dio = new Dio();
     FormData formData = new FormData.fromMap({
       "tipe": tipe,

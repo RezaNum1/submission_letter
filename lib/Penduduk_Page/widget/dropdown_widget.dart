@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:submission_letter/main.dart';
 
 class DropDownWidget extends StatefulWidget {
   Function(String) dataRw;
@@ -15,7 +16,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   int index;
   bool stat = false;
 
-  final String url = "http://192.168.1.101:8000/api/penduduk/getJabatan";
+  final String url = "${MyApp.route}/api/penduduk/getJabatan";
 
   List data = List(); //edited line
   List<dynamic> tmp = List();
