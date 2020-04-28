@@ -484,7 +484,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   //************************* OCR FUNCTION *************************** */
 
   // //KAMERA
-  Future<void> sendToServer(BuildContext context) async {
+  Future<void> sendToServer(BuildContext context, double sizes) async {
     if (val == null) {
       return;
     }
@@ -493,8 +493,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
     Dio dio = new Dio();
 
-    var datas = FormData.fromMap(
-        {"ktp": await MultipartFile.fromFile(val.path), "nama": "KTPME"});
+    var datas = FormData.fromMap({
+      "ktp": await MultipartFile.fromFile(val.path),
+      "nama": "KTPME",
+      "size": sizes
+    });
 
     var response = await dio.post(urlKtp, data: datas);
     if (response.data['message'] == true) {
@@ -713,7 +716,27 @@ class _BuatSuratPState extends State<BuatSuratP> {
       }
 
       //RTRW
-      var rtrwFill = List<String>.from(arrOCR[5].split(''));
+      var rtrwFill;
+
+      if (arrOCR[7].split(" ")[0].contains("RT")) {
+        rtrwFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("W")) {
+        rtrwFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("/")) {
+        rtrwFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("RT")) {
+        rtrwFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("W")) {
+        rtrwFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("/")) {
+        rtrwFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("RT")) {
+        rtrwFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("W")) {
+        rtrwFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("/")) {
+        rtrwFill = List<String>.from(arrOCR[5].split(''));
+      }
       for (var i = 0; i < rtrwFill.length; i++) {
         rtrwFill.remove('.');
         rtrwFill.remove('_');
@@ -737,7 +760,48 @@ class _BuatSuratPState extends State<BuatSuratP> {
       }
 
       //Kelurahan
-      var kelFill = List<String>.from(arrOCR[6].split(''));
+      var kelFill;
+      if (arrOCR[6].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      }
       for (var i = 0; i < kelFill.length; i++) {
         kelFill.remove('.');
         kelFill.remove('_');
@@ -760,7 +824,59 @@ class _BuatSuratPState extends State<BuatSuratP> {
       }
 
       //Agama
-      var agamaFill = List<String>.from(arrOCR[8].split(''));
+      var agamaFill;
+
+      if (arrOCR[8].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
         agamaFill.remove('_');
@@ -784,7 +900,58 @@ class _BuatSuratPState extends State<BuatSuratP> {
       }
 
       //SP
-      var spFill = List<String>.from(arrOCR[9].split(''));
+      var spFill;
+      if (arrOCR[9].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      }
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
         spFill.remove('_');
@@ -808,7 +975,58 @@ class _BuatSuratPState extends State<BuatSuratP> {
       }
 
       //Pekerjaan
-      var workFill = List<String>.from(arrOCR[10].split(''));
+      var workFill;
+      if (arrOCR[10].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      }
       for (var i = 0; i < workFill.length; i++) {
         workFill.remove('.');
         workFill.remove('_');
@@ -903,138 +1121,180 @@ class _BuatSuratPState extends State<BuatSuratP> {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
             title: Text('Form Biodata KTP'),
-            content: ListView(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'NIK',
-                    hintText: "Masukkan NIK Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+            content: Container(
+              width: 150,
+              height: 350,
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'NIK',
+                        hintText: "Masukkan NIK Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: _valpnik == false
+                            ? "Nik Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _nikController,
                     ),
-                    errorText:
-                        _valpnik == false ? "Nik Tidak Boleh Kosong!" : null,
                   ),
-                  controller: _nikController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Nama',
-                    hintText: "Masukkan Nama Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Nama',
+                        hintText: "Masukkan Nama Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpnama == false)
+                            ? "Nama Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _namaController,
                     ),
-                    errorText: (_valpnama == false)
-                        ? "Nama Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _namaController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Alamat',
-                    hintText: "Masukkan Alamat Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Alamat',
+                        hintText: "Masukkan Alamat Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpalamat == false)
+                            ? "Alamat Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _alamatController,
                     ),
-                    errorText: (_valpalamat == false)
-                        ? "Alamat Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _alamatController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'RT/RW',
-                    hintText: "Masukkan RTRW Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'RT/RW',
+                        hintText: "Masukkan RTRW Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valprtrw == false)
+                            ? "RT/RW Anda Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _rtrwController,
                     ),
-                    errorText: (_valprtrw == false)
-                        ? "RT/RW Anda Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _rtrwController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Kelurahan',
-                    hintText: "Masukkan Kelurahan Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Kelurahan',
+                        hintText: "Masukkan Kelurahan Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpkelurahan == false)
+                            ? "Kelurahan Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _kelurahanController,
                     ),
-                    errorText: (_valpkelurahan == false)
-                        ? "Kelurahan Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _kelurahanController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Agama',
-                    hintText: "Masukkan Agama Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Agama',
+                        hintText: "Masukkan Agama Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpagama == false)
+                            ? "Agama Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _agamaController,
                     ),
-                    errorText: (_valpagama == false)
-                        ? "Agama Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _agamaController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Status Perkawinan',
-                    hintText: "Masukkan Status Perkawinan Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Status Perkawinan',
+                        hintText: "Masukkan Status Perkawinan Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpperkawawinan == false)
+                            ? "Status Perkawinan Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _spController,
                     ),
-                    errorText: (_valpperkawawinan == false)
-                        ? "Status Perkawinan Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _spController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Pekerjaan',
-                    hintText: "Masukkan Pekerjaan Anda",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Pekerjaan',
+                        hintText: "Masukkan Pekerjaan Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valppekerjaan == false)
+                            ? "Pekerjaan Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _workController,
                     ),
-                    errorText: (_valppekerjaan == false)
-                        ? "Pekerjaan Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _workController,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: 'Pendidikan Terakhir',
-                    hintText: "Contoh: SMA, S1, S2",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Pendidikan Terakhir',
+                        hintText: "Contoh: SMA, S1, S2",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valppendidikan == false)
+                            ? "Pendidikan Terakhir Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _pendidikanController,
                     ),
-                    errorText: (_valppendidikan == false)
-                        ? "Pendidikan Terakhir Tidak Boleh Kosong!"
-                        : null,
                   ),
-                  controller: _pendidikanController,
-                ),
-              ],
+                ],
+              ),
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Oks'),
+                child: Text('Ok'),
                 onPressed: () {
                   if (_nikController.text != "") {
                     setState(() {
@@ -1357,6 +1617,22 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double bigBoxHeight;
+    double topBigBox;
+    double leftBigBox;
+    double widthBigBox;
+
+    //Frame
+    double topFrame;
+    double rightFrame;
+    double heightFrame;
+
+    //Text
+    double topText;
+    double rightText;
+    double heightText;
+
     String judulDetail;
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Miskin";
@@ -1632,62 +1908,116 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                 side: BorderSide(color: Colors.orange),
                               ),
                               onPressed: () async {
+                                if (height < 650) {
+                                  setState(() {
+                                    bigBoxHeight = 530;
+                                    topBigBox = 10;
+                                    leftBigBox = 25;
+                                    widthBigBox = 310;
+                                    topFrame = 25;
+                                    rightFrame = 70;
+                                    heightFrame = 350;
+                                    topText = 70;
+                                    rightText = 340;
+                                    heightText = 550;
+                                  });
+                                }
+                                if (height >= 716) {
+                                  bigBoxHeight = height - 150;
+                                  topBigBox = 50;
+                                  leftBigBox = 0;
+                                  widthBigBox =
+                                      MediaQuery.of(context).size.width;
+                                  topFrame = 65;
+                                  rightFrame = 50;
+                                  heightFrame = height - 340;
+                                  topText = 70;
+                                  rightText = 340;
+                                  heightText = 550;
+                                }
+                                if (height >= 850) {
+                                  bigBoxHeight = MediaQuery.of(context)
+                                          .size
+                                          .height
+                                          .ceil() -
+                                      200.0;
+                                  topBigBox = 60;
+                                  leftBigBox = 0;
+                                  widthBigBox =
+                                      MediaQuery.of(context).size.width;
+                                  topFrame = 80;
+                                  rightFrame = 60;
+                                  heightFrame = MediaQuery.of(context)
+                                          .size
+                                          .height
+                                          .ceil() -
+                                      420.0;
+                                  topText = 70;
+                                  rightText = 390;
+                                  heightText = 550;
+                                }
                                 val = await showDialog(
                                     context: context,
                                     builder: (context) => Camera(
                                           mode: CameraMode.normal,
                                           orientationEnablePhoto:
                                               CameraOrientation.all,
-                                          imageMask: Stack(
-                                            children: <Widget>[
-                                              Positioned(
-                                                top: 10,
-                                                left: 20,
-                                                child: Container(
-                                                  height: 530,
-                                                  width: 330,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 3,
-                                                          color: Colors.white)),
+                                          imageMask: SafeArea(
+                                            top: true,
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Positioned(
+                                                  top: topBigBox,
+                                                  left: leftBigBox,
+                                                  child: Container(
+                                                    height: bigBoxHeight,
+                                                    width: widthBigBox,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 3,
+                                                            color:
+                                                                Colors.white)),
+                                                  ),
                                                 ),
-                                              ),
-                                              Positioned(
-                                                top: 30,
-                                                right: 60,
-                                                child: Container(
-                                                  width: 30,
-                                                  height: 350,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 2,
-                                                          color: Colors.white)),
+                                                Positioned(
+                                                  top: topFrame,
+                                                  right: rightFrame,
+                                                  child: Container(
+                                                    width: 30,
+                                                    height: heightFrame,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 2,
+                                                            color:
+                                                                Colors.white)),
+                                                  ),
                                                 ),
-                                              ),
-                                              Positioned(
-                                                top: 10,
-                                                right: 340,
-                                                child: Container(
-                                                  width: 40,
-                                                  height: 500,
-                                                  child: RotatedBox(
-                                                    quarterTurns: 1,
-                                                    child: Text(
-                                                      "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                Positioned(
+                                                  top: topText,
+                                                  right: rightText,
+                                                  child: Container(
+                                                    width: 40,
+                                                    height: heightText,
+                                                    child: RotatedBox(
+                                                      quarterTurns: 1,
+                                                      child: Text(
+                                                        "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ));
                                 setState(() {});
 
-                                sendToServer(context);
+                                sendToServer(context, height);
                               }),
                         )
                       : Container(
