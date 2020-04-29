@@ -283,6 +283,35 @@ class _DetailpTolakState extends State<DetailpTolak> {
     });
   }
 
+  void setKtpImageNull() {
+    setState(() {
+      okPressKtp = false;
+      ktpImage = null;
+
+      nikText = null;
+      provText = null;
+      kota_kecText = null;
+      tgl_lahirText = null;
+      jenis_kelaminText = null;
+      namaText = null;
+      alamatText = null;
+      rtrwText = null;
+      kelText = null;
+      agamaText = null;
+      spText = null;
+      workText = null;
+      pendidikanText = null;
+    });
+  }
+
+  void setKKImageNull() {
+    setState(() {
+      okPressKK = false;
+      kkImage = null;
+      nokkText = null;
+    });
+  }
+
 //************************************** END File Perbaikan ******** */
   @override
   void initState() {
@@ -325,7 +354,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
   //************************* OCR FUNCTION *************************** */
 
   //KAMERA
-  Future<void> sendToServer(BuildContext context) async {
+  Future<void> sendToServer(BuildContext context, double sizes) async {
     netralVariable();
     if (val == null) {
       return;
@@ -333,8 +362,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
     UtilAuth.loading(context);
     Dio dio = new Dio();
 
-    var datas = FormData.fromMap(
-        {"ktp": await MultipartFile.fromFile(val.path), "nama": "KTPME"});
+    var datas = FormData.fromMap({
+      "ktp": await MultipartFile.fromFile(val.path),
+      "nama": "KTPME",
+      "size": sizes
+    });
 
     var response = await dio.post(urlKtp, data: datas);
     if (response.data['message'] == true) {
@@ -553,7 +585,27 @@ class _DetailpTolakState extends State<DetailpTolak> {
       }
 
       //RTRW
-      var rtrwFill = List<String>.from(arrOCR[5].split(''));
+      var rtrwFill;
+
+      if (arrOCR[7].split(" ")[0].contains("RT")) {
+        rtrwFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("W")) {
+        rtrwFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("/")) {
+        rtrwFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("RT")) {
+        rtrwFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("W")) {
+        rtrwFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("/")) {
+        rtrwFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("RT")) {
+        rtrwFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("W")) {
+        rtrwFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("/")) {
+        rtrwFill = List<String>.from(arrOCR[5].split(''));
+      }
       for (var i = 0; i < rtrwFill.length; i++) {
         rtrwFill.remove('.');
         rtrwFill.remove('_');
@@ -577,7 +629,48 @@ class _DetailpTolakState extends State<DetailpTolak> {
       }
 
       //Kelurahan
-      var kelFill = List<String>.from(arrOCR[6].split(''));
+      var kelFill;
+      if (arrOCR[6].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[6].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[6].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[7].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[7].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Kel")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Desa")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("De")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("D")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Ke")) {
+        kelFill = List<String>.from(arrOCR[9].split(''));
+      }
       for (var i = 0; i < kelFill.length; i++) {
         kelFill.remove('.');
         kelFill.remove('_');
@@ -600,7 +693,59 @@ class _DetailpTolakState extends State<DetailpTolak> {
       }
 
       //Agama
-      var agamaFill = List<String>.from(arrOCR[8].split(''));
+      var agamaFill;
+
+      if (arrOCR[8].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[8].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[8].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Agama")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Agam")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("gama")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("ag")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("g")) {
+        agamaFill = List<String>.from(arrOCR[12].split(''));
+      }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
         agamaFill.remove('_');
@@ -624,7 +769,58 @@ class _DetailpTolakState extends State<DetailpTolak> {
       }
 
       //SP
-      var spFill = List<String>.from(arrOCR[9].split(''));
+      var spFill;
+      if (arrOCR[9].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[9].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[9].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Statu")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("tatus")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("St")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("S")) {
+        spFill = List<String>.from(arrOCR[13].split(''));
+      }
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
         spFill.remove('_');
@@ -648,7 +844,58 @@ class _DetailpTolakState extends State<DetailpTolak> {
       }
 
       //Pekerjaan
-      var workFill = List<String>.from(arrOCR[10].split(''));
+      var workFill;
+      if (arrOCR[10].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[10].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[10].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[11].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[11].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[12].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[12].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[13].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("Pek")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("ker")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("jaan")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("Ke")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR[14].split(" ")[0].contains("K")) {
+        workFill = List<String>.from(arrOCR[14].split(''));
+      }
       for (var i = 0; i < workFill.length; i++) {
         workFill.remove('.');
         workFill.remove('_');
@@ -729,249 +976,310 @@ class _DetailpTolakState extends State<DetailpTolak> {
     _spController.text = spText;
     _workController.text = workText;
 
+    //************************* VALIDATE POPUP */
+    bool _valpnik = true;
+    bool _valpnama = true;
+    bool _valpalamat = true;
+    bool _valpkelurahan = true;
+    bool _valprtrw = true;
+    bool _valppendidikan = true;
+    bool _valpagama = true;
+    bool _valppekerjaan = true;
+    bool _valpperkawawinan = true;
+
+    //****************************** */
+
     Navigator.of(context, rootNavigator: true).pop();
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        // return Dialog(
-        return AlertDialog(
-          title: Text('Peringatan!'),
-          content: ListView(
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'NIK',
-                  hintText: "Masukkan NIK Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: Text('Form Biodata KTP'),
+            content: Container(
+              width: 150,
+              height: 350,
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'NIK',
+                        hintText: "Masukkan NIK Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: _valpnik == false
+                            ? "Nik Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _nikController,
+                    ),
                   ),
-                  errorText:
-                      _valpnik == false ? "Nik Tidak Boleh Kosong!" : null,
-                ),
-                controller: _nikController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Nama',
-                  hintText: "Masukkan Nama Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Nama',
+                        hintText: "Masukkan Nama Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpnama == false)
+                            ? "Nama Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _namaController,
+                    ),
                   ),
-                  errorText:
-                      (_valpnama == false) ? "Nama Tidak Boleh Kosong!" : null,
-                ),
-                controller: _namaController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Alamat',
-                  hintText: "Masukkan Alamat Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Alamat',
+                        hintText: "Masukkan Alamat Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpalamat == false)
+                            ? "Alamat Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _alamatController,
+                    ),
                   ),
-                  errorText: (_valpalamat == false)
-                      ? "Alamat Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _alamatController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'RT/RW',
-                  hintText: "Masukkan RTRW Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'RT/RW',
+                        hintText: "Masukkan RTRW Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valprtrw == false)
+                            ? "RT/RW Anda Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _rtrwController,
+                    ),
                   ),
-                  errorText: (_valprtrw == false)
-                      ? "RT/RW Anda Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _rtrwController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Kelurahan',
-                  hintText: "Masukkan Kelurahan Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Kelurahan',
+                        hintText: "Masukkan Kelurahan Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpkelurahan == false)
+                            ? "Kelurahan Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _kelurahanController,
+                    ),
                   ),
-                  errorText: (_valpkelurahan == false)
-                      ? "Kelurahan Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _kelurahanController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Agama',
-                  hintText: "Masukkan Agama Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Agama',
+                        hintText: "Masukkan Agama Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpagama == false)
+                            ? "Agama Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _agamaController,
+                    ),
                   ),
-                  errorText: (_valpagama == false)
-                      ? "Agama Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _agamaController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Status Perkawinan',
-                  hintText: "Masukkan Status Perkawinan Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Status Perkawinan',
+                        hintText: "Masukkan Status Perkawinan Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valpperkawawinan == false)
+                            ? "Status Perkawinan Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _spController,
+                    ),
                   ),
-                  errorText: (_valpperkawawinan == false)
-                      ? "Status Perkawinan Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _spController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Pekerjaan',
-                  hintText: "Masukkan Pekerjaan Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Pekerjaan',
+                        hintText: "Masukkan Pekerjaan Anda",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valppekerjaan == false)
+                            ? "Pekerjaan Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _workController,
+                    ),
                   ),
-                  errorText: (_valppekerjaan == false)
-                      ? "Pekerjaan Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _workController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Pendidikan Terakhir',
-                  hintText: "Contoh: SMA, S1, S2",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Pendidikan Terakhir',
+                        hintText: "Contoh: SMA, S1, S2",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                        errorText: (_valppendidikan == false)
+                            ? "Pendidikan Terakhir Tidak Boleh Kosong!"
+                            : null,
+                      ),
+                      controller: _pendidikanController,
+                    ),
                   ),
-                  errorText: (_valppendidikan == false)
-                      ? "Pendidikan Terakhir Tidak Boleh Kosong!"
-                      : null,
-                ),
-                controller: _pendidikanController,
+                ],
               ),
-            ],
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Ok'),
-              onPressed: () {
-                if (_nikController.text != "") {
-                  setState(() {
-                    _valpnik = true;
-                  });
-                  if (_namaController.text.isNotEmpty) {
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  if (_nikController.text != "") {
                     setState(() {
-                      _valpnama = true;
+                      _valpnik = true;
                     });
-                    if (_alamatController.text.isNotEmpty) {
+
+                    if (_namaController.text.isNotEmpty) {
                       setState(() {
-                        _valpalamat = true;
+                        _valpnama = true;
                       });
-                      if (_rtrwController.text.isNotEmpty) {
+                      if (_alamatController.text.isNotEmpty) {
                         setState(() {
-                          _valprtrw = true;
+                          _valpalamat = true;
                         });
-                        if (_kelurahanController.text.isNotEmpty) {
+                        if (_rtrwController.text.isNotEmpty) {
                           setState(() {
-                            _valpkelurahan = true;
+                            _valprtrw = true;
                           });
-                          if (_agamaController.text.isNotEmpty) {
+                          if (_kelurahanController.text.isNotEmpty) {
                             setState(() {
-                              _valpagama = true;
+                              _valpkelurahan = true;
                             });
-                            if (_spController.text.isNotEmpty) {
+                            if (_agamaController.text.isNotEmpty) {
                               setState(() {
-                                _valpperkawawinan = true;
+                                _valpagama = true;
                               });
-                              if (_workController.text.isNotEmpty) {
+                              if (_spController.text.isNotEmpty) {
                                 setState(() {
-                                  _valppekerjaan = true;
+                                  _valpperkawawinan = true;
                                 });
-                                if (_pendidikanController.text.isNotEmpty) {
+                                if (_workController.text.isNotEmpty) {
                                   setState(() {
-                                    _valppendidikan = true;
+                                    _valppekerjaan = true;
                                   });
-                                  var arrNIK = new List<String>.from(
-                                      _nikController.text.toString().split(''));
-                                  transleteNIK(arrNIK);
-                                  //SetState di sini
-                                  setState(() {
-                                    nikText = _nikController.text;
-                                    namaText = _namaController.text;
-                                    alamatText = _alamatController.text;
-                                    rtrwText = _rtrwController.text;
-                                    kelText = _kelurahanController.text;
-                                    agamaText = _agamaController.text;
-                                    spText = _spController.text;
-                                    workText = _workController.text;
-                                    pendidikanText = _pendidikanController.text;
-                                    okPressKtp = true;
-                                    ktpImage = val;
-                                  });
-                                  Navigator.of(context).pop();
+                                  if (_pendidikanController.text.isNotEmpty) {
+                                    setState(() {
+                                      _valppendidikan = true;
+                                    });
+                                    var arrNIK = new List<String>.from(
+                                        _nikController.text
+                                            .toString()
+                                            .split(''));
+                                    transleteNIK(arrNIK);
+                                    //SetState di sini
+                                    setState(() {
+                                      nikText = _nikController.text;
+                                      namaText = _namaController.text;
+                                      alamatText = _alamatController.text;
+                                      rtrwText = _rtrwController.text;
+                                      kelText = _kelurahanController.text;
+                                      agamaText = _agamaController.text;
+                                      spText = _spController.text;
+                                      workText = _workController.text;
+                                      pendidikanText =
+                                          _pendidikanController.text;
+                                      okPressKtp = true;
+                                      ktpImage = val;
+                                    });
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    setState(() {
+                                      _valppendidikan = false;
+                                    });
+                                  }
                                 } else {
                                   setState(() {
-                                    _valppendidikan = false;
+                                    _valppekerjaan = false;
                                   });
                                 }
                               } else {
                                 setState(() {
-                                  _valppekerjaan = false;
+                                  _valpperkawawinan = false;
                                 });
                               }
                             } else {
                               setState(() {
-                                _valpperkawawinan = false;
+                                _valpagama = false;
                               });
                             }
                           } else {
                             setState(() {
-                              _valpagama = false;
+                              _valpkelurahan = false;
                             });
                           }
                         } else {
                           setState(() {
-                            _valpkelurahan = false;
+                            _valprtrw = false;
                           });
                         }
                       } else {
                         setState(() {
-                          _valprtrw = false;
+                          _valpalamat = false;
                         });
                       }
                     } else {
                       setState(() {
-                        _valpalamat = false;
+                        _valpnama = false;
                       });
                     }
                   } else {
                     setState(() {
-                      _valpnama = false;
+                      _valpnik = false;
                     });
                   }
-                } else {
-                  setState(() {
-                    _valpnik = false;
-                  });
-                }
-              },
-            )
-          ],
-        );
+                },
+              )
+            ],
+          );
+        });
         // );
       },
     );
@@ -1030,18 +1338,20 @@ class _DetailpTolakState extends State<DetailpTolak> {
   //***************************************************************** */
   //********************************* OCR KK FUNCTION ******************/
 
-  Future<void> sendToServerkk(BuildContext context) async {
+  Future<void> sendToServerkk(BuildContext context, double size) async {
     if (val == null) {
       return;
     }
     UtilAuth.loading(context);
     Dio dio = new Dio();
 
-    var datas = FormData.fromMap(
-        {"kk": await MultipartFile.fromFile(valkk.path), "nama": "KKME"});
+    var datas = FormData.fromMap({
+      "kk": await MultipartFile.fromFile(valkk.path),
+      "nama": "KKME",
+      "size": size
+    });
 
     var response = await dio.post(urlkk, data: datas);
-    print(response.data['message']);
     if (response.data['message'] == true) {
       initPlatformStatekk(context);
     }
@@ -1127,6 +1437,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
   Widget popupskk(BuildContext context) {
     _kkController.text = nokkText;
+    bool _valpkk = true;
 
     Navigator.of(context, rootNavigator: true).pop();
     showDialog(
@@ -1136,18 +1447,23 @@ class _DetailpTolakState extends State<DetailpTolak> {
         // return Dialog(
         return AlertDialog(
           title: Text('Form No KK'),
-          content: TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              labelText: 'No Kartu Keluarga',
-              hintText: "Masukkan No KK Anda",
-              hintStyle: TextStyle(
-                color: Colors.grey[400],
+          content: Container(
+            width: 100,
+            height: 60,
+            child: TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                labelText: 'No Kartu Keluarga',
+                hintText: "Masukkan No KK Anda",
+                hintStyle: TextStyle(
+                  color: Colors.grey[400],
+                ),
+                errorText: (_valpkk == false)
+                    ? "No KK Anda Tidak Boleh Kosong!"
+                    : null,
               ),
-              errorText:
-                  (_valpkk == false) ? "No KK Anda Tidak Boleh Kosong!" : null,
+              controller: _kkController,
             ),
-            controller: _kkController,
           ),
           actions: <Widget>[
             FlatButton(
@@ -1186,7 +1502,28 @@ class _DetailpTolakState extends State<DetailpTolak> {
       String noSuratRT,
       String noSuratRW,
       List history) {
+    double height = MediaQuery.of(context).size.height;
+    double bigBoxHeight;
+    double topBigBox;
+    double leftBigBox;
+    double widthBigBox;
+
+    //Frame
+    double topFrame;
+    double rightFrame;
+    double heightFrame;
+
+    //Text
+    double topText;
+    double rightText;
+    double heightText;
     String judulDetail;
+
+    // KK
+    double topFramekk;
+    double rightFramekk;
+    double widthFramekk;
+    double heightFramekk;
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
@@ -1573,137 +1910,248 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   "KTP:",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
-                Container(
-                  width: double.infinity,
-                  child: RaisedButton(
-                      child: Text(
-                        "Scan KTP",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      textColor: Colors.white,
-                      color: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.orange),
-                      ),
-                      onPressed: () async {
-                        val = await showDialog(
-                            context: context,
-                            builder: (context) => Camera(
-                                  mode: CameraMode.normal,
-                                  orientationEnablePhoto: CameraOrientation.all,
-                                  imageMask: Stack(
-                                    children: <Widget>[
-                                      Positioned(
-                                        top: 10,
-                                        left: 20,
-                                        child: Container(
-                                          height: 530,
-                                          width: 330,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 3,
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 30,
-                                        right: 60,
-                                        child: Container(
-                                          width: 30,
-                                          height: 350,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 10,
-                                        right: 340,
-                                        child: Container(
-                                          width: 40,
-                                          height: 500,
-                                          child: RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Text(
-                                              "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
+                ktpImage == null
+                    ? Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            child: Text(
+                              "Scan KTP",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: Colors.orange),
+                            ),
+                            onPressed: () async {
+                              if (height < 650) {
+                                setState(() {
+                                  bigBoxHeight = 530;
+                                  topBigBox = 10;
+                                  leftBigBox = 25;
+                                  widthBigBox = 310;
+                                  topFrame = 25;
+                                  rightFrame = 70;
+                                  heightFrame = 350;
+                                  topText = 70;
+                                  rightText = 340;
+                                  heightText = 550;
+                                });
+                              }
+                              if (height >= 716) {
+                                bigBoxHeight = height - 150;
+                                topBigBox = 50;
+                                leftBigBox = 0;
+                                widthBigBox = MediaQuery.of(context).size.width;
+                                topFrame = 65;
+                                rightFrame = 50;
+                                heightFrame = height - 340;
+                                topText = 70;
+                                rightText = 340;
+                                heightText = 550;
+                              }
+                              if (height >= 850) {
+                                bigBoxHeight =
+                                    MediaQuery.of(context).size.height.ceil() -
+                                        200.0;
+                                topBigBox = 60;
+                                leftBigBox = 0;
+                                widthBigBox = MediaQuery.of(context).size.width;
+                                topFrame = 80;
+                                rightFrame = 60;
+                                heightFrame =
+                                    MediaQuery.of(context).size.height.ceil() -
+                                        420.0;
+                                topText = 70;
+                                rightText = 390;
+                                heightText = 550;
+                              }
+                              val = await showDialog(
+                                  context: context,
+                                  builder: (context) => Camera(
+                                        mode: CameraMode.normal,
+                                        orientationEnablePhoto:
+                                            CameraOrientation.all,
+                                        imageMask: SafeArea(
+                                          top: true,
+                                          child: Stack(
+                                            children: <Widget>[
+                                              Positioned(
+                                                top: topBigBox,
+                                                left: leftBigBox,
+                                                child: Container(
+                                                  height: bigBoxHeight,
+                                                  width: widthBigBox,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 3,
+                                                          color: Colors.white)),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: topFrame,
+                                                right: rightFrame,
+                                                child: Container(
+                                                  width: 30,
+                                                  height: heightFrame,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 2,
+                                                          color: Colors.white)),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: topText,
+                                                right: rightText,
+                                                child: Container(
+                                                  width: 40,
+                                                  height: heightText,
+                                                  child: RotatedBox(
+                                                    quarterTurns: 1,
+                                                    child: Text(
+                                                      "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                        setState(() {});
+                                      ));
+                              setState(() {});
 
-                        sendToServer(context);
-                      }),
-                ),
+                              sendToServer(context, height);
+                            }),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            child: Text(
+                              "Batal",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: Colors.red),
+                            ),
+                            onPressed: () {
+                              setKtpImageNull();
+                            }),
+                      ),
                 Text(
                   "KK:",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
-                Container(
-                  width: double.infinity,
-                  child: RaisedButton(
-                      child: Text(
-                        "Scan Kartu Keluarga (KK)",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      textColor: Colors.white,
-                      color: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.orange),
-                      ),
-                      onPressed: () async {
-                        valkk = await showDialog(
-                            context: context,
-                            builder: (context) => Camera(
-                                  mode: CameraMode.fullscreen,
-                                  orientationEnablePhoto: CameraOrientation.all,
-                                  imageMask: Stack(
-                                    children: <Widget>[
-                                      Positioned(
-                                        top: 200,
-                                        right: 20,
-                                        child: Container(
-                                          width: 20,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 10,
-                                        right: 340,
-                                        child: Container(
-                                          width: 40,
-                                          height: 500,
-                                          child: RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Text(
-                                              "*Pastikan No KK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
+                kkImage == null
+                    ? Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            child: Text(
+                              "Scan Kartu Keluarga (KK)",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: Colors.orange),
+                            ),
+                            onPressed: () async {
+                              if (height < 650) {
+                                setState(() {
+                                  topFramekk = 200.0;
+                                  rightFramekk = 20.0;
+                                  widthFramekk = 20.0;
+                                  heightFramekk = 200.0;
+                                });
+                              }
+                              if (height >= 716) {
+                                setState(() {
+                                  topFramekk = 250.0;
+                                  rightFramekk = 20.0;
+                                  widthFramekk = 20.0;
+                                  heightFramekk = 200.0;
+                                });
+                              }
+                              if (height >= 850) {
+                                setState(() {
+                                  topFramekk = 330.0;
+                                  rightFramekk = 30.0;
+                                  widthFramekk = 25.0;
+                                  heightFramekk = 220.0;
+                                });
+                              }
+                              val = await showDialog(
+                                  context: context,
+                                  builder: (context) => Camera(
+                                        mode: height < 650
+                                            ? CameraMode.fullscreen
+                                            : CameraMode.normal,
+                                        orientationEnablePhoto:
+                                            CameraOrientation.all,
+                                        imageMask: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              top: topFramekk,
+                                              right: rightFramekk,
+                                              child: Container(
+                                                width: widthFramekk,
+                                                height: heightFramekk,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 2,
+                                                        color: Colors.white)),
+                                              ),
                                             ),
-                                          ),
+                                            Positioned(
+                                              top: 10,
+                                              right: 340,
+                                              child: Container(
+                                                width: 40,
+                                                height: 500,
+                                                child: RotatedBox(
+                                                  quarterTurns: 1,
+                                                  child: Text(
+                                                    "*Pastikan No KK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                        setState(() {});
-                        sendToServerkk(context);
-                      }),
-                ),
+                                      ));
+                              setState(() {});
+                              sendToServerkk(context, height);
+                            }),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                            child: Text(
+                              "Batal",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: Colors.red),
+                            ),
+                            onPressed: () {
+                              setKKImageNull();
+                            }),
+                      ),
                 widget.tipe == "1"
                     ? Column(
                         children: <Widget>[

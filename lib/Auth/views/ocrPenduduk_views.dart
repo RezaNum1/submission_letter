@@ -42,17 +42,19 @@ class _OcrPendudukState extends State<OcrPenduduk> {
   bool status = false;
   //************* */
 
-  Future<void> sendToServer(BuildContext context) async {
+  Future<void> sendToServer(BuildContext context, double sizes) async {
     if (val == null) {
       return;
     }
     UtilAuth.loading(context);
     Dio dio = new Dio();
-    var datas = FormData.fromMap(
-        {"ktp": await MultipartFile.fromFile(val.path), "nama": 'KtpTmp'});
+    var datas = FormData.fromMap({
+      "ktp": await MultipartFile.fromFile(val.path),
+      "nama": 'KtpTmp',
+      "size": sizes
+    });
 
     var response = await dio.post(url, data: datas);
-    print(response.data['message']);
     if (response.data['message'] == true) {
       initPlatformState(context);
     }
@@ -195,6 +197,21 @@ class _OcrPendudukState extends State<OcrPenduduk> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double bigBoxHeight;
+    double topBigBox;
+    double leftBigBox;
+    double widthBigBox;
+
+    //Frame
+    double topFrame;
+    double rightFrame;
+    double heightFrame;
+
+    //Text
+    double topText;
+    double rightText;
+    double heightText;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -249,73 +266,116 @@ class _OcrPendudukState extends State<OcrPenduduk> {
           Container(
             width: double.infinity,
             child: RaisedButton(
-              color: Colors.orange[300],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(color: Colors.orange[300]),
-              ),
-              child: Text(
-                "Scan KTP",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+                color: Colors.orange[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: Colors.orange[300]),
                 ),
-              ),
-              onPressed: () async {
-                val = await showDialog(
-                    context: context,
-                    builder: (context) => Camera(
-                          mode: CameraMode.normal,
-                          orientationEnablePhoto: CameraOrientation.all,
-                          imageMask: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                top: 10,
-                                left: 25,
-                                child: Container(
-                                  height: 530,
-                                  width: 310,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 3, color: Colors.white)),
-                                ),
-                              ),
-                              Positioned(
-                                top: 24,
-                                right: 75,
-                                child: Container(
-                                  width: 30,
-                                  height: 365,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2, color: Colors.white)),
-                                ),
-                              ),
-                              Positioned(
-                                top: 10,
-                                right: 340,
-                                child: Container(
-                                  width: 40,
-                                  height: 500,
-                                  child: RotatedBox(
-                                    quarterTurns: 1,
-                                    child: Text(
-                                      "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                child: Text(
+                  "Scan KTP",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                onPressed: () async {
+                  if (height < 650) {
+                    setState(() {
+                      bigBoxHeight = 530;
+                      topBigBox = 10;
+                      leftBigBox = 25;
+                      widthBigBox = 310;
+                      topFrame = 25;
+                      rightFrame = 70;
+                      heightFrame = 350;
+                      topText = 70;
+                      rightText = 340;
+                      heightText = 550;
+                    });
+                  }
+                  if (height >= 716) {
+                    bigBoxHeight = height - 150;
+                    topBigBox = 50;
+                    leftBigBox = 0;
+                    widthBigBox = MediaQuery.of(context).size.width;
+                    topFrame = 65;
+                    rightFrame = 50;
+                    heightFrame = height - 340;
+                    topText = 70;
+                    rightText = 340;
+                    heightText = 550;
+                  }
+                  if (height >= 850) {
+                    bigBoxHeight =
+                        MediaQuery.of(context).size.height.ceil() - 200.0;
+                    topBigBox = 60;
+                    leftBigBox = 0;
+                    widthBigBox = MediaQuery.of(context).size.width;
+                    topFrame = 80;
+                    rightFrame = 60;
+                    heightFrame =
+                        MediaQuery.of(context).size.height.ceil() - 420.0;
+                    topText = 70;
+                    rightText = 390;
+                    heightText = 550;
+                  }
+                  val = await showDialog(
+                      context: context,
+                      builder: (context) => Camera(
+                            mode: CameraMode.normal,
+                            orientationEnablePhoto: CameraOrientation.all,
+                            imageMask: SafeArea(
+                              top: true,
+                              child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    top: topBigBox,
+                                    left: leftBigBox,
+                                    child: Container(
+                                      height: bigBoxHeight,
+                                      width: widthBigBox,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 3, color: Colors.white)),
                                     ),
                                   ),
-                                ),
+                                  Positioned(
+                                    top: topFrame,
+                                    right: rightFrame,
+                                    child: Container(
+                                      width: 30,
+                                      height: heightFrame,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2, color: Colors.white)),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: topText,
+                                    right: rightText,
+                                    child: Container(
+                                      width: 40,
+                                      height: heightText,
+                                      child: RotatedBox(
+                                        quarterTurns: 1,
+                                        child: Text(
+                                          "*Pastikan KTP & NIK Anda Berada Di Dalam Kotak Yang Telah Ditentukan",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ));
-                setState(() {});
-                sendToServer(context);
-              },
-            ),
+                            ),
+                          ));
+                  setState(() {});
+
+                  sendToServer(context, height);
+                }),
           ),
           SizedBox(
             height: 100,

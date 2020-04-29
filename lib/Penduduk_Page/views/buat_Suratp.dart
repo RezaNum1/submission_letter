@@ -1463,18 +1463,20 @@ class _BuatSuratPState extends State<BuatSuratP> {
   //***************************************************************** */
   //********************************* OCR KK FUNCTION ******************/
 
-  Future<void> sendToServerkk(BuildContext context) async {
+  Future<void> sendToServerkk(BuildContext context, double size) async {
     if (val == null) {
       return;
     }
     UtilAuth.loading(context);
     Dio dio = new Dio();
 
-    var datas = FormData.fromMap(
-        {"kk": await MultipartFile.fromFile(valkk.path), "nama": "KKME"});
+    var datas = FormData.fromMap({
+      "kk": await MultipartFile.fromFile(valkk.path),
+      "nama": "KKME",
+      "size": size
+    });
 
     var response = await dio.post(urlkk, data: datas);
-    print(response.data['message']);
     if (response.data['message'] == true) {
       initPlatformStatekk(context);
     }
@@ -1571,18 +1573,22 @@ class _BuatSuratPState extends State<BuatSuratP> {
           builder: (context, setState) {
             return AlertDialog(
               title: Text('Form No KK'),
-              content: TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'No Kartu Keluarga',
-                  hintText: "Masukkan No KK Anda",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
+              content: Container(
+                width: 100,
+                height: 60,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'No Kartu Keluarga',
+                    hintText: "Masukkan No KK Anda",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                    ),
+                    errorText:
+                        (_valpkk == false) ? "No KK Tidak Boleh Kosong!" : null,
                   ),
-                  errorText:
-                      (_valpkk == false) ? "No KK Tidak Boleh Kosong!" : null,
+                  controller: _kkController,
                 ),
-                controller: _kkController,
               ),
               actions: <Widget>[
                 FlatButton(
@@ -1632,6 +1638,12 @@ class _BuatSuratPState extends State<BuatSuratP> {
     double topText;
     double rightText;
     double heightText;
+
+    // KK
+    double topFramekk;
+    double rightFramekk;
+    double widthFramekk;
+    double heightFramekk;
 
     String judulDetail;
     if (widget.tipe == "1") {
@@ -2056,20 +2068,46 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                 side: BorderSide(color: Colors.orange),
                               ),
                               onPressed: () async {
-                                valkk = await showDialog(
+                                if (height < 650) {
+                                  setState(() {
+                                    topFramekk = 200.0;
+                                    rightFramekk = 20.0;
+                                    widthFramekk = 20.0;
+                                    heightFramekk = 200.0;
+                                  });
+                                }
+                                if (height >= 716) {
+                                  setState(() {
+                                    topFramekk = 250.0;
+                                    rightFramekk = 20.0;
+                                    widthFramekk = 20.0;
+                                    heightFramekk = 200.0;
+                                  });
+                                }
+                                if (height >= 850) {
+                                  setState(() {
+                                    topFramekk = 330.0;
+                                    rightFramekk = 30.0;
+                                    widthFramekk = 25.0;
+                                    heightFramekk = 220.0;
+                                  });
+                                }
+                                val = await showDialog(
                                     context: context,
                                     builder: (context) => Camera(
-                                          mode: CameraMode.fullscreen,
+                                          mode: height < 650
+                                              ? CameraMode.fullscreen
+                                              : CameraMode.normal,
                                           orientationEnablePhoto:
                                               CameraOrientation.all,
                                           imageMask: Stack(
                                             children: <Widget>[
                                               Positioned(
-                                                top: 200,
-                                                right: 20,
+                                                top: topFramekk,
+                                                right: rightFramekk,
                                                 child: Container(
-                                                  width: 20,
-                                                  height: 200,
+                                                  width: widthFramekk,
+                                                  height: heightFramekk,
                                                   decoration: BoxDecoration(
                                                       border: Border.all(
                                                           width: 2,
@@ -2098,7 +2136,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                           ),
                                         ));
                                 setState(() {});
-                                sendToServerkk(context);
+                                sendToServerkk(context, height);
                               }),
                         )
                       : Container(
