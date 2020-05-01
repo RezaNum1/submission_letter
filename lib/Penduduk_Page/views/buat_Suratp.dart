@@ -692,7 +692,30 @@ class _BuatSuratPState extends State<BuatSuratP> {
       }
 
       //Alamat
-      var alamatFill = List<String>.from(arrOCR[4].split(''));
+      var alamatFill;
+      if (arrOCR[4].split(" ")[0].contains("Alamat")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("Ala")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("lamat")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("mat")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("Alam")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("Alamat")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("Aal")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("lamat")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("mat")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("Alam")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else {
+        alamatFill = ["Alamat", ":", "Isi Alamat"];
+      }
       for (var i = 0; i < alamatFill.length; i++) {
         alamatFill.remove('.');
         alamatFill.remove('_');
@@ -736,8 +759,13 @@ class _BuatSuratPState extends State<BuatSuratP> {
         rtrwFill = List<String>.from(arrOCR[5].split(''));
       } else if (arrOCR[5].split(" ")[0].contains("/")) {
         rtrwFill = List<String>.from(arrOCR[5].split(''));
-      }
+      }else {
+      rtrwFill = ["R", "T", "/", "R", "W", " ", ":", "00", "/", "00"];
+    }
       for (var i = 0; i < rtrwFill.length; i++) {
+        // Error di else
+        // error samsung
+        // Fix else nya
         rtrwFill.remove('.');
         rtrwFill.remove('_');
         rtrwFill.remove('!');
@@ -801,6 +829,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
         kelFill = List<String>.from(arrOCR[9].split(''));
       } else if (arrOCR[9].split(" ")[0].contains("Ke")) {
         kelFill = List<String>.from(arrOCR[9].split(''));
+      } else {
+        kelFill = ["K", "e", "l", "D", "e", "s", "a", "", ":", "Kosong"];
       }
       for (var i = 0; i < kelFill.length; i++) {
         kelFill.remove('.');
@@ -876,7 +906,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
         agamaFill = List<String>.from(arrOCR[12].split(''));
       } else if (arrOCR[12].split(" ")[0].contains("g")) {
         agamaFill = List<String>.from(arrOCR[12].split(''));
-      }
+      } else {
+      agamaFill = ["A", "g", "a", "m", "a", " ", ":", "Isi Agama"];
+    }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
         agamaFill.remove('_');
@@ -951,7 +983,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
         spFill = List<String>.from(arrOCR[13].split(''));
       } else if (arrOCR[13].split(" ")[0].contains("S")) {
         spFill = List<String>.from(arrOCR[13].split(''));
-      }
+      }else {
+      spFill = [
+       "Status",":","Isi Status Perkawinan"
+      ];
+    }
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
         spFill.remove('_');
@@ -976,57 +1012,60 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
       //Pekerjaan
       var workFill;
-      if (arrOCR[10].split(" ")[0].contains("Pek")) {
+      if (arrOCR[10].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[10].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[10].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[10].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("K")) {
+      } else if (arrOCR[10].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("Pek")) {
+      } else if (arrOCR[11].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[11].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("K")) {
+      } else if (arrOCR[11].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Pek")) {
+      } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[12].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("K")) {
+      } else if (arrOCR[12].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Pek")) {
+      } else if (arrOCR[13].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[13].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[13].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[13].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("K")) {
+      } else if (arrOCR[13].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("Pek")) {
+      } else if (arrOCR[14].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[14].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[14].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[14].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("K")) {
+      } else if (arrOCR[14].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[14].split(''));
-      }
+      } else {
+      workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
+    }
+
       for (var i = 0; i < workFill.length; i++) {
         workFill.remove('.');
         workFill.remove('_');
@@ -1041,13 +1080,18 @@ class _BuatSuratPState extends State<BuatSuratP> {
         setState(() {
           workText = workArr[1];
         });
-      } else {
-        var workArr = List<String>.from(text7.split(' '));
-        workArr.removeAt(0);
-        setState(() {
-          workText = workArr.join(' ');
-        });
-      }
+      } else if (workFill.contains('"')) {
+      var workArr = List<String>.from(text7.split('"'));
+      setState(() {
+        workText = workArr[1];
+      });
+    } else {
+      var workArr = List<String>.from(text7.split(' '));
+      workArr.removeAt(0);
+      setState(() {
+        workText = workArr.join(' ');
+      });
+    }
     } else {
       nikText = "-";
       provText = "-";
@@ -1072,21 +1116,21 @@ class _BuatSuratPState extends State<BuatSuratP> {
     }
   }
 
-  void manageData(List<String> arrFill, String setText) {
-    var texts = arrFill.join('');
-    if (arrFill.contains(":")) {
-      var workArr = List<String>.from(texts.split(':'));
-      setState(() {
-        workText = workArr[1];
-      });
-    } else {
-      var workArr = List<String>.from(texts.split(' '));
-      workArr.removeAt(0);
-      setState(() {
-        workText = workArr.join(' ');
-      });
-    }
-  }
+  // void manageData(List<String> arrFill, String setText) {
+  //   var texts = arrFill.join('');
+  //   if (arrFill.contains(":")) {
+  //     var workArr = List<String>.from(texts.split(':'));
+  //     setState(() {
+  //       workText = workArr[1];
+  //     });
+  //   } else {
+  //     var workArr = List<String>.from(texts.split(' '));
+  //     workArr.removeAt(0);
+  //     setState(() {
+  //       workText = workArr.join(' ');
+  //     });
+  //   }
+  // }
 
   //POP UP
 
@@ -1098,7 +1142,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
     _kelurahanController.text = kelText;
     _agamaController.text = agamaText;
     _spController.text = spText;
+    print(_workController.text);
     _workController.text = workText;
+    print(workText);
 
     //************************* VALIDATE POPUP */
     bool _valpnik = true;
@@ -1926,9 +1972,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                     topBigBox = 10;
                                     leftBigBox = 25;
                                     widthBigBox = 310;
-                                    topFrame = 25;
-                                    rightFrame = 70;
-                                    heightFrame = 350;
+                                    topFrame = 30;
+                rightFrame = 70;
+                heightFrame = 330;
                                     topText = 70;
                                     rightText = 340;
                                     heightText = 550;

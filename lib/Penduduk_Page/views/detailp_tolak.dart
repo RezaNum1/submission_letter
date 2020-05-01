@@ -561,7 +561,30 @@ class _DetailpTolakState extends State<DetailpTolak> {
       }
 
       //Alamat
-      var alamatFill = List<String>.from(arrOCR[4].split(''));
+      var alamatFill;
+      if (arrOCR[4].split(" ")[0].contains("Alamat")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("Ala")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("lamat")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("mat")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[4].split(" ")[0].contains("Alam")) {
+        alamatFill = List<String>.from(arrOCR[4].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("Alamat")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("Aal")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("lamat")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("mat")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else if (arrOCR[5].split(" ")[0].contains("Alam")) {
+        alamatFill = List<String>.from(arrOCR[5].split(''));
+      } else {
+        alamatFill = ["Alamat", ":", "Isi Alamat"];
+      }
       for (var i = 0; i < alamatFill.length; i++) {
         alamatFill.remove('.');
         alamatFill.remove('_');
@@ -605,6 +628,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
         rtrwFill = List<String>.from(arrOCR[5].split(''));
       } else if (arrOCR[5].split(" ")[0].contains("/")) {
         rtrwFill = List<String>.from(arrOCR[5].split(''));
+      } else {
+        rtrwFill = ["R", "T", "/", "R", "W", " ", ":", "00", "/", "00"];
       }
       for (var i = 0; i < rtrwFill.length; i++) {
         rtrwFill.remove('.');
@@ -670,6 +695,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
         kelFill = List<String>.from(arrOCR[9].split(''));
       } else if (arrOCR[9].split(" ")[0].contains("Ke")) {
         kelFill = List<String>.from(arrOCR[9].split(''));
+      } else {
+        kelFill = ["K", "e", "l", "D", "e", "s", "a", " ", ":", "Isi Desa"];
       }
       for (var i = 0; i < kelFill.length; i++) {
         kelFill.remove('.');
@@ -745,6 +772,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
         agamaFill = List<String>.from(arrOCR[12].split(''));
       } else if (arrOCR[12].split(" ")[0].contains("g")) {
         agamaFill = List<String>.from(arrOCR[12].split(''));
+      } else {
+        agamaFill = ["A", "g", "a", "m", "a", " ", ":", "Isi Agama"];
       }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
@@ -820,6 +849,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
         spFill = List<String>.from(arrOCR[13].split(''));
       } else if (arrOCR[13].split(" ")[0].contains("S")) {
         spFill = List<String>.from(arrOCR[13].split(''));
+      } else {
+        spFill = ["Status", ":", "Isi Status"];
       }
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
@@ -895,6 +926,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
         workFill = List<String>.from(arrOCR[14].split(''));
       } else if (arrOCR[14].split(" ")[0].contains("K")) {
         workFill = List<String>.from(arrOCR[14].split(''));
+      } else {
+        workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
       }
       for (var i = 0; i < workFill.length; i++) {
         workFill.remove('.');
@@ -907,6 +940,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
       var text7 = workFill.join('');
       if (workFill.contains(":")) {
         var workArr = List<String>.from(text7.split(':'));
+        setState(() {
+          workText = workArr[1];
+        });
+      } else if (workFill.contains('"')) {
+        var workArr = List<String>.from(text7.split('"'));
         setState(() {
           workText = workArr[1];
         });
@@ -1931,9 +1969,9 @@ class _DetailpTolakState extends State<DetailpTolak> {
                                   topBigBox = 10;
                                   leftBigBox = 25;
                                   widthBigBox = 310;
-                                  topFrame = 25;
+                                  topFrame = 30;
                                   rightFrame = 70;
-                                  heightFrame = 350;
+                                  heightFrame = 330;
                                   topText = 70;
                                   rightText = 340;
                                   heightText = 550;
