@@ -57,7 +57,7 @@ class DetailEmployeePresenter {
     return response;
   }
 
-  Future<Uint8List> callFileToServer(String berkas, String idSurat) async {
+  Future<List<dynamic>> callFileToServer(String berkas, String idSurat) async {
     var url = "${MyApp.route}/api/rtrw/callFile";
 
     Dio dio = new Dio();
@@ -69,6 +69,8 @@ class DetailEmployeePresenter {
 
     var response = await dio.post(url, data: formData);
     var base = Base64Decoder().convert(response.data['data']);
-    return base;
+    var tipe = response.data['tipe'];
+    var arrays = [tipe, base];
+    return arrays;
   }
 }
