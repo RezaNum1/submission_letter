@@ -179,7 +179,8 @@ class _SettingViewsState extends State<SettingViews> {
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   labelText: 'Password Baru',
-                                  hintText: "Masukkan Password Baru Anda",
+                                  hintText:
+                                      "Masukkan Password Baru Anda Dengan Benar",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[400],
                                   ),
@@ -209,7 +210,7 @@ class _SettingViewsState extends State<SettingViews> {
                                     color: Colors.grey[400],
                                   ),
                                   errorText: _validateReNewPass
-                                      ? "Masukkan Ulang Password Baru Anda!"
+                                      ? "Masukkan Ulang Password Baru Anda Dengan Benar!"
                                       : null),
                               controller: _reNewPassword,
                             ),
@@ -243,25 +244,46 @@ class _SettingViewsState extends State<SettingViews> {
                             setState(() {
                               _validateOldPass = false;
                             });
-                            if (_newPassword.text.isNotEmpty) {
+                            if (UtilAuth.checkStringPassword(
+                                    _oldPassword.text.toString()) ==
+                                true) {
                               setState(() {
-                                _validateNewPass = false;
+                                _validateOldPass = false;
                               });
-
-                              if (_reNewPassword.text.isNotEmpty) {
+                              if (_newPassword.text.isNotEmpty) {
                                 setState(() {
-                                  _validateReNewPass = false;
+                                  _validateNewPass = false;
                                 });
-                                // Disini
-                                ChangePassPro();
+                                if (UtilAuth.checkStringPassword(
+                                        _newPassword.text.toString()) ==
+                                    true) {
+                                  setState(() {
+                                    _validateNewPass = false;
+                                  });
+                                  if (_reNewPassword.text.isNotEmpty) {
+                                    setState(() {
+                                      _validateReNewPass = false;
+                                    });
+                                    // Disini
+                                    ChangePassPro();
+                                  } else {
+                                    setState(() {
+                                      _validateReNewPass = true;
+                                    });
+                                  }
+                                } else {
+                                  setState(() {
+                                    _validateNewPass = true;
+                                  });
+                                }
                               } else {
                                 setState(() {
-                                  _validateReNewPass = true;
+                                  _validateNewPass = true;
                                 });
                               }
                             } else {
                               setState(() {
-                                _validateNewPass = true;
+                                _validateOldPass = true;
                               });
                             }
                           } else {

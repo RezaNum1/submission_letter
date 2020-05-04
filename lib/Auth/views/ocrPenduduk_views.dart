@@ -132,6 +132,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
         return AlertDialog(
           title: Text('Pendafdtaran NIK'),
           content: TextField(
+            maxLength: 17,
             inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
             controller: nikController,
             decoration: InputDecoration(

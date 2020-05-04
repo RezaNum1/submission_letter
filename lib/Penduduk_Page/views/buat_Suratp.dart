@@ -5,6 +5,7 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -759,9 +760,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
         rtrwFill = List<String>.from(arrOCR[5].split(''));
       } else if (arrOCR[5].split(" ")[0].contains("/")) {
         rtrwFill = List<String>.from(arrOCR[5].split(''));
-      }else {
-      rtrwFill = ["R", "T", "/", "R", "W", " ", ":", "00", "/", "00"];
-    }
+      } else {
+        rtrwFill = ["R", "T", "/", "R", "W", " ", ":", "00", "/", "00"];
+      }
       for (var i = 0; i < rtrwFill.length; i++) {
         // Error di else
         // error samsung
@@ -907,8 +908,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
       } else if (arrOCR[12].split(" ")[0].contains("g")) {
         agamaFill = List<String>.from(arrOCR[12].split(''));
       } else {
-      agamaFill = ["A", "g", "a", "m", "a", " ", ":", "Isi Agama"];
-    }
+        agamaFill = ["A", "g", "a", "m", "a", " ", ":", "Isi Agama"];
+      }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
         agamaFill.remove('_');
@@ -983,11 +984,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
         spFill = List<String>.from(arrOCR[13].split(''));
       } else if (arrOCR[13].split(" ")[0].contains("S")) {
         spFill = List<String>.from(arrOCR[13].split(''));
-      }else {
-      spFill = [
-       "Status",":","Isi Status Perkawinan"
-      ];
-    }
+      } else {
+        spFill = ["Status", ":", "Isi Status Perkawinan"];
+      }
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
         spFill.remove('_');
@@ -1063,8 +1062,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
       } else if (arrOCR[14].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[14].split(''));
       } else {
-      workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
-    }
+        workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
+      }
 
       for (var i = 0; i < workFill.length; i++) {
         workFill.remove('.');
@@ -1081,17 +1080,17 @@ class _BuatSuratPState extends State<BuatSuratP> {
           workText = workArr[1];
         });
       } else if (workFill.contains('"')) {
-      var workArr = List<String>.from(text7.split('"'));
-      setState(() {
-        workText = workArr[1];
-      });
-    } else {
-      var workArr = List<String>.from(text7.split(' '));
-      workArr.removeAt(0);
-      setState(() {
-        workText = workArr.join(' ');
-      });
-    }
+        var workArr = List<String>.from(text7.split('"'));
+        setState(() {
+          workText = workArr[1];
+        });
+      } else {
+        var workArr = List<String>.from(text7.split(' '));
+        workArr.removeAt(0);
+        setState(() {
+          workText = workArr.join(' ');
+        });
+      }
     } else {
       nikText = "-";
       provText = "-";
@@ -1177,6 +1176,10 @@ class _BuatSuratPState extends State<BuatSuratP> {
                     width: 100,
                     height: 60,
                     child: TextField(
+                      maxLength: 16,
+                      inputFormatters: [
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         labelText: 'NIK',
@@ -1185,7 +1188,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: _valpnik == false
-                            ? "Nik Tidak Boleh Kosong!"
+                            ? "Masukkan NIK Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _nikController,
@@ -1203,7 +1206,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpnama == false)
-                            ? "Nama Tidak Boleh Kosong!"
+                            ? "Masukkan Nama Anda Dengan Benar"
                             : null,
                       ),
                       controller: _namaController,
@@ -1221,7 +1224,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpalamat == false)
-                            ? "Alamat Tidak Boleh Kosong!"
+                            ? "Masukkan Alamat Anda Dengan Benar"
                             : null,
                       ),
                       controller: _alamatController,
@@ -1239,7 +1242,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valprtrw == false)
-                            ? "RT/RW Anda Tidak Boleh Kosong!"
+                            ? "Masukkan RT/RW Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _rtrwController,
@@ -1257,7 +1260,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpkelurahan == false)
-                            ? "Kelurahan Tidak Boleh Kosong!"
+                            ? "Masukkan Kelurahan Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _kelurahanController,
@@ -1275,7 +1278,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpagama == false)
-                            ? "Agama Tidak Boleh Kosong!"
+                            ? "Masukkan Agama Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _agamaController,
@@ -1293,7 +1296,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpperkawawinan == false)
-                            ? "Status Perkawinan Tidak Boleh Kosong!"
+                            ? "Masukkan Status Perkawinan Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _spController,
@@ -1311,7 +1314,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valppekerjaan == false)
-                            ? "Pekerjaan Tidak Boleh Kosong!"
+                            ? "Masukkan Pekerjaan Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _workController,
@@ -1329,7 +1332,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valppendidikan == false)
-                            ? "Pendidikan Terakhir Tidak Boleh Kosong!"
+                            ? "Masukkan Pendidikan Terakhir Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _pendidikanController,
@@ -1351,88 +1354,196 @@ class _BuatSuratPState extends State<BuatSuratP> {
                       setState(() {
                         _valpnama = true;
                       });
-                      if (_alamatController.text.isNotEmpty) {
+                      if (UtilAuth.checkString(
+                              _namaController.text.toString()) ==
+                          true) {
                         setState(() {
-                          _valpalamat = true;
+                          _valpnama = true;
                         });
-                        if (_rtrwController.text.isNotEmpty) {
+                        if (_alamatController.text.isNotEmpty) {
                           setState(() {
-                            _valprtrw = true;
+                            _valpalamat = true;
                           });
-                          if (_kelurahanController.text.isNotEmpty) {
+                          if (UtilAuth.checkAlamat(
+                                  _alamatController.text.toString()) ==
+                              true) {
                             setState(() {
-                              _valpkelurahan = true;
+                              _valpalamat = true;
                             });
-                            if (_agamaController.text.isNotEmpty) {
+                            if (_rtrwController.text.isNotEmpty) {
                               setState(() {
-                                _valpagama = true;
+                                _valprtrw = true;
                               });
-                              if (_spController.text.isNotEmpty) {
+                              if (UtilAuth.checkStringRTRW(
+                                      _rtrwController.text.toString()) ==
+                                  true) {
                                 setState(() {
-                                  _valpperkawawinan = true;
+                                  _valprtrw = true;
                                 });
-                                if (_workController.text.isNotEmpty) {
+                                if (_kelurahanController.text.isNotEmpty) {
                                   setState(() {
-                                    _valppekerjaan = true;
+                                    _valpkelurahan = true;
                                   });
-                                  if (_pendidikanController.text.isNotEmpty) {
+                                  if (UtilAuth.checkString(_kelurahanController
+                                          .text
+                                          .toString()) ==
+                                      true) {
                                     setState(() {
-                                      _valppendidikan = true;
+                                      _valpkelurahan = true;
                                     });
-                                    var arrNIK = new List<String>.from(
-                                        _nikController.text
-                                            .toString()
-                                            .split(''));
-                                    transleteNIK(arrNIK);
-                                    //SetState di sini
-                                    setState(() {
-                                      nikText = _nikController.text;
-                                      namaText = _namaController.text;
-                                      alamatText = _alamatController.text;
-                                      rtrwText = _rtrwController.text;
-                                      kelText = _kelurahanController.text;
-                                      agamaText = _agamaController.text;
-                                      spText = _spController.text;
-                                      workText = _workController.text;
-                                      pendidikanText =
-                                          _pendidikanController.text;
-                                      okPressKtp = true;
-                                      ktpImage = val;
-                                    });
-                                    Navigator.of(context).pop();
+                                    if (_agamaController.text.isNotEmpty) {
+                                      setState(() {
+                                        _valpagama = true;
+                                      });
+                                      if (UtilAuth.checkString(_agamaController
+                                              .text
+                                              .toString()) ==
+                                          true) {
+                                        setState(() {
+                                          _valpagama = true;
+                                        });
+                                        if (_spController.text.isNotEmpty) {
+                                          setState(() {
+                                            _valpperkawawinan = true;
+                                          });
+                                          if (UtilAuth.checkString(_spController
+                                                  .text
+                                                  .toString()) ==
+                                              true) {
+                                            setState(() {
+                                              _valpperkawawinan = true;
+                                            });
+                                            if (_workController
+                                                .text.isNotEmpty) {
+                                              setState(() {
+                                                _valppekerjaan = true;
+                                              });
+                                              if (UtilAuth.checkString(
+                                                      _workController.text
+                                                          .toString()) ==
+                                                  true) {
+                                                setState(() {
+                                                  _valppekerjaan = true;
+                                                });
+                                                if (_pendidikanController
+                                                    .text.isNotEmpty) {
+                                                  setState(() {
+                                                    _valppendidikan = true;
+                                                  });
+                                                  if (UtilAuth.checkUsername(
+                                                          _pendidikanController
+                                                              .text
+                                                              .toString()) ==
+                                                      true) {
+                                                    setState(() {
+                                                      _valppendidikan = true;
+                                                    });
+                                                    var arrNIK =
+                                                        new List<String>.from(
+                                                            _nikController.text
+                                                                .toString()
+                                                                .split(''));
+                                                    transleteNIK(arrNIK);
+                                                    //SetState di sini
+                                                    setState(() {
+                                                      nikText =
+                                                          _nikController.text;
+                                                      namaText =
+                                                          _namaController.text;
+                                                      alamatText =
+                                                          _alamatController
+                                                              .text;
+                                                      rtrwText =
+                                                          _rtrwController.text;
+                                                      kelText =
+                                                          _kelurahanController
+                                                              .text;
+                                                      agamaText =
+                                                          _agamaController.text;
+                                                      spText =
+                                                          _spController.text;
+                                                      workText =
+                                                          _workController.text;
+                                                      pendidikanText =
+                                                          _pendidikanController
+                                                              .text;
+                                                      okPressKtp = true;
+                                                      ktpImage = val;
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    setState(() {
+                                                      _valppendidikan = false;
+                                                    });
+                                                  }
+                                                } else {
+                                                  setState(() {
+                                                    _valppendidikan = false;
+                                                  });
+                                                }
+                                              } else {
+                                                setState(() {
+                                                  _valppekerjaan = false;
+                                                });
+                                              }
+                                            } else {
+                                              setState(() {
+                                                _valppekerjaan = false;
+                                              });
+                                            }
+                                          } else {
+                                            setState(() {
+                                              _valpperkawawinan = false;
+                                            });
+                                          }
+                                        } else {
+                                          setState(() {
+                                            _valpperkawawinan = false;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          _valpagama = false;
+                                        });
+                                      }
+                                    } else {
+                                      setState(() {
+                                        _valpagama = false;
+                                      });
+                                    }
                                   } else {
                                     setState(() {
-                                      _valppendidikan = false;
+                                      _valpkelurahan = false;
                                     });
                                   }
                                 } else {
                                   setState(() {
-                                    _valppekerjaan = false;
+                                    _valpkelurahan = false;
                                   });
                                 }
                               } else {
                                 setState(() {
-                                  _valpperkawawinan = false;
+                                  _valprtrw = false;
                                 });
                               }
                             } else {
                               setState(() {
-                                _valpagama = false;
+                                _valprtrw = false;
                               });
                             }
                           } else {
                             setState(() {
-                              _valpkelurahan = false;
+                              _valpalamat = false;
                             });
                           }
                         } else {
                           setState(() {
-                            _valprtrw = false;
+                            _valpalamat = false;
                           });
                         }
                       } else {
                         setState(() {
-                          _valpalamat = false;
+                          _valpnama = false;
                         });
                       }
                     } else {
@@ -1623,6 +1734,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
                 width: 100,
                 height: 60,
                 child: TextField(
+                  maxLength: 17,
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'No Kartu Keluarga',
@@ -1630,8 +1743,9 @@ class _BuatSuratPState extends State<BuatSuratP> {
                     hintStyle: TextStyle(
                       color: Colors.grey[400],
                     ),
-                    errorText:
-                        (_valpkk == false) ? "No KK Tidak Boleh Kosong!" : null,
+                    errorText: (_valpkk == false)
+                        ? "Masukkan No KK Anda Dengan Benar!"
+                        : null,
                   ),
                   controller: _kkController,
                 ),
@@ -1772,7 +1886,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
               color: Colors.orange[200],
               thickness: 3,
             ),
-            _valKtpImage ||
+            _validateKeterangan ||
+                    _valKtpImage ||
                     _valKkImage ||
                     _valDepanRumahImage ||
                     _valBelakangRumahImage ||
@@ -1973,8 +2088,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                     leftBigBox = 25;
                                     widthBigBox = 310;
                                     topFrame = 30;
-                rightFrame = 70;
-                heightFrame = 330;
+                                    rightFrame = 70;
+                                    heightFrame = 330;
                                     topText = 70;
                                     rightText = 340;
                                     heightText = 550;
@@ -2389,14 +2504,17 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   void prosesData(BuildContext context) async {
     UtilAuth.loading(context);
-
-    if (nikPref != nikText) {
-      UtilAuth.failedPopupDialog(
-          context, "Pengajuan Harus Menggunakan KTP Pribadi");
-      return;
-    }
     Map<String, dynamic> data;
     var datakk;
+
+    if (widget.tipe != "7") {
+      if (nikPref != nikText) {
+        UtilAuth.failedPopupDialog(
+            context, "Pengajuan Harus Menggunakan KTP Pribadi");
+        return;
+      }
+    }
+
     if (okPressKtp == true) {
       data = {
         "nik": nikText,
@@ -2455,171 +2573,180 @@ class _BuatSuratPState extends State<BuatSuratP> {
   }
 
   void validateForm(BuildContext context) {
-    if (ktpImage != null) {
+    if (keteranganText != null) {
       setState(() {
-        _valKtpImage = true;
+        _validateKeterangan = true;
       });
-      if (kkImage != null) {
+      if (ktpImage != null) {
         setState(() {
-          _valKkImage = true;
+          _valKtpImage = true;
         });
-        if (rwTextDrop != null) {
+        if (kkImage != null) {
           setState(() {
-            _valrwText = true;
+            _valKkImage = true;
           });
-          if (rtTextDrop != null) {
+          if (rwTextDrop != null) {
             setState(() {
-              _valrtText = true;
+              _valrwText = true;
             });
+            if (rtTextDrop != null) {
+              setState(() {
+                _valrtText = true;
+              });
 
-            //
-            //
+              //
+              //
 
-            if (widget.tipe == "1") {
-              if (_depanRumah != null) {
-                setState(() {
-                  _valDepanRumahImage = true;
-                });
-                if (_belakangRumah != null) {
+              if (widget.tipe == "1") {
+                if (_depanRumah != null) {
                   setState(() {
-                    _valBelakangRumahImage = true;
+                    _valDepanRumahImage = true;
+                  });
+                  if (_belakangRumah != null) {
+                    setState(() {
+                      _valBelakangRumahImage = true;
+                    });
+                    prosesData(context);
+                  } else {
+                    setState(() {
+                      _valBelakangRumahImage = false;
+                    });
+                  }
+                } else {
+                  setState(() {
+                    _valDepanRumahImage = false;
+                  });
+                }
+              } else if (widget.tipe == "2") {
+                if (_spptTerbaru != null) {
+                  setState(() {
+                    _valspptTerbaru = true;
                   });
                   prosesData(context);
                 } else {
                   setState(() {
-                    _valBelakangRumahImage = false;
+                    _valspptTerbaru = false;
                   });
                 }
-              } else {
-                setState(() {
-                  _valDepanRumahImage = false;
-                });
-              }
-            } else if (widget.tipe == "2") {
-              if (_spptTerbaru != null) {
-                setState(() {
-                  _valspptTerbaru = true;
-                });
-                prosesData(context);
-              } else {
-                setState(() {
-                  _valspptTerbaru = false;
-                });
-              }
-            } else if (widget.tipe == "3") {
-              if (_lampiranPer != null) {
-                setState(() {
-                  _valLampiranPer = true;
-                });
-                prosesData(context);
-              } else {
-                setState(() {
-                  _valLampiranPer = false;
-                });
-              }
-            } else if (widget.tipe == "4") {
-              if (_ktpOrtu1 != null) {
-                setState(() {
-                  _valktpOrtu1 = true;
-                });
-                if (_ktpOrtu2 != null) {
+              } else if (widget.tipe == "3") {
+                if (_lampiranPer != null) {
                   setState(() {
-                    _valktportu2 = true;
+                    _valLampiranPer = true;
                   });
-                  if (_lunasPbb1 != null) {
+                  prosesData(context);
+                } else {
+                  setState(() {
+                    _valLampiranPer = false;
+                  });
+                }
+              } else if (widget.tipe == "4") {
+                if (_ktpOrtu1 != null) {
+                  setState(() {
+                    _valktpOrtu1 = true;
+                  });
+                  if (_ktpOrtu2 != null) {
                     setState(() {
-                      _valLunasPbb1 = true;
+                      _valktportu2 = true;
                     });
-                    prosesData(context);
+                    if (_lunasPbb1 != null) {
+                      setState(() {
+                        _valLunasPbb1 = true;
+                      });
+                      prosesData(context);
+                    } else {
+                      setState(() {
+                        _valLunasPbb1 = false;
+                      });
+                    }
                   } else {
                     setState(() {
-                      _valLunasPbb1 = false;
+                      _valktportu2 = false;
                     });
                   }
                 } else {
                   setState(() {
-                    _valktportu2 = false;
+                    _valktpOrtu1 = false;
                   });
                 }
-              } else {
-                setState(() {
-                  _valktpOrtu1 = false;
-                });
-              }
-            } else if (widget.tipe == "5") {
-              if (_akteCerai != null) {
-                setState(() {
-                  _valAkteCerai = true;
-                });
-                if (_lunasPbb2 != null) {
+              } else if (widget.tipe == "5") {
+                if (_akteCerai != null) {
                   setState(() {
-                    _valLunasPbb2 = true;
+                    _valAkteCerai = true;
                   });
-                  if (_skks != null) {
+                  if (_lunasPbb2 != null) {
                     setState(() {
-                      _valskks = true;
+                      _valLunasPbb2 = true;
                     });
-                    prosesData(context);
+                    if (_skks != null) {
+                      setState(() {
+                        _valskks = true;
+                      });
+                      prosesData(context);
+                    } else {
+                      setState(() {
+                        _valskks = false;
+                      });
+                    }
                   } else {
                     setState(() {
-                      _valskks = false;
+                      _valLunasPbb2 = false;
                     });
                   }
                 } else {
                   setState(() {
-                    _valLunasPbb2 = false;
+                    _valAkteCerai = false;
                   });
                 }
-              } else {
-                setState(() {
-                  _valAkteCerai = false;
-                });
-              }
-            } else if (widget.tipe == "6") {
-              prosesData(context);
-            } else if (widget.tipe == "7") {
-              if (_skksdrs != null) {
-                setState(() {
-                  _valskkdrs = true;
-                });
+              } else if (widget.tipe == "6") {
                 prosesData(context);
-              } else {
-                setState(() {
-                  _valskkdrs = false;
-                });
+              } else if (widget.tipe == "7") {
+                if (_skksdrs != null) {
+                  setState(() {
+                    _valskkdrs = true;
+                  });
+                  prosesData(context);
+                } else {
+                  setState(() {
+                    _valskkdrs = false;
+                  });
+                }
+              } else if (widget.tipe == "8") {
+                if (_skck != null) {
+                  setState(() {
+                    _valskck = true;
+                  });
+                  prosesData(context);
+                } else {
+                  setState(() {
+                    _valskck = false;
+                  });
+                }
               }
-            } else if (widget.tipe == "8") {
-              if (_skck != null) {
-                setState(() {
-                  _valskck = true;
-                });
-                prosesData(context);
-              } else {
-                setState(() {
-                  _valskck = false;
-                });
-              }
+              //
+              //
+            } else {
+              setState(() {
+                _valrtText = false;
+              });
             }
-            //
-            //
           } else {
             setState(() {
-              _valrtText = false;
+              _valrwText = false;
             });
           }
         } else {
           setState(() {
-            _valrwText = false;
+            _valKkImage = false;
           });
         }
       } else {
         setState(() {
-          _valKkImage = false;
+          _valKtpImage = false;
         });
       }
     } else {
       setState(() {
-        _valKtpImage = false;
+        _validateKeterangan = false;
       });
     }
   }

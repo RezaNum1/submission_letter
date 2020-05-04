@@ -295,7 +295,7 @@ class _RegisterViewsState extends State<RegisterViews> {
                           callBackName: callBackNamaPegawai,
                           hintTexts: 'Masukkan Nama Lengkap Anda',
                           labelTexts: 'Nama Lengkap',
-                          messageEmpty: 'Nama Pegawai Tidak Boleh Kosong',
+                          messageEmpty: 'Masukkan Nama Pegawai Dengan Benar!',
                           val: _validate,
                         ),
                       ),
@@ -305,7 +305,7 @@ class _RegisterViewsState extends State<RegisterViews> {
                           callBackName: callBackUsername,
                           hintTexts: 'Masukkan Username Anda',
                           labelTexts: 'Username',
-                          messageEmpty: 'Username Tidak Boleh Kosong!',
+                          messageEmpty: 'Masukkan Username Dengan Benar!',
                           val: _validateUsername,
                           emails: false,
                           pass: false,
@@ -317,7 +317,7 @@ class _RegisterViewsState extends State<RegisterViews> {
                           callBackName: callBackPassword,
                           hintTexts: "Masukkan Password Anda",
                           labelTexts: "Password",
-                          messageEmpty: "Password Tidak Boleh Kosong",
+                          messageEmpty: "Masukkan Password Dengan Benar!",
                           val: _validatePass,
                           emails: false,
                           pass: true,
@@ -423,84 +423,125 @@ class _RegisterViewsState extends State<RegisterViews> {
                                 setState(() {
                                   _validate = true;
                                 });
-                                if (username != null) {
+                                if (UtilAuth.checkString(namaPegawai) == true) {
                                   setState(() {
-                                    _validateUsername = true;
+                                    _validate = true;
                                   });
-                                  if (passwords != null) {
+                                  if (username != null) {
                                     setState(() {
-                                      _validatePass = true;
+                                      _validateUsername = true;
                                     });
-                                    if (email != null) {
+                                    if (UtilAuth.checkUsername(username) ==
+                                        true) {
                                       setState(() {
-                                        _validateemail = true;
+                                        _validateUsername = true;
                                       });
-                                      if (noTelepon != null) {
+                                      if (passwords != null) {
                                         setState(() {
-                                          _validateNoTelepon = true;
+                                          _validatePass = true;
                                         });
-                                        if (rwTextDrop != null) {
+                                        if (UtilAuth.checkStringPassword(
+                                                passwords) ==
+                                            true) {
                                           setState(() {
-                                            _validateRw = true;
+                                            _validatePass = true;
                                           });
-                                          if (rtTextDrop != null) {
+                                          if (email != null) {
                                             setState(() {
-                                              _validateRt = true;
+                                              _validateemail = true;
                                             });
-                                            if (_image1 != null) {
+                                            if (UtilAuth.checkEmail(email) ==
+                                                true) {
                                               setState(() {
-                                                _validateFile1 = true;
+                                                _validateemail = true;
                                               });
-                                              if (_image2 != null) {
+                                              if (noTelepon != null) {
                                                 setState(() {
-                                                  _validateFile2 = true;
+                                                  _validateNoTelepon = true;
                                                 });
-                                                processData(
-                                                    namaPegawai,
-                                                    username,
-                                                    passwords,
-                                                    email,
-                                                    noTelepon,
-                                                    rtTextDrop,
-                                                    rwTextDrop);
+                                                if (rwTextDrop != null) {
+                                                  setState(() {
+                                                    _validateRw = true;
+                                                  });
+                                                  if (rtTextDrop != null) {
+                                                    setState(() {
+                                                      _validateRt = true;
+                                                    });
+                                                    if (_image1 != null) {
+                                                      setState(() {
+                                                        _validateFile1 = true;
+                                                      });
+                                                      if (_image2 != null) {
+                                                        setState(() {
+                                                          _validateFile2 = true;
+                                                        });
+                                                        processData(
+                                                            namaPegawai,
+                                                            username,
+                                                            passwords,
+                                                            email,
+                                                            noTelepon,
+                                                            rtTextDrop,
+                                                            rwTextDrop);
+                                                      } else {
+                                                        setState(() {
+                                                          _validateFile2 =
+                                                              false;
+                                                        });
+                                                      }
+                                                    } else {
+                                                      setState(() {
+                                                        _validateFile1 = false;
+                                                      });
+                                                    }
+                                                  } else {
+                                                    setState(() {
+                                                      _validateRt = false;
+                                                    });
+                                                  }
+                                                } else {
+                                                  setState(() {
+                                                    _validateRw = false;
+                                                  });
+                                                }
                                               } else {
                                                 setState(() {
-                                                  _validateFile2 = false;
+                                                  _validateNoTelepon = false;
                                                 });
                                               }
                                             } else {
                                               setState(() {
-                                                _validateFile1 = false;
+                                                _validateemail = false;
                                               });
                                             }
                                           } else {
                                             setState(() {
-                                              _validateRt = false;
+                                              _validateemail = false;
                                             });
                                           }
                                         } else {
                                           setState(() {
-                                            _validateRw = false;
+                                            _validatePass = false;
                                           });
                                         }
                                       } else {
                                         setState(() {
-                                          _validateNoTelepon = false;
+                                          _validatePass = false;
                                         });
                                       }
                                     } else {
                                       setState(() {
-                                        _validateemail = false;
+                                        _validateUsername = false;
                                       });
                                     }
                                   } else {
                                     setState(() {
-                                      _validatePass = false;
+                                      _validateUsername = false;
                                     });
                                   }
                                 } else {
                                   setState(() {
-                                    _validateUsername = false;
+                                    _validate = false;
                                   });
                                 }
                               } else {
@@ -523,10 +564,8 @@ class _RegisterViewsState extends State<RegisterViews> {
                             ),
                           ),
                           onPressed: () {
-                            print(rtTextDrop);
-                            print(rwTextDrop);
-                            // UtilAuth.movePageScale(
-                            //     context, LoginViews(LoginPresenter()));
+                            UtilAuth.movePageScale(
+                                context, LoginViews(LoginPresenter()));
                           },
                         ),
                       ),

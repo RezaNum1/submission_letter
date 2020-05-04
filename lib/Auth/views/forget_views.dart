@@ -149,20 +149,28 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         onPressed: () {
                           if (email != null) {
                             setState(() {
+                              _validateEmail = true;
+                            });
+
+                            if (UtilAuth.checkEmail(email) == true) {
                               setState(() {
                                 _validateEmail = true;
                               });
-                            });
-                            if (noTelepon != null) {
-                              setState(() {
-                                _validateNoTelepon = true;
-                              });
+                              if (noTelepon != null) {
+                                setState(() {
+                                  _validateNoTelepon = true;
+                                });
 
-                              //Proses Di Sini
-                              forgetPassSend(email, noTelepon);
+                                //Proses Di Sini
+                                forgetPassSend(email, noTelepon);
+                              } else {
+                                setState(() {
+                                  _validateNoTelepon = false;
+                                });
+                              }
                             } else {
                               setState(() {
-                                _validateNoTelepon = false;
+                                _validateEmail = false;
                               });
                             }
                           } else {

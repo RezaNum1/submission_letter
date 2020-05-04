@@ -6,6 +6,7 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -1045,6 +1046,10 @@ class _DetailpTolakState extends State<DetailpTolak> {
                     width: 100,
                     height: 60,
                     child: TextField(
+                      maxLength: 16,
+                      inputFormatters: [
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         labelText: 'NIK',
@@ -1071,7 +1076,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpnama == false)
-                            ? "Nama Tidak Boleh Kosong!"
+                            ? "Masukan Nama Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _namaController,
@@ -1089,7 +1094,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpalamat == false)
-                            ? "Alamat Tidak Boleh Kosong!"
+                            ? "Masukkan Alamat Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _alamatController,
@@ -1107,7 +1112,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valprtrw == false)
-                            ? "RT/RW Anda Tidak Boleh Kosong!"
+                            ? "Masukkan RT/RW Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _rtrwController,
@@ -1125,7 +1130,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpkelurahan == false)
-                            ? "Kelurahan Tidak Boleh Kosong!"
+                            ? "Masukkan Kelurahan Anda Degan Benar!"
                             : null,
                       ),
                       controller: _kelurahanController,
@@ -1143,7 +1148,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpagama == false)
-                            ? "Agama Tidak Boleh Kosong!"
+                            ? "Masukkan Agama Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _agamaController,
@@ -1161,7 +1166,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpperkawawinan == false)
-                            ? "Status Perkawinan Tidak Boleh Kosong!"
+                            ? "Masukkan Status Perkawinan Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _spController,
@@ -1179,7 +1184,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valppekerjaan == false)
-                            ? "Pekerjaan Tidak Boleh Kosong!"
+                            ? "Masukkan Pekerjaan Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _workController,
@@ -1197,7 +1202,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valppendidikan == false)
-                            ? "Pendidikan Terakhir Tidak Boleh Kosong!"
+                            ? "Masukkan Pendidikan Terakhir Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _pendidikanController,
@@ -1219,88 +1224,196 @@ class _DetailpTolakState extends State<DetailpTolak> {
                       setState(() {
                         _valpnama = true;
                       });
-                      if (_alamatController.text.isNotEmpty) {
+                      if (UtilAuth.checkString(
+                              _namaController.text.toString()) ==
+                          true) {
                         setState(() {
-                          _valpalamat = true;
+                          _valpnama = true;
                         });
-                        if (_rtrwController.text.isNotEmpty) {
+                        if (_alamatController.text.isNotEmpty) {
                           setState(() {
-                            _valprtrw = true;
+                            _valpalamat = true;
                           });
-                          if (_kelurahanController.text.isNotEmpty) {
+                          if (UtilAuth.checkAlamat(
+                                  _alamatController.text.toString()) ==
+                              true) {
                             setState(() {
-                              _valpkelurahan = true;
+                              _valpalamat = true;
                             });
-                            if (_agamaController.text.isNotEmpty) {
+                            if (_rtrwController.text.isNotEmpty) {
                               setState(() {
-                                _valpagama = true;
+                                _valprtrw = true;
                               });
-                              if (_spController.text.isNotEmpty) {
+                              if (UtilAuth.checkStringRTRW(
+                                      _rtrwController.text.toString()) ==
+                                  true) {
                                 setState(() {
-                                  _valpperkawawinan = true;
+                                  _valprtrw = true;
                                 });
-                                if (_workController.text.isNotEmpty) {
+                                if (_kelurahanController.text.isNotEmpty) {
                                   setState(() {
-                                    _valppekerjaan = true;
+                                    _valpkelurahan = true;
                                   });
-                                  if (_pendidikanController.text.isNotEmpty) {
+                                  if (UtilAuth.checkString(_kelurahanController
+                                          .text
+                                          .toString()) ==
+                                      true) {
                                     setState(() {
-                                      _valppendidikan = true;
+                                      _valpkelurahan = true;
                                     });
-                                    var arrNIK = new List<String>.from(
-                                        _nikController.text
-                                            .toString()
-                                            .split(''));
-                                    transleteNIK(arrNIK);
-                                    //SetState di sini
-                                    setState(() {
-                                      nikText = _nikController.text;
-                                      namaText = _namaController.text;
-                                      alamatText = _alamatController.text;
-                                      rtrwText = _rtrwController.text;
-                                      kelText = _kelurahanController.text;
-                                      agamaText = _agamaController.text;
-                                      spText = _spController.text;
-                                      workText = _workController.text;
-                                      pendidikanText =
-                                          _pendidikanController.text;
-                                      okPressKtp = true;
-                                      ktpImage = val;
-                                    });
-                                    Navigator.of(context).pop();
+                                    if (_agamaController.text.isNotEmpty) {
+                                      setState(() {
+                                        _valpagama = true;
+                                      });
+                                      if (UtilAuth.checkString(_agamaController
+                                              .text
+                                              .toString()) ==
+                                          true) {
+                                        setState(() {
+                                          _valpagama = true;
+                                        });
+                                        if (_spController.text.isNotEmpty) {
+                                          setState(() {
+                                            _valpperkawawinan = true;
+                                          });
+                                          if (UtilAuth.checkString(_spController
+                                                  .text
+                                                  .toString()) ==
+                                              true) {
+                                            setState(() {
+                                              _valpperkawawinan = true;
+                                            });
+                                            if (_workController
+                                                .text.isNotEmpty) {
+                                              setState(() {
+                                                _valppekerjaan = true;
+                                              });
+                                              if (UtilAuth.checkString(
+                                                      _workController.text
+                                                          .toString()) ==
+                                                  true) {
+                                                setState(() {
+                                                  _valppekerjaan = true;
+                                                });
+                                                if (_pendidikanController
+                                                    .text.isNotEmpty) {
+                                                  setState(() {
+                                                    _valppendidikan = true;
+                                                  });
+                                                  if (UtilAuth.checkUsername(
+                                                          _pendidikanController
+                                                              .text
+                                                              .toString()) ==
+                                                      true) {
+                                                    setState(() {
+                                                      _valppendidikan = true;
+                                                    });
+                                                    var arrNIK =
+                                                        new List<String>.from(
+                                                            _nikController.text
+                                                                .toString()
+                                                                .split(''));
+                                                    transleteNIK(arrNIK);
+                                                    //SetState di sini
+                                                    setState(() {
+                                                      nikText =
+                                                          _nikController.text;
+                                                      namaText =
+                                                          _namaController.text;
+                                                      alamatText =
+                                                          _alamatController
+                                                              .text;
+                                                      rtrwText =
+                                                          _rtrwController.text;
+                                                      kelText =
+                                                          _kelurahanController
+                                                              .text;
+                                                      agamaText =
+                                                          _agamaController.text;
+                                                      spText =
+                                                          _spController.text;
+                                                      workText =
+                                                          _workController.text;
+                                                      pendidikanText =
+                                                          _pendidikanController
+                                                              .text;
+                                                      okPressKtp = true;
+                                                      ktpImage = val;
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    setState(() {
+                                                      _valppendidikan = false;
+                                                    });
+                                                  }
+                                                } else {
+                                                  setState(() {
+                                                    _valppendidikan = false;
+                                                  });
+                                                }
+                                              } else {
+                                                setState(() {
+                                                  _valppekerjaan = false;
+                                                });
+                                              }
+                                            } else {
+                                              setState(() {
+                                                _valppekerjaan = false;
+                                              });
+                                            }
+                                          } else {
+                                            setState(() {
+                                              _valpperkawawinan = false;
+                                            });
+                                          }
+                                        } else {
+                                          setState(() {
+                                            _valpperkawawinan = false;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          _valpagama = false;
+                                        });
+                                      }
+                                    } else {
+                                      setState(() {
+                                        _valpagama = false;
+                                      });
+                                    }
                                   } else {
                                     setState(() {
-                                      _valppendidikan = false;
+                                      _valpkelurahan = false;
                                     });
                                   }
                                 } else {
                                   setState(() {
-                                    _valppekerjaan = false;
+                                    _valpkelurahan = false;
                                   });
                                 }
                               } else {
                                 setState(() {
-                                  _valpperkawawinan = false;
+                                  _valprtrw = false;
                                 });
                               }
                             } else {
                               setState(() {
-                                _valpagama = false;
+                                _valprtrw = false;
                               });
                             }
                           } else {
                             setState(() {
-                              _valpkelurahan = false;
+                              _valpalamat = false;
                             });
                           }
                         } else {
                           setState(() {
-                            _valprtrw = false;
+                            _valpalamat = false;
                           });
                         }
                       } else {
                         setState(() {
-                          _valpalamat = false;
+                          _valpnama = false;
                         });
                       }
                     } else {
@@ -1489,6 +1602,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
             width: 100,
             height: 60,
             child: TextField(
+              maxLength: 17,
+              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: 'No Kartu Keluarga',
@@ -1769,176 +1884,176 @@ class _DetailpTolakState extends State<DetailpTolak> {
             color: Colors.orange[200],
             thickness: 3,
           ),
-          _valKtpImage ||
-                  _valKkImage ||
-                  _valDepanRumahImage ||
-                  _valBelakangRumahImage ||
-                  _valLampiranPer ||
-                  _valktpOrtu1 ||
-                  _valktportu2 ||
-                  _valLunasPbb1 ||
-                  _valAkteCerai ||
-                  _valLunasPbb2 ||
-                  _valskks ||
-                  _valspptTerbaru ||
-                  _valskkdrs ||
-                  _valskck ||
-                  _valrwText ||
-                  _valrtText == false
-              ? Container(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      _valKtpImage == false
-                          ? Text(
-                              "* Foto KTP Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valKkImage == false
-                          ? Text(
-                              "* Foto KK Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valDepanRumahImage == false
-                          ? Text(
-                              "* Foto Depan Rumah Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valBelakangRumahImage == false
-                          ? Text(
-                              "* Foto Belakang Rumah Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valAkteCerai == false
-                          ? Text(
-                              "* File Akta Cerai Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valLampiranPer == false
-                          ? Text(
-                              "* File Lampiran Pernyataan Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valLunasPbb1 == false
-                          ? Text(
-                              "* File Bukti Lunas PBB Tahun Berjalan Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valLunasPbb2 == false
-                          ? Text(
-                              "* File Bukti Lunas PBB Tahun Berjalan Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valktpOrtu1 == false
-                          ? Text(
-                              "* File KTP Orang Tua-1 (Ayah) Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valktportu2 == false
-                          ? Text(
-                              "* File KTP Orang Tua-2 (Ibu) Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valskck == false
-                          ? Text(
-                              "* File SKCK Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valskkdrs == false
-                          ? Text(
-                              "* File Surat Keterangan Kematian Dari Rumah Sakit Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valskks == false
-                          ? Text(
-                              "* File Surat Keterangan Kematian Suami / Istri Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valspptTerbaru == false
-                          ? Text(
-                              "* File SPPT Terbaru Tidak Boleh Kosong !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valrwText == false
-                          ? Text(
-                              "* Kolom RW Belum Anda Dipilih !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                      _valrtText == false
-                          ? Text(
-                              "* Kolom RT Belum Anda Dipilih !",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Container(),
-                    ],
-                  ),
-                )
-              : Container(),
+          // _valKtpImage ||
+          //         _valKkImage ||
+          //         _valDepanRumahImage ||
+          //         _valBelakangRumahImage ||
+          //         _valLampiranPer ||
+          //         _valktpOrtu1 ||
+          //         _valktportu2 ||
+          //         _valLunasPbb1 ||
+          //         _valAkteCerai ||
+          //         _valLunasPbb2 ||
+          //         _valskks ||
+          //         _valspptTerbaru ||
+          //         _valskkdrs ||
+          //         _valskck ||
+          //         _valrwText ||
+          //         _valrtText == false
+          //     ? Container(
+          //         margin: EdgeInsets.only(left: 10, right: 10),
+          //         padding: EdgeInsets.all(10),
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: <Widget>[
+          //             _valKtpImage == false
+          //                 ? Text(
+          //                     "* Foto KTP Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valKkImage == false
+          //                 ? Text(
+          //                     "* Foto KK Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valDepanRumahImage == false
+          //                 ? Text(
+          //                     "* Foto Depan Rumah Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valBelakangRumahImage == false
+          //                 ? Text(
+          //                     "* Foto Belakang Rumah Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valAkteCerai == false
+          //                 ? Text(
+          //                     "* File Akta Cerai Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valLampiranPer == false
+          //                 ? Text(
+          //                     "* File Lampiran Pernyataan Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valLunasPbb1 == false
+          //                 ? Text(
+          //                     "* File Bukti Lunas PBB Tahun Berjalan Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valLunasPbb2 == false
+          //                 ? Text(
+          //                     "* File Bukti Lunas PBB Tahun Berjalan Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valktpOrtu1 == false
+          //                 ? Text(
+          //                     "* File KTP Orang Tua-1 (Ayah) Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valktportu2 == false
+          //                 ? Text(
+          //                     "* File KTP Orang Tua-2 (Ibu) Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valskck == false
+          //                 ? Text(
+          //                     "* File SKCK Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valskkdrs == false
+          //                 ? Text(
+          //                     "* File Surat Keterangan Kematian Dari Rumah Sakit Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valskks == false
+          //                 ? Text(
+          //                     "* File Surat Keterangan Kematian Suami / Istri Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valspptTerbaru == false
+          //                 ? Text(
+          //                     "* File SPPT Terbaru Tidak Boleh Kosong !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valrwText == false
+          //                 ? Text(
+          //                     "* Kolom RW Belum Anda Dipilih !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //             _valrtText == false
+          //                 ? Text(
+          //                     "* Kolom RT Belum Anda Dipilih !",
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Colors.red,
+          //                         fontWeight: FontWeight.bold),
+          //                   )
+          //                 : Container(),
+          //           ],
+          //         ),
+          //       )
+          //     : Container(),
           Container(
             margin: EdgeInsets.only(left: 10, top: 10, bottom: 5, right: 10),
             child: Column(

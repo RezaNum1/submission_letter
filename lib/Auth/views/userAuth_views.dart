@@ -44,11 +44,16 @@ class _UserAuthState extends State<UserAuth> {
                   )),
           (Route<dynamic> route) => false);
     } else {
-      // lgsng masuk
-      preferences.setInt("Id", response.data['data']['Id']);
-      preferences.setString("NoTelepon", response.data['data']['NoTelepon']);
-      preferences.setString("Nik", response.data['data']['Nik']);
-      UtilAuth.successPopupDialog(context, 'Login Berhasil', HomePenduduk());
+      if (response.data['Message'] == true) {
+        UtilAuth.failedPopupDialog(
+            context, "Akun Anda Telah Login Di Perangkat Lain!");
+      } else {
+        // lgsng masuk
+        preferences.setInt("Id", response.data['data']['Id']);
+        preferences.setString("NoTelepon", response.data['data']['NoTelepon']);
+        preferences.setString("Nik", response.data['data']['Nik']);
+        UtilAuth.successPopupDialog(context, 'Login Berhasil', HomePenduduk());
+      }
     }
   }
 

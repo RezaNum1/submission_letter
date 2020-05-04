@@ -182,17 +182,40 @@ class _LoginViewsState extends State<LoginViews> {
                                   setState(() {
                                     _validateUsername = false;
                                   });
-                                  if (_passwordController.text.isNotEmpty) {
+                                  if (UtilAuth.checkUsername(_usernameController
+                                          .text
+                                          .toString()) ==
+                                      true) {
                                     setState(() {
-                                      _validatePassword = false;
+                                      _validateUsername = false;
                                     });
-
-                                    loginProcessView(
-                                        _usernameController.text.toString(),
-                                        _passwordController.text.toString());
+                                    if (_passwordController.text.isNotEmpty) {
+                                      setState(() {
+                                        _validatePassword = false;
+                                      });
+                                      if (UtilAuth.checkStringPassword(
+                                          _passwordController.text
+                                              .toString())) {
+                                        setState(() {
+                                          _validatePassword = false;
+                                        });
+                                        loginProcessView(
+                                            _usernameController.text.toString(),
+                                            _passwordController.text
+                                                .toString());
+                                      } else {
+                                        setState(() {
+                                          _validatePassword = true;
+                                        });
+                                      }
+                                    } else {
+                                      setState(() {
+                                        _validatePassword = true;
+                                      });
+                                    }
                                   } else {
                                     setState(() {
-                                      _validatePassword = true;
+                                      _validateUsername = true;
                                     });
                                   }
                                 } else {

@@ -209,4 +209,52 @@ class UtilAuth {
 
     preferences.clear();
   }
+
+  static bool checkString(String text) {
+    if (RegExp(r'[!@#<>?":_`~;[\]/\\|=+)(*&^%-]').hasMatch(text) == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static bool checkEmail(String text) {
+    if (RegExp(r'[!#<>?":`~;[\]\\/|=+)(*&^%-]').hasMatch(text) == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static bool checkStringPassword(String text) {
+    if (RegExp(r'[!#<>?":`~;[\]\\/|=+)(*&^%-]').hasMatch(text) == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static bool checkAlamat(String text) {
+    if (RegExp(r'[!@#<>?":_`~;[\]\\/|=+)(*&^%]').hasMatch(text) == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static bool checkUsername(String text) {
+    if (RegExp(r'[!@#<>?":_`~;[\]/\\|=+)(*&^%0-9-]').hasMatch(text) == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static bool checkStringRTRW(String text) {
+    if (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%-]').hasMatch(text) == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
