@@ -15,6 +15,7 @@ reportView(
   String nama,
   String jk,
   String ttl,
+  String pekerjaan,
   String ktp,
   String kk,
   String pendidikan,
@@ -124,6 +125,15 @@ reportView(
                       Text(":", style: TextStyle(fontSize: 14)),
                       SizedBox(width: 10),
                       Text("$ttl", style: TextStyle(fontSize: 14))
+                    ])),
+                Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Row(children: <Widget>[
+                      Text("PEKERJAAN", style: TextStyle(fontSize: 14)),
+                      SizedBox(width: 78),
+                      Text(":", style: TextStyle(fontSize: 14)),
+                      SizedBox(width: 10),
+                      Text("$pekerjaan", style: TextStyle(fontSize: 14))
                     ])),
                 Container(
                     margin: EdgeInsets.only(bottom: 10),

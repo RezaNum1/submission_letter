@@ -124,8 +124,22 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
     UtilAuth.successPopupDialog(context, response.data['message'], HomeEmp());
   }
 
-  Widget _detailWidget(String keterangan, String rtrwText, String noSuratRT,
-      String noSuratRW, List history, List namaFile) {
+  Widget _detailWidget(
+    String keterangan,
+    String rtrwText,
+    String noSuratRT,
+    String noSuratRW,
+    List history,
+    List namaFile,
+    String nik,
+    String nama,
+    String jk,
+    String ttl,
+    String alamat,
+    String agama,
+    String pekerjaan,
+    String pendidikan,
+  ) {
     String judulDetail;
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
@@ -325,6 +339,181 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
           SizedBox(
             height: 10,
           ),
+          Divider(
+            color: Colors.orange[200],
+            thickness: 3,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            child: Text(
+              "Biodata Pemohon",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Divider(
+            color: Colors.orange[200],
+            thickness: 3,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "NIK : ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$nik",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Nama : ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$nama",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Jenis Kelamin: ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$jk",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Tempat/Taggal Lahir: ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$ttl",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Alamat : ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$alamat",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Agama : ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$agama",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Pekerjaan : ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$pekerjaan",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Pendidikan Terakhir : ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "$pendidikan",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.orange[200],
+            thickness: 3,
+          ),
           Container(
             margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
             child: Text(
@@ -473,13 +662,20 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return _detailWidget(
-                snapshot.data.keterangan,
-                snapshot.data.rtrw,
-                snapshot.data.noSuratRt,
-                snapshot.data.noSuratRw,
-                snapshot.data.dataHistory,
-                snapshot.data.namaFile,
-              );
+                  snapshot.data.keterangan,
+                  snapshot.data.rtrw,
+                  snapshot.data.noSuratRt,
+                  snapshot.data.noSuratRw,
+                  snapshot.data.dataHistory,
+                  snapshot.data.namaFile,
+                  snapshot.data.nik,
+                  snapshot.data.nama,
+                  snapshot.data.jk,
+                  snapshot.data.ttl,
+                  snapshot.data.alamat,
+                  snapshot.data.agama,
+                  snapshot.data.pekerjaan,
+                  snapshot.data.pendidikan);
             } else {
               return Container(
                 child: Center(

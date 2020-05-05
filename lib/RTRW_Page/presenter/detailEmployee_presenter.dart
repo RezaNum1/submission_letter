@@ -26,6 +26,14 @@ class DetailEmployeePresenter {
     detailEmpViewModel.noSuratRw = response.data['data']['noSuratRW'];
     detailEmpViewModel.dataHistory = response.data['data']['history'];
     detailEmpViewModel.namaFile = response.data['data']['namaFile'];
+    detailEmpViewModel.nik = response.data['data']['nik'];
+    detailEmpViewModel.nama = response.data['data']['nama'];
+    detailEmpViewModel.jk = response.data['data']['jk'];
+    detailEmpViewModel.ttl = response.data['data']['ttl'];
+    detailEmpViewModel.alamat = response.data['data']['alamat'];
+    detailEmpViewModel.agama = response.data['data']['agama'];
+    detailEmpViewModel.pekerjaan = response.data['data']['pekerjaan'];
+    detailEmpViewModel.pendidikan = response.data['data']['pendidikan'];
     return detailEmpViewModel;
   }
 

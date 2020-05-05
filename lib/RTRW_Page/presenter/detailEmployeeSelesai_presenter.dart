@@ -29,6 +29,7 @@ class DetailEmpSelesaiPresenter {
     viewModel.nama = response.data['data']['nama'];
     viewModel.jk = response.data['data']['jk'];
     viewModel.ttl = response.data['data']['ttl'];
+    viewModel.pekerjaan = response.data['data']['pekerjaan'];
     viewModel.ktp = response.data['data']['ktp'];
     viewModel.kk = response.data['data']['kk'];
     viewModel.pendidikan = response.data['data']['pendidikan'];
