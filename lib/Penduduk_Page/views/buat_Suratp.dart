@@ -458,7 +458,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   //************************* Validate *************************** */
   String keteranganText;
 
-  bool _validateKeterangan;
+  bool _validateKeterangan = true;
   bool _valKtpImage = true;
   bool _valKkImage = true;
   bool _valDepanRumahImage = true;
@@ -1174,7 +1174,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                 children: <Widget>[
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       maxLength: 16,
                       inputFormatters: [

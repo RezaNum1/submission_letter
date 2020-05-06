@@ -44,7 +44,7 @@ class _UserAuthState extends State<UserAuth> {
                   )),
           (Route<dynamic> route) => false);
     } else {
-      if (response.data['Message'] == true) {
+      if (response.data['data']['Message'] == true) {
         UtilAuth.failedPopupDialog(
             context, "Akun Anda Telah Login Di Perangkat Lain!");
       } else {
