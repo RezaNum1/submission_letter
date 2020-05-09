@@ -548,7 +548,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
     List<String> arrOCR = _extractText.split("\n");
 
-    if (arrOCR.length >= 11) {
+    if (arrOCR.length > 11) {
       //NIK
 
       if (arrOCR[0].contains(":")) {
@@ -684,6 +684,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
         setState(() {
           namaText = namaArr[1];
         });
+      } else if (namaFill.contains('"')) {
+        var namaArr = List<String>.from(text1.split('"'));
+        setState(() {
+          namaText = namaArr[1];
+        });
       } else {
         var namaArr = List<String>.from(text1.split(' '));
         namaArr.removeAt(0);
@@ -728,6 +733,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
       var text2 = alamatFill.join('');
       if (alamatFill.contains(":")) {
         var alamatArr = List<String>.from(text2.split(':'));
+        setState(() {
+          alamatText = alamatArr[1];
+        });
+      } else if (alamatFill.contains('"')) {
+        var alamatArr = List<String>.from(text2.split('"'));
         setState(() {
           alamatText = alamatArr[1];
         });
@@ -777,6 +787,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
       var text3 = rtrwFill.join('');
       if (rtrwFill.contains(":")) {
         var rtrwArr = List<String>.from(text3.split(':'));
+        setState(() {
+          rtrwText = rtrwArr[1];
+        });
+      } else if (rtrwFill.contains('"')) {
+        var rtrwArr = List<String>.from(text3.split('"'));
         setState(() {
           rtrwText = rtrwArr[1];
         });
@@ -846,6 +861,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
         setState(() {
           kelText = kelArr[1];
         });
+      } else if (kelFill.contains('"')) {
+        var kelArr = List<String>.from(text4.split('"'));
+        setState(() {
+          kelText = kelArr[1];
+        });
       } else {
         var kelArr = List<String>.from(text4.split(' '));
         kelArr.removeAt(0);
@@ -908,7 +928,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
       } else if (arrOCR[12].split(" ")[0].contains("g")) {
         agamaFill = List<String>.from(arrOCR[12].split(''));
       } else {
-        agamaFill = ["A", "g", "a", "m", "a", " ", ":", "Isi Agama"];
+        agamaFill = ["Agama", " ", ":", "Isi Agama"];
       }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
@@ -921,6 +941,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
       var text5 = agamaFill.join('');
       if (agamaFill.contains(":")) {
         var agamaArr = List<String>.from(text5.split(':'));
+        setState(() {
+          agamaText = agamaArr[1];
+        });
+      } else if (agamaFill.contains('"')) {
+        var agamaArr = List<String>.from(text5.split('"'));
         setState(() {
           agamaText = agamaArr[1];
         });
@@ -964,29 +989,38 @@ class _BuatSuratPState extends State<BuatSuratP> {
         spFill = List<String>.from(arrOCR[11].split(''));
       } else if (arrOCR[11].split(" ")[0].contains("S")) {
         spFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Statu")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("tatus")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("St")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("S")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Statu")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("tatus")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("St")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("S")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR.length == 13) {
+        if (arrOCR[12].split(" ")[0].contains("Statu")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("tatus")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("St")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("S")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else {
+          spFill = ["Status", ":", "Isi Status Perkawinan"];
+        }
+      } else if (arrOCR.length == 14) {
+        if (arrOCR[13].split(" ")[0].contains("Statu")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("tatus")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("St")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("S")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else {
+          spFill = ["Status", ":", "Isi Status Perkawinan"];
+        }
       } else {
         spFill = ["Status", ":", "Isi Status Perkawinan"];
       }
+
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
         spFill.remove('_');
@@ -998,6 +1032,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
       var text6 = spFill.join('');
       if (spFill.contains(":")) {
         var spArr = List<String>.from(text6.split(':'));
+        setState(() {
+          spText = spArr[1];
+        });
+      } else if (spFill.contains('"')) {
+        var spArr = List<String>.from(text6.split('"'));
         setState(() {
           spText = spArr[1];
         });
@@ -1031,36 +1070,108 @@ class _BuatSuratPState extends State<BuatSuratP> {
         workFill = List<String>.from(arrOCR[11].split(''));
       } else if (arrOCR[11].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("ja")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("j")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("rjaa")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("jaa")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("kerja")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("ja")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("j")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("rjaa")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("jaa")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("kerja")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("ja")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("j")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR.length == 13) {
+        if (arrOCR[11].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else {
+          workFill = ['Pekerjaan', ":", "Isi Pekerjaan"];
+        }
+      } else if (arrOCR.length == 14) {
+        if (arrOCR[11].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else {
+          workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
+        }
+      } else if (arrOCR.length == 15) {
+        if (arrOCR[11].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else {
+          workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
+        }
       } else {
         workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
       }
@@ -1176,7 +1287,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                     width: 100,
                     height: 80,
                     child: TextField(
-                      maxLength: 16,
+                      maxLength: 17,
                       inputFormatters: [
                         WhitelistingTextInputFormatter.digitsOnly
                       ],

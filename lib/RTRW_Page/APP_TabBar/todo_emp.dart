@@ -20,10 +20,28 @@ class _TODOEmpState extends State<TODOEmp> {
     // Custom Text
     if (tipe == "1") {
       titleName = "SKTM";
-      subTitleName = "Pengajuan Surat Keterangan Kemiskinan";
+      subTitleName = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (tipe == "2") {
-      titleName = "SD";
+      titleName = "SKU";
+      subTitleName = "Pengajuan Surat Keterangan Usaha";
+    } else if (tipe == "3") {
+      titleName = "SPIK";
+      subTitleName = "Pengajuan Surat Pengantar Izin Keramaian";
+    } else if (tipe == "4") {
+      titleName = "SKB,";
+      subTitleName = "Pengajuan Surat Keterangan Belum Menikah";
+    } else if (tipe == "5") {
+      titleName = "SKC";
+      subTitleName = "Pengajuan Surat Keterangan Cerai";
+    } else if (tipe == "6") {
+      titleName = "SKD";
       subTitleName = "Pengajuan Surat Keterangan Domisili";
+    } else if (tipe == "7") {
+      titleName = "SKM";
+      subTitleName = "Pengajuan Surat Keterangan Kematian";
+    } else if (tipe == "8") {
+      titleName = "SKP";
+      subTitleName = "Pengajuan Surat Keterangan Pindah";
     }
     return Card(
       child: ListTile(
