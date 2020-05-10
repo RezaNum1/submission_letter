@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/RTRW_Page/viewmodel/detailSuratKelurahan_viewmodel.dart';
 import 'package:submission_letter/main.dart';
 
 class SuratKelurahanPresenter {
@@ -23,5 +24,26 @@ class SuratKelurahanPresenter {
       listSurat.add(arrData[i]);
     }
     return listSurat;
+  }
+
+  Future<DetailSuratKelurahanViewModel> getDetailSuratKelurahan(
+      String idSurat) async {
+    var url = "${MyApp.route}/api/rtrw/getAllSuratExternalDetailApi";
+    Dio dio = new Dio();
+    FormData formData = new FormData.fromMap({
+      "idSurat": idSurat,
+    });
+
+    var response = await dio.post(url, data: formData);
+    DetailSuratKelurahanViewModel viewModel =
+        new DetailSuratKelurahanViewModel();
+    viewModel.bodySurat = response.data['data']['bodySurat'];
+    viewModel.noSuratKelurahan = response.data['data']['noSuratKelurahan'];
+    viewModel.keterangan = response.data['data']['keterangan'];
+    viewModel.tanggal = response.data['data']['tanggal'];
+    viewModel.lurah = response.data['data']['lurah'];
+    viewModel.listKepada = response.data['data']['listKepada'];
+    viewModel.listTembusan = response.data['data']['listTembusan'];
+    return viewModel;
   }
 }

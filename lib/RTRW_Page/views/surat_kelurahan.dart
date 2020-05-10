@@ -8,6 +8,7 @@ import 'package:submission_letter/RTRW_Page/presenter/surat_kelurahan_presenter.
 import 'package:submission_letter/RTRW_Page/presenter/todo_presenter.dart';
 import 'package:submission_letter/RTRW_Page/views/detai_empSelesai.dart';
 import 'package:submission_letter/RTRW_Page/views/detail_emp.dart';
+import 'package:submission_letter/RTRW_Page/views/detail_surat_kelurahan.dart';
 import 'package:submission_letter/Theme/theme_emp.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/Util/util_rtrw.dart';
@@ -33,9 +34,6 @@ class _SuratKelurahanState extends State<SuratKelurahan> {
       nama = pref.getString('Nama');
       jabatanText = pref.getString('Jabatan');
     });
-
-    // print(nama);
-    // print(jabatanText);
   }
 
   void dispose() {
@@ -92,16 +90,11 @@ class _SuratKelurahanState extends State<SuratKelurahan> {
           ],
         ),
         onTap: () {
-          print("Hello");
-          // UtilAuth.movePage(
-          //     context,
-          //     DetailEmpSelesai(
-          //       idJobPos: idJobPos,
-          //       idSurat: idSurat,
-          //       namaPenduduk: nama,
-          //       tanggal: tanggal,
-          //       tipe: tipe,
-          //     ));
+          UtilAuth.movePage(
+              context,
+              DetailSuratKelurahan(
+                idSurat: idSurat,
+              ));
         },
       ),
     );
