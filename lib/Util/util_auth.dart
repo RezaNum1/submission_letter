@@ -235,7 +235,7 @@ class UtilAuth {
   }
 
   static bool checkAlamat(String text) {
-    if (RegExp(r'[!@#<>?":_`~;[\]\\/|=+)(*&^%]').hasMatch(text) == false) {
+    if (RegExp(r'[!@#<>?":_`~;[\]\\/|=+)(*&^%0-9]').hasMatch(text) == false) {
       return true;
     } else {
       return false;

@@ -1307,7 +1307,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1325,7 +1325,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1343,7 +1343,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1361,7 +1361,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1379,7 +1379,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1397,7 +1397,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1415,7 +1415,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1433,7 +1433,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1541,52 +1541,50 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                                   setState(() {
                                                     _valppendidikan = true;
                                                   });
-                                                  if (UtilAuth.checkUsername(
-                                                          _pendidikanController
-                                                              .text
-                                                              .toString()) ==
-                                                      true) {
-                                                    setState(() {
-                                                      _valppendidikan = true;
-                                                    });
-                                                    var arrNIK =
-                                                        new List<String>.from(
-                                                            _nikController.text
-                                                                .toString()
-                                                                .split(''));
-                                                    transleteNIK(arrNIK);
-                                                    //SetState di sini
-                                                    setState(() {
-                                                      nikText =
-                                                          _nikController.text;
-                                                      namaText =
-                                                          _namaController.text;
-                                                      alamatText =
-                                                          _alamatController
-                                                              .text;
-                                                      rtrwText =
-                                                          _rtrwController.text;
-                                                      kelText =
-                                                          _kelurahanController
-                                                              .text;
-                                                      agamaText =
-                                                          _agamaController.text;
-                                                      spText =
-                                                          _spController.text;
-                                                      workText =
-                                                          _workController.text;
-                                                      pendidikanText =
-                                                          _pendidikanController
-                                                              .text;
-                                                      okPressKtp = true;
-                                                      ktpImage = val;
-                                                    });
-                                                    Navigator.of(context).pop();
-                                                  } else {
-                                                    setState(() {
-                                                      _valppendidikan = false;
-                                                    });
-                                                  }
+                                                  // if (UtilAuth.checkUsername(
+                                                  //         _pendidikanController
+                                                  //             .text
+                                                  //             .toString()) ==
+                                                  //     true) {
+                                                  setState(() {
+                                                    _valppendidikan = true;
+                                                  });
+                                                  var arrNIK =
+                                                      new List<String>.from(
+                                                          _nikController.text
+                                                              .toString()
+                                                              .split(''));
+                                                  transleteNIK(arrNIK);
+                                                  //SetState di sini
+                                                  setState(() {
+                                                    nikText =
+                                                        _nikController.text;
+                                                    namaText =
+                                                        _namaController.text;
+                                                    alamatText =
+                                                        _alamatController.text;
+                                                    rtrwText =
+                                                        _rtrwController.text;
+                                                    kelText =
+                                                        _kelurahanController
+                                                            .text;
+                                                    agamaText =
+                                                        _agamaController.text;
+                                                    spText = _spController.text;
+                                                    workText =
+                                                        _workController.text;
+                                                    pendidikanText =
+                                                        _pendidikanController
+                                                            .text;
+                                                    okPressKtp = true;
+                                                    ktpImage = val;
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  // } else {
+                                                  //   setState(() {
+                                                  //     _valppendidikan = false;
+                                                  //   });
+                                                  // }
                                                 } else {
                                                   setState(() {
                                                     _valppendidikan = false;
@@ -1732,7 +1730,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
   //********************************* OCR KK FUNCTION ******************/
 
   Future<void> sendToServerkk(BuildContext context, double size) async {
-    if (val == null) {
+    if (valkk == null) {
       return;
     }
     UtilAuth.loading(context);
@@ -2364,7 +2362,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                     heightFramekk = 220.0;
                                   });
                                 }
-                                val = await showDialog(
+                                valkk = await showDialog(
                                     context: context,
                                     builder: (context) => Camera(
                                           mode: height < 650

@@ -1490,7 +1490,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
   //********************************* OCR KK FUNCTION ******************/
 
   Future<void> sendToServerkk(BuildContext context, double size) async {
-    if (val == null) {
+    if (valkk == null) {
       return;
     }
     UtilAuth.loading(context);
@@ -2241,7 +2241,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                                   heightFramekk = 220.0;
                                 });
                               }
-                              val = await showDialog(
+                              valkk = await showDialog(
                                   context: context,
                                   builder: (context) => Camera(
                                         mode: height < 650
