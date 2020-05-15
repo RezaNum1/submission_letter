@@ -191,6 +191,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
       preferences.setInt("Id", response.data['data']['Id']);
       preferences.setString("NoTelepon", response.data['data']['NoTelepon']);
       preferences.setString("Nik", response.data['data']['Nik']);
+      preferences.setInt("TipeUser", 2);
       UtilAuth.successPopupDialog(
           context, response.data['message'], HomePenduduk());
     }

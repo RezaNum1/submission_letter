@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:submission_letter/Penduduk_Page/views/buat_Suratp.dart';
 import 'package:submission_letter/Penduduk_Page/views/search_penduduk.dart';
 import 'package:submission_letter/home_page.dart';
+import 'package:submission_letter/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: HomeBase());
+        home: SplashScreen());
   }
 }

@@ -42,6 +42,7 @@ class _LoginViewsState extends State<LoginViews> {
       pref.setInt('Id', response.data['data']['Id']);
       pref.setInt("IdJobPos", response.data["IdJobPos"]);
       pref.setString("token", tokens);
+      pref.setInt("TipeUser", 1);
       UtilAuth.successPopupDialog(context, response.data['message'], HomeEmp());
     } else {
       tokens = "";
