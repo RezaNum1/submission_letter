@@ -44,20 +44,22 @@ class _FilePickerRegisState extends State<FilePickerRegis> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             "${widget.title}:",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: height == 716 ? 15 : 17),
           ),
           Container(
             width: double.infinity,
             child: RaisedButton(
                 child: Text(
                   "Upload",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: height == 716 ? 15 : 20),
                 ),
                 textColor: Colors.white,
                 color: Colors.orange,
@@ -71,7 +73,8 @@ class _FilePickerRegisState extends State<FilePickerRegis> {
           ),
           valFile
               ? Text("Bentuk File Yang Diterima: .jpg / .jpeg / .png",
-                  style: TextStyle(color: Colors.red))
+                  style: TextStyle(
+                      color: Colors.red, fontSize: height == 716 ? 10 : 12))
               : Text(
                   "Tipe File Tidak Di izinkan, Upload File .jpg, .jpeg atau .png",
                   style: TextStyle(color: Colors.red)),

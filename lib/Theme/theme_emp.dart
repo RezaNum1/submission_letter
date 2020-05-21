@@ -11,6 +11,7 @@ import '../Auth/views/login_views.dart' as loginPage;
 
 class ThemeApp {
   static sideBar(context, String nama, String jabatan) {
+    double height = MediaQuery.of(context).size.height;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -28,7 +29,7 @@ class ThemeApp {
                         child: Text(
                           '${nama[0].toUpperCase()}${nama.substring(1)}',
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: height == 716 ? 20 : 30,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -55,7 +56,7 @@ class ThemeApp {
                   Text(
                     jabatan,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: height == 716 ? 18 : 20,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -72,7 +73,7 @@ class ThemeApp {
               title: Text(
                 "Halaman Utama",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: height == 716 ? 18 : 20,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -87,7 +88,7 @@ class ThemeApp {
               title: Text(
                 "Cari Surat Selesai",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: height == 716 ? 18 : 20,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -102,7 +103,7 @@ class ThemeApp {
               title: Text(
                 "Akun",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: height == 716 ? 18 : 20,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -118,7 +119,7 @@ class ThemeApp {
               title: Text(
                 "Surat Kelurahan",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: height == 716 ? 18 : 20,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -133,7 +134,7 @@ class ThemeApp {
               title: Text(
                 "LogOut",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: height == 716 ? 18 : 20,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),

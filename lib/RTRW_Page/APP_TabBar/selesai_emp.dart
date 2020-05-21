@@ -17,7 +17,8 @@ class SelesaiEmp extends StatefulWidget {
 
 class _SelesaiEmpState extends State<SelesaiEmp> {
   Widget suratWidget(String idJobPos, String idSurat, String tipe, String nama,
-      String tanggal) {
+      String tanggal, BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     String titleName;
     String subTitleName;
 
@@ -58,7 +59,7 @@ class _SelesaiEmpState extends State<SelesaiEmp> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: height == 716 ? 15 : 20,
                   ),
                 ),
               ),
@@ -76,17 +77,19 @@ class _SelesaiEmpState extends State<SelesaiEmp> {
                 Text(
                   "$subTitleName",
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: height == 716 ? 9.5 : 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   "Pemohon : $nama",
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: height == 716 ? 10 : 13),
                 ),
                 Text(
                   "Tanggal    : $tanggal",
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: height == 716 ? 10 : 13),
                 ),
               ],
             )
@@ -142,6 +145,7 @@ class _SelesaiEmpState extends State<SelesaiEmp> {
                       UtilRTRW.convertDateTime(
                         snapshot.data[index]["tanggal"],
                       ),
+                      context,
                     );
                   });
             } else {

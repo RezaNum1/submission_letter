@@ -27,6 +27,8 @@ class _HomeBaseState extends State<HomeBase> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.orange[300],
       body: Container(
@@ -38,14 +40,14 @@ class _HomeBaseState extends State<HomeBase> {
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                    left: 10,
+                    left: height == 716 ? 50 : 10,
                     top: 10,
                     child: FadeAnimation(
                       1,
                       Text(
                         'Aplikasi Pengajuan',
                         style: TextStyle(
-                          fontSize: 40,
+                          fontSize: height == 716 ? 23 : 40, //40
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -53,14 +55,14 @@ class _HomeBaseState extends State<HomeBase> {
                     ),
                   ),
                   Positioned(
-                    left: 80,
+                    left: height == 716 ? 14 : 80,
                     top: 50,
                     child: FadeAnimation(
                       1.5,
                       Text(
-                        'Surat Warga',
+                        'Surat Keterangan Warga',
                         style: TextStyle(
-                          fontSize: 40,
+                          fontSize: height == 716 ? 23 : 40,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -106,7 +108,7 @@ class _HomeBaseState extends State<HomeBase> {
                           style: TextStyle(
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
-                            fontSize: 22,
+                            fontSize: height == 716 ? 15 : 22,
                           ),
                         ),
                         onPressed: () async {
@@ -138,7 +140,7 @@ class _HomeBaseState extends State<HomeBase> {
                           style: TextStyle(
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: height == 716 ? 18 : 30,
                           ),
                         ),
                         onPressed: () {

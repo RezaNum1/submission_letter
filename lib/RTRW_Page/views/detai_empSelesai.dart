@@ -90,6 +90,9 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
       String agama,
       String alamat) {
     String judulDetail;
+    double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 13 : 15;
+    double titleSizes = height == 716 ? 18 : 20;
     var arrSplit = rtrwText.split("/");
     var rtText = arrSplit[0].split(" ");
     var rwText = arrSplit[1].split(" ");
@@ -137,7 +140,9 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                     child: Text(
                       "Preview & Download Surat",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: height == 716 ? 10 : 15),
                     ),
                     onPressed: () {
                       Uint8List docRT = Base64Decoder().convert(sign1);
@@ -197,7 +202,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               children: <Widget>[
                 Text(
                   "Keterangan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   child: ConstrainedBox(
@@ -210,7 +216,7 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
                     child: AutoSizeText(
                       "$keterangan",
                       textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 15.0),
+                      style: TextStyle(fontSize: fontSizes),
                     ),
                   ),
                 )
@@ -227,11 +233,12 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               children: <Widget>[
                 Text(
                   "RT/RW: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$rtrwText",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -245,11 +252,12 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               children: <Widget>[
                 Text(
                   "No Surat RT: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   noSuratRT != null ? "$noSuratRT" : "",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -263,11 +271,12 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               children: <Widget>[
                 Text(
                   "No Surat RW:",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   noSuratRW != null ? "$noSuratRW" : "",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -279,7 +288,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
             margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
             child: Text(
               "Berkas Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(
@@ -295,7 +305,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
             margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
             child: Text(
               "History Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(

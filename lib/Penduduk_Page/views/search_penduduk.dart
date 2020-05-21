@@ -123,6 +123,9 @@ class _SearchPendudukState extends State<SearchPenduduk> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 13 : 15;
+    double titleSizes = height == 716 ? 20 : 30;
     return Scaffold(
       appBar: AppBar(
         iconTheme: new IconThemeData(color: Colors.white),
@@ -154,7 +157,7 @@ class _SearchPendudukState extends State<SearchPenduduk> {
                               Text(
                                 "Cari Surat Selesai",
                                 style: TextStyle(
-                                    fontSize: 30, color: Colors.orange),
+                                    fontSize: titleSizes, color: Colors.orange),
                               ),
                               Divider(
                                 color: Colors.orange,

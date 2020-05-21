@@ -57,6 +57,10 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
       String body,
       String nosk) {
     String judulDetail;
+    double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 13 : 15;
+    double titleSizes = height == 716 ? 18 : 20;
+    double tinySizes = height == 716 ? 10 : 13;
     String tglConv = UtilRTRW.convertDateTime(tglBuat);
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
@@ -115,7 +119,8 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
               children: <Widget>[
                 Text(
                   "Keterangan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   child: ConstrainedBox(
@@ -128,7 +133,7 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
                     child: AutoSizeText(
                       "$keterangan",
                       textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 15.0),
+                      style: TextStyle(fontSize: fontSizes),
                     ),
                   ),
                 )
@@ -145,11 +150,12 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
               children: <Widget>[
                 Text(
                   "No Pengajuan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$noPengajuan",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -164,11 +170,12 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
               children: <Widget>[
                 Text(
                   "Tanggal Pengajuan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "${UtilRTRW.convertDateTime(tglBuat)}",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -183,11 +190,12 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
               children: <Widget>[
                 Text(
                   "RT/RW: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$rtrwText",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -203,7 +211,8 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
             margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
             child: Text(
               "Surat Keterangan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(
@@ -214,7 +223,8 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
             margin: EdgeInsets.only(left: 10),
             child: Text(
                 "Akses Surat Keterangan Dengan Menekan Tombol Di Bawah:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: tinySizes)),
           ),
           SizedBox(
             height: 10,
@@ -225,7 +235,7 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
                 child: Text(
                   "Preview & Download Surat Keterangan",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: titleSizes),
                 ),
                 textColor: Colors.white,
                 color: Colors.orange,

@@ -12,8 +12,9 @@ class TODOEmp extends StatefulWidget {
 }
 
 class _TODOEmpState extends State<TODOEmp> {
-  Widget suratWidget(
-      String id, String idSurat, String tipe, String nama, String tanggal) {
+  Widget suratWidget(String id, String idSurat, String tipe, String nama,
+      String tanggal, BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     String titleName;
     String subTitleName;
 
@@ -54,7 +55,7 @@ class _TODOEmpState extends State<TODOEmp> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: height == 716 ? 15 : 20,
                   ),
                 ),
               ),
@@ -64,7 +65,7 @@ class _TODOEmpState extends State<TODOEmp> {
                   BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
             ),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,17 +73,19 @@ class _TODOEmpState extends State<TODOEmp> {
                 Text(
                   "$subTitleName",
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: height == 716 ? 9.5 : 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   "Pemohon : $nama",
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: height == 716 ? 10 : 13),
                 ),
                 Text(
                   "Tanggal    : $tanggal",
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: height == 716 ? 10 : 13),
                 ),
               ],
             )
@@ -132,14 +135,14 @@ class _TODOEmpState extends State<TODOEmp> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return suratWidget(
-                      snapshot.data[index]["id"].toString(),
-                      snapshot.data[index]["idSurat"].toString(),
-                      snapshot.data[index]["tipe"].toString(),
-                      snapshot.data[index]["penduduk"],
-                      UtilRTRW.convertDateTime(
-                        snapshot.data[index]["tanggal"],
-                      ),
-                    );
+                        snapshot.data[index]["id"].toString(),
+                        snapshot.data[index]["idSurat"].toString(),
+                        snapshot.data[index]["tipe"].toString(),
+                        snapshot.data[index]["penduduk"],
+                        UtilRTRW.convertDateTime(
+                          snapshot.data[index]["tanggal"],
+                        ),
+                        context);
                   });
             } else {
               return Container(

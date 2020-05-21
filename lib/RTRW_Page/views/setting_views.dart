@@ -73,6 +73,7 @@ class _SettingViewsState extends State<SettingViews> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         iconTheme: new IconThemeData(color: Colors.white),
@@ -132,8 +133,9 @@ class _SettingViewsState extends State<SettingViews> {
                           Container(
                             child: Text(
                               'Ganti Password',
-                              style:
-                                  TextStyle(color: Colors.orange, fontSize: 35),
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: height == 716 ? 20 : 35),
                             ),
                           ),
                           Divider(

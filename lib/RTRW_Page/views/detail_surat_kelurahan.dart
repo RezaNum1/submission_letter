@@ -77,7 +77,9 @@ class _DetailSuratKelurahanState extends State<DetailSuratKelurahan> {
                     child: Text(
                       "Preview & Download Surat",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10),
                     ),
                     onPressed: () {
                       suratKelurahanReportView(

@@ -208,6 +208,7 @@ class _RegisterViewsState extends State<RegisterViews> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -249,7 +250,7 @@ class _RegisterViewsState extends State<RegisterViews> {
                         Text(
                           'REGISTRASI RT / RW',
                           style: GoogleFonts.sniglet(
-                            fontSize: 30,
+                            fontSize: height == 716 ? 25 : 30,
                             color: Colors.orange,
                           ),
                         ),
@@ -560,7 +561,7 @@ class _RegisterViewsState extends State<RegisterViews> {
                             "Kembali",
                             style: TextStyle(
                               color: Colors.orange,
-                              fontSize: 18,
+                              fontSize: height == 716 ? 15 : 18,
                             ),
                           ),
                           onPressed: () {

@@ -39,6 +39,10 @@ class _RulePageState extends State<RulePage> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
+    double fontSizes = height == 716 ? 15 : 20;
+    double titleSizes = height == 716 ? 18 : 25;
     String titleText;
     if (widget.tipe == "1") {
       titleText = "Surat Keterangan Tidak Mampu";
@@ -85,7 +89,7 @@ class _RulePageState extends State<RulePage> {
                     Text(
                       "Persyaratan Pembuatan",
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: titleSizes,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -93,7 +97,7 @@ class _RulePageState extends State<RulePage> {
                     AutoSizeText(
                       "$titleText",
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: titleSizes,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -115,7 +119,7 @@ class _RulePageState extends State<RulePage> {
                   Text(
                     "Berikut persyaratan berkas yang harus dipenuhi:",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: fontSizes,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -126,7 +130,7 @@ class _RulePageState extends State<RulePage> {
                   Text(
                     "1. KTP (Kartu Tanda Penduduk)",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: fontSizes,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -137,7 +141,7 @@ class _RulePageState extends State<RulePage> {
                   Text(
                     "2. KK (Kartu Keluarga)",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: fontSizes,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -152,7 +156,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "3. Foto Sisi Depan Rumah",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -163,7 +167,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "4. Foto Sisi Belakang Rumah",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -175,7 +179,7 @@ class _RulePageState extends State<RulePage> {
                       ? AutoSizeText(
                           "3. SPPT Terbaru",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -185,7 +189,7 @@ class _RulePageState extends State<RulePage> {
                       ? AutoSizeText(
                           "3. Lampiran Pernyataan Persetujuan Dari Warga Setempat ( Dimana Keramaian Akan Dilangsungkan )",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -199,7 +203,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "3. KTP Orang Tua-1 (Ayah)",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -210,7 +214,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "4. KTP Orang Tua-2 (Ibu)",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -221,7 +225,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "5. Tanda Lunas PBB Tahun Berjalan",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -236,7 +240,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "3. Akte Cerai",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -247,7 +251,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "4. Pelunasan PBB Tahun Berjalan",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -258,7 +262,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "5. Surat Keterangan Kematian Suami / Istri (Untuk Cerai Mati)",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -273,7 +277,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "3. Surat Keterangan Kematian Dari Rumah Sakit (Jika Ada)",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -288,7 +292,7 @@ class _RulePageState extends State<RulePage> {
                             AutoSizeText(
                               "3. SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: fontSizes,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -329,7 +333,7 @@ class _RulePageState extends State<RulePage> {
               ),
             ),
             Container(
-              height: 180,
+              height: height == 716 ? 280 : 180,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/building.png'),

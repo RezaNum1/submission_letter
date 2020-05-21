@@ -40,13 +40,15 @@ class _DropDownRegisState extends State<DropDownRegis> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             "Pilih RW (Rukun Warga) Anda:",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: height == 716 ? 14 : 18),
           ),
           new DropdownButton(
             items: data.map((item) {

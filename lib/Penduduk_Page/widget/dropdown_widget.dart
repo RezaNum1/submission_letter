@@ -40,6 +40,9 @@ class _DropDownWidgetState extends State<DropDownWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
+    double titleSizes = height == 716 ? 14 : 18;
     return Container(
       margin: EdgeInsets.only(left: 15),
       child: Column(
@@ -47,7 +50,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         children: <Widget>[
           Text(
             "Pilih RW (Rukun Warga) Anda:",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: titleSizes),
           ),
           new DropdownButton(
             items: data.map((item) {

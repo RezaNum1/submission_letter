@@ -38,6 +38,7 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
       String idSurat, String tipe, String noPengajuan, String tanggal) {
     String titleName;
     String subTitleName;
+    double height = MediaQuery.of(context).size.height;
 
     // Custom Text
     if (tipe == "1") {
@@ -76,7 +77,7 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: height == 716 ? 15 : 20,
                   ),
                 ),
               ),
@@ -94,17 +95,19 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
                 Text(
                   "$subTitleName",
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: height == 716 ? 10 : 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   "No Pengajuan : $noPengajuan",
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: height == 716 ? 10 : 13),
                 ),
                 Text(
                   "Tanggal    : $tanggal",
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: height == 716 ? 10 : 13),
                 ),
               ],
             )

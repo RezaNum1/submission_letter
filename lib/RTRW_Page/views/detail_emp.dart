@@ -140,6 +140,9 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
     String pekerjaan,
     String pendidikan,
   ) {
+    double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 13 : 15;
+    double titleSizes = height == 716 ? 18 : 20;
     String judulDetail;
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
@@ -243,7 +246,7 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
-                    fontSize: 20),
+                    fontSize: height == 716 ? 13 : 20),
               ),
             ),
           ),
@@ -261,7 +264,8 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Keterangan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   child: ConstrainedBox(
@@ -274,7 +278,7 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
                     child: AutoSizeText(
                       "$keterangan",
                       textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 15.0),
+                      style: TextStyle(fontSize: fontSizes),
                     ),
                   ),
                 )
@@ -291,11 +295,12 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "RT/RW: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$rtrwText",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -309,7 +314,8 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "No Surat RT: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   noSuratRT != null ? "$noSuratRT" : "",
@@ -327,11 +333,12 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "No Surat RW:",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   noSuratRW != null ? "$noSuratRW" : "",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -347,7 +354,8 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
             margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
             child: Text(
               "Biodata Pemohon",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(
@@ -361,13 +369,14 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "NIK : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$nik",
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -380,13 +389,14 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Nama : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$nama",
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -399,13 +409,14 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Jenis Kelamin: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$jk",
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -418,13 +429,14 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Tempat/Taggal Lahir: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$ttl",
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -437,14 +449,15 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Alamat : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$alamat",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -457,14 +470,15 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Agama : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$agama",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -477,14 +491,15 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Pekerjaan : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$pekerjaan",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -497,14 +512,15 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               children: <Widget>[
                 Text(
                   "Pendidikan Terakhir : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
                     "$pendidikan",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: fontSizes),
                   ),
                 )
               ],
@@ -518,7 +534,8 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
             margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
             child: Text(
               "Berkas Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(
@@ -568,7 +585,8 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
             margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
             child: Text(
               "History Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(

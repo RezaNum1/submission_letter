@@ -1893,6 +1893,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 13 : 15;
+    double titleSizes = height == 716 ? 18 : 20;
     double bigBoxHeight;
     double topBigBox;
     double leftBigBox;
@@ -1916,7 +1918,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
     String judulDetail;
     if (widget.tipe == "1") {
-      judulDetail = "Pengajuan Surat Keterangan Miskin";
+      judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
       judulDetail = "Pengajuan Surat Keterangan Usaha";
     } else if (widget.tipe == "3") {
@@ -1959,10 +1961,12 @@ class _BuatSuratPState extends State<BuatSuratP> {
                 margin: EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   "$judulDetail",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
-                      fontSize: 20),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orange,
+                    fontSize: titleSizes,
+                  ),
                 ),
               ),
             ),
@@ -1985,7 +1989,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
               margin: EdgeInsets.only(left: 10, top: 10, bottom: 5),
               child: Text(
                 "Berkas Pengajuan",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: titleSizes, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(

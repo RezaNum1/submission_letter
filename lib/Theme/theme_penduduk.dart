@@ -16,6 +16,10 @@ import '../Auth/views/login_views.dart' as loginPage;
 
 class ThemeAppPenduduk {
   static sideBar(context, String nik, String noTelepon) {
+    double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 17 : 20;
+    double titleSize = height == 716 ? 20 : 30;
+    double infoBioSize = height == 716 ? 10 : 15;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -40,7 +44,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           'Masyarakat',
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: titleSize,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -67,7 +71,7 @@ class ThemeAppPenduduk {
                   Text(
                     '$nik | $noTelepon',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: infoBioSize,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -89,7 +93,7 @@ class ThemeAppPenduduk {
                 child: Text(
                   "Buat Pengajuan Surat",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: fontSizes,
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,
                   ),
@@ -104,9 +108,9 @@ class ThemeAppPenduduk {
                       title: Container(
                         margin: EdgeInsets.only(left: 10),
                         child: Text(
-                          "Surat Keterangan Tanda Miskin",
+                          "Surat Keterangan Tidak Mampu",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -133,7 +137,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Keterangan Usaha",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -160,7 +164,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Pengantar Izin Keramaian",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -187,7 +191,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Keterangan Belum Menikah",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -214,7 +218,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Keterangan Hidup/Mati",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -241,7 +245,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Keterangan Domisili",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -268,7 +272,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Keterangan Kematian",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -295,7 +299,7 @@ class ThemeAppPenduduk {
                         child: Text(
                           "Surat Keterangan Pindah (Keluar / Datang)",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: fontSizes,
                             color: Colors.orange,
                             fontWeight: FontWeight.bold,
                           ),
@@ -324,7 +328,7 @@ class ThemeAppPenduduk {
               title: Text(
                 "Halaman Utama",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: fontSizes,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -339,7 +343,7 @@ class ThemeAppPenduduk {
               title: Text(
                 "Cari Surat Seleasi",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: fontSizes,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -349,28 +353,28 @@ class ThemeAppPenduduk {
               },
             ),
           ),
-          Card(
-            child: ListTile(
-              title: Text(
-                "Akun",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                UtilAuth.movePage(
-                    context, settings.SettingViews(SettingPresenter()));
-              },
-            ),
-          ),
+          // Card(
+          //   child: ListTile(
+          //     title: Text(
+          //       "Akun",
+          //       style: TextStyle(
+          //         fontSize: fontSizes,
+          //         color: Colors.orange,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //     onTap: () {
+          //       UtilAuth.movePage(
+          //           context, settings.SettingViews(SettingPresenter()));
+          //     },
+          //   ),
+          // ),
           Card(
             child: ListTile(
               title: Text(
                 "Keluar",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: fontSizes,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),

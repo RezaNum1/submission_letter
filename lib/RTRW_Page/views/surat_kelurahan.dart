@@ -40,10 +40,10 @@ class _SuratKelurahanState extends State<SuratKelurahan> {
     super.dispose();
   }
 
-  Widget suratWidget(
-      String idPenerima, String idSurat, String noSurat, String tanggal) {
+  Widget suratWidget(String idPenerima, String idSurat, String noSurat,
+      String tanggal, BuildContext context) {
     // Custom Text
-
+    double height = MediaQuery.of(context).size.height;
     return Card(
       child: ListTile(
         title: Row(
@@ -55,7 +55,7 @@ class _SuratKelurahanState extends State<SuratKelurahan> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: height == 716 ? 15 : 20,
                   ),
                 ),
               ),
@@ -73,7 +73,7 @@ class _SuratKelurahanState extends State<SuratKelurahan> {
                 Text(
                   "Surat Masuk Kelurahan",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: height == 716 ? 14 : 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -150,6 +150,7 @@ class _SuratKelurahanState extends State<SuratKelurahan> {
                         UtilRTRW.convertDateTime(
                           snapshot.data[index]["tanggal"],
                         ),
+                        context,
                       );
                     });
               } else {

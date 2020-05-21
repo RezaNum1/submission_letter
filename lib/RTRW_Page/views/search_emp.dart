@@ -155,6 +155,7 @@ class _SearchEmpState extends State<SearchEmp> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         iconTheme: new IconThemeData(color: Colors.white),
@@ -187,7 +188,8 @@ class _SearchEmpState extends State<SearchEmp> {
                               Text(
                                 "Cari Surat Selesai",
                                 style: TextStyle(
-                                    fontSize: 30, color: Colors.orange),
+                                    fontSize: height == 716 ? 20 : 30,
+                                    color: Colors.orange),
                               ),
                               Divider(
                                 color: Colors.orange,

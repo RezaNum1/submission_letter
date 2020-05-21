@@ -52,6 +52,7 @@ class _LoginViewsState extends State<LoginViews> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -174,7 +175,7 @@ class _LoginViewsState extends State<LoginViews> {
                               child: Text(
                                 "Login",
                                 style: TextStyle(
-                                    fontSize: 30,
+                                    fontSize: height == 716 ? 20 : 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -240,7 +241,7 @@ class _LoginViewsState extends State<LoginViews> {
                                       "Registrasi Akun RT / RW",
                                       style: TextStyle(
                                         color: Colors.orange,
-                                        fontSize: 18,
+                                        fontSize: height == 716 ? 15 : 18,
                                       ),
                                     ),
                                     onPressed: () {
@@ -257,7 +258,7 @@ class _LoginViewsState extends State<LoginViews> {
                                       "Lupa Password",
                                       style: TextStyle(
                                         color: Colors.orange,
-                                        fontSize: 18,
+                                        fontSize: height == 716 ? 16 : 18,
                                       ),
                                     ),
                                     onPressed: () {
@@ -277,7 +278,7 @@ class _LoginViewsState extends State<LoginViews> {
                                       "Kembali",
                                       style: TextStyle(
                                         color: Colors.orange,
-                                        fontSize: 18,
+                                        fontSize: height == 716 ? 16 : 18,
                                       ),
                                     ),
                                     onPressed: () {

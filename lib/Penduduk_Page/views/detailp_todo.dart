@@ -41,6 +41,9 @@ class _DetailpTodoState extends State<DetailpTodo> {
   Widget _detailWidget(String keterangan, String rtrwText, String noPengajuan,
       String tglBuat, String noSuratRT, String noSuratRW, List history) {
     String judulDetail;
+    double height = MediaQuery.of(context).size.height;
+    double fontSizes = height == 716 ? 13 : 15;
+    double titleSizes = height == 716 ? 18 : 20;
     if (widget.tipe == "1") {
       judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (widget.tipe == "2") {
@@ -76,10 +79,11 @@ class _DetailpTodoState extends State<DetailpTodo> {
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 "$judulDetail",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
-                    fontSize: 20),
+                    fontSize: titleSizes),
               ),
             ),
           ),
@@ -97,7 +101,8 @@ class _DetailpTodoState extends State<DetailpTodo> {
               children: <Widget>[
                 Text(
                   "Keterangan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   child: ConstrainedBox(
@@ -110,7 +115,7 @@ class _DetailpTodoState extends State<DetailpTodo> {
                     child: AutoSizeText(
                       "$keterangan",
                       textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 15.0),
+                      style: TextStyle(fontSize: fontSizes),
                     ),
                   ),
                 )
@@ -127,11 +132,12 @@ class _DetailpTodoState extends State<DetailpTodo> {
               children: <Widget>[
                 Text(
                   "No Pengajuan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$noPengajuan",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -146,11 +152,12 @@ class _DetailpTodoState extends State<DetailpTodo> {
               children: <Widget>[
                 Text(
                   "Tanggal Pengajuan: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "${UtilRTRW.convertDateTime(tglBuat)}",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -165,11 +172,12 @@ class _DetailpTodoState extends State<DetailpTodo> {
               children: <Widget>[
                 Text(
                   "RT/RW: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$rtrwText",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -184,11 +192,12 @@ class _DetailpTodoState extends State<DetailpTodo> {
               children: <Widget>[
                 Text(
                   "No Surat RT: ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   noSuratRT != null ? "$noSuratRT" : "",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -203,11 +212,12 @@ class _DetailpTodoState extends State<DetailpTodo> {
               children: <Widget>[
                 Text(
                   "No Surat RW:",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   noSuratRW != null ? "$noSuratRW" : "",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: fontSizes),
                 )
               ],
             ),
@@ -223,7 +233,8 @@ class _DetailpTodoState extends State<DetailpTodo> {
             margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
             child: Text(
               "History Pengajuan",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
           ),
           Divider(
@@ -236,18 +247,21 @@ class _DetailpTodoState extends State<DetailpTodo> {
               DataColumn(
                   label: Text(
                 "Tingkatan",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizes),
               )),
               DataColumn(
                 label: Text(
                   "Status",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: fontSizes),
                 ),
               ),
               DataColumn(
                 label: Text(
                   "Komentar",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: fontSizes),
                 ),
               )
             ],
@@ -257,8 +271,8 @@ class _DetailpTodoState extends State<DetailpTodo> {
                   cells: [
                     DataCell(Text(
                       history[i]['tingkatan'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: fontSizes),
                     )),
                     DataCell(
                       history[i]['status'] == 'Setuju'
@@ -270,8 +284,8 @@ class _DetailpTodoState extends State<DetailpTodo> {
                     ),
                     DataCell(Text(
                       history[i]['komentar'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: fontSizes),
                     )),
                   ],
                 ),
