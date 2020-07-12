@@ -9,6 +9,15 @@ void main() => runApp(MyApp());
 class MyApp extends StatefulWidget {
   static var route = "http://192.168.43.75:8000";
   static var routeOCR = "http://192.168.43.75";
+  // static var route = "http://192.168.1.14:8000";
+  // static var routeOCR = "http://192.168.1.14";
+  // static var route = "http://192.168.43.23:8000";
+  // static var routeOCR = "http://192.168.43.23";
+  // static var route = "http://192.168.1.109:8000";
+  // static var routeOCR = "http://192.168.1.109";
+  // static var route = "http://192.168.1.3:8000";
+  // static var routeOCR = "http://192.168.1.3";
+
   @override
   _MyAppState createState() => _MyAppState();
 }

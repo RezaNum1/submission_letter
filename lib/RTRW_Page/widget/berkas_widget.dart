@@ -23,6 +23,7 @@ class BerkasWidget extends StatefulWidget {
  * AC(Akte cerai), PPBB(Pelunasan PBB), SKK(Surt ket kematian)
  * SKKDRS(S. ket kem dari rmh sakit)
  * SKCK
+ * SP
  * 
  */
 
@@ -52,6 +53,9 @@ class BerkasWidget extends StatefulWidget {
  * Tipe 8. Surat Keterangan Pindah
  * => KTP, KK, SKCK
  * 
+ * * Tipe 15. Surat Penghantar RT&RW
+ * KTP, KK
+ * '
  */
 
 class _BerkasWidgetState extends State<BerkasWidget> {

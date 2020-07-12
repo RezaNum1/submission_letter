@@ -12,13 +12,42 @@ class FilePickerNew extends StatefulWidget {
 }
 
 class _FilePickerNewState extends State<FilePickerNew> {
+  bool valFile = true;
   void getMyFile() async {
     File val = await FilePicker.getFile(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'pdf', 'png', 'jpeg']);
-    setState(() {
-      widget.setFileAtt(val);
-    });
+    var filenameVal = val.path.split("/").last.split(".");
+    if (filenameVal[1] != 'jpg') {
+      setState(() {
+        valFile = false;
+      });
+    }
+    if (filenameVal[1] != 'png') {
+      setState(() {
+        valFile = false;
+      });
+    }
+    if (filenameVal[1] != 'jpeg') {
+      setState(() {
+        valFile = false;
+      });
+    }
+
+    if (filenameVal[1] == 'jpeg' ||
+        filenameVal[1] == 'png' ||
+        filenameVal[1] == 'jpg') {
+      if (val.lengthSync() > 30000000) {
+        setState(() {
+          valFile = false;
+        });
+      } else {
+        setState(() {
+          valFile = true;
+          widget.setFileAtt(val);
+        });
+      }
+    }
   }
 
   @override
@@ -48,6 +77,11 @@ class _FilePickerNewState extends State<FilePickerNew> {
                   getMyFile();
                 }),
           ),
+          valFile
+              ? Container()
+              : Text(
+                  "Tipe File Tidak Di izinkan, Upload File .jpg, .jpeg atau .png & Harus < 3mb",
+                  style: TextStyle(color: Colors.red)),
         ],
       ),
     );

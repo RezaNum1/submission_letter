@@ -488,6 +488,7 @@ class _SearchEmpState extends State<SearchEmp> {
       allData = await presenter.findDataSelesaiApi(
           nikController.text, searchCode, id);
     } else if (searchCode == "3") {
+      print(noSuratRTRWController.text);
       allData = await presenter.findDataSelesaiApi(
           noSuratRTRWController.text, searchCode, id);
     } else if (searchCode == "4") {
@@ -522,7 +523,7 @@ class _SearchEmpState extends State<SearchEmp> {
     } else if (tipe == "2") {
       titleName = "SD";
       subTitleName = "Pengajuan Surat Keterangan Domisili";
-    }
+    } // kurnng
     return Card(
       child: ListTile(
         title: Row(

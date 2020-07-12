@@ -12,9 +12,7 @@ class CancleBtn extends StatefulWidget {
 
 class _CancleBtnState extends State<CancleBtn> {
   void setNullFile() {
-    setState(() {
-      widget.setFileNull;
-    });
+    widget.setFileNull();
   }
 
   @override

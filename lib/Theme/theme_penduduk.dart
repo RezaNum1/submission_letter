@@ -317,6 +317,33 @@ class ThemeAppPenduduk {
                       },
                     ),
                   ),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[300])),
+                    child: ListTile(
+                      title: Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "Surat Penghantar RT & RW",
+                          style: TextStyle(
+                            fontSize: fontSizes,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => RulePage(
+                              tipe: "15",
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
               tapHeaderToExpand: true,
@@ -341,7 +368,7 @@ class ThemeAppPenduduk {
           Card(
             child: ListTile(
               title: Text(
-                "Cari Surat Seleasi",
+                "Cari Surat Selesai",
                 style: TextStyle(
                   fontSize: fontSizes,
                   color: Colors.orange,

@@ -16,6 +16,7 @@ class _FilePickerRegisState extends State<FilePickerRegis> {
   void getMyFile() async {
     File val = await FilePicker.getFile(
         type: FileType.custom, allowedExtensions: ['jpg', 'png', 'jpeg']);
+    print(val.lengthSync());
     var filenameVal = val.path.split("/").last.split(".");
     if (filenameVal[1] != 'jpg') {
       setState(() {
@@ -32,13 +33,20 @@ class _FilePickerRegisState extends State<FilePickerRegis> {
         valFile = false;
       });
     }
+
     if (filenameVal[1] == 'jpeg' ||
         filenameVal[1] == 'png' ||
         filenameVal[1] == 'jpg') {
-      setState(() {
-        valFile = true;
-        widget.setFileAtt(val);
-      });
+      if (val.lengthSync() > 30000000) {
+        setState(() {
+          valFile = false;
+        });
+      } else {
+        setState(() {
+          valFile = true;
+          widget.setFileAtt(val);
+        });
+      }
     }
   }
 
@@ -76,7 +84,7 @@ class _FilePickerRegisState extends State<FilePickerRegis> {
                   style: TextStyle(
                       color: Colors.red, fontSize: height == 716 ? 10 : 12))
               : Text(
-                  "Tipe File Tidak Di izinkan, Upload File .jpg, .jpeg atau .png",
+                  "Tipe File Tidak Di izinkan, Upload File .jpg, .jpeg atau .png & < 3mb",
                   style: TextStyle(color: Colors.red)),
         ],
       ),

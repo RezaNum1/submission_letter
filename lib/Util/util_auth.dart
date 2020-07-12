@@ -133,8 +133,8 @@ class UtilAuth {
 
   static void emails(
       String emailUser, String userUsername, String userPassword) async {
-    String username = 'letteryou20@gmail.com';
-    String password = 'letteryou2020';
+    String username = 'letteryou@gmail.com';
+    String password = 'letteryou1988';
 
     final smtpServer = gmail(username, password);
     // Creating the Gmail server

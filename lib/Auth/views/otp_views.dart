@@ -71,6 +71,7 @@ class _OtpViewsState extends State<OtpViews> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -100,7 +101,7 @@ class _OtpViewsState extends State<OtpViews> {
                     child: Text(
                       'Masukkan No Kode Aktivasi Anda',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: height == 716 ? 15 : 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.orange[300],
                       ),
@@ -123,7 +124,8 @@ class _OtpViewsState extends State<OtpViews> {
                     height: 10,
                   ),
                   Text(
-                    'Kode aktivasi telah dikirim, periksa SMS masuk untuk mendapatkan kode $realOTP',
+                    'Kode aktivasi telah dikirim, periksa SMS masuk untuk mendapatkan kode ',
+                    // $realOTP
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 10,

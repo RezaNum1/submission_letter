@@ -60,6 +60,8 @@ class _RulePageState extends State<RulePage> {
       titleText = "Surat Keterangan Kematian";
     } else if (widget.tipe == "8") {
       titleText = "Surat Keterangan Pindah (Keluar / Datang)";
+    } else if (widget.tipe == "15") {
+      titleText = "Surat Penghantar RT & RW";
     }
 
     return Scaffold(

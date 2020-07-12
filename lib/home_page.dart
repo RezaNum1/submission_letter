@@ -40,14 +40,14 @@ class _HomeBaseState extends State<HomeBase> {
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                    left: height == 716 ? 50 : 10,
+                    left: height == 716 ? 50 : 55,
                     top: 10,
                     child: FadeAnimation(
                       1,
                       Text(
                         'Aplikasi Pengajuan',
                         style: TextStyle(
-                          fontSize: height == 716 ? 23 : 40, //40
+                          fontSize: height == 716 ? 23 : 30, //40
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -55,14 +55,14 @@ class _HomeBaseState extends State<HomeBase> {
                     ),
                   ),
                   Positioned(
-                    left: height == 716 ? 14 : 80,
+                    left: height == 716 ? 14 : 20,
                     top: 50,
                     child: FadeAnimation(
                       1.5,
                       Text(
                         'Surat Keterangan Warga',
                         style: TextStyle(
-                          fontSize: height == 716 ? 23 : 40,
+                          fontSize: height == 716 ? 23 : 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),

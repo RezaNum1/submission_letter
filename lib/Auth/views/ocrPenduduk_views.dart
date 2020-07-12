@@ -246,7 +246,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
                       Text(
                         'Hallo, Anda Adalah Pengguna Baru',
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: height == 716 ? 15.5 : 21,
                           fontWeight: FontWeight.bold,
                           color: Colors.orange[300],
                         ),
@@ -254,7 +254,7 @@ class _OcrPendudukState extends State<OcrPenduduk> {
                       Text(
                         'Silakan Scan KTP Anda',
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: height == 716 ? 15.5 : 21,
                           fontWeight: FontWeight.bold,
                           color: Colors.orange[300],
                         ),

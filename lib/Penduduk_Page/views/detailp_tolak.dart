@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +12,12 @@ import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/Notification/api/messaging.dart';
+import 'package:submission_letter/Notification/model/message.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/detailp_tolak_presenter.dart';
 import 'package:submission_letter/Penduduk_Page/viewmodel/detailp_tolak_viewmodel.dart';
 import 'package:submission_letter/Penduduk_Page/views/home_penduduk.dart';
+import 'package:submission_letter/Penduduk_Page/widget/cancle_btn.dart';
 import 'package:submission_letter/Penduduk_Page/widget/file_picker.dart';
 import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
@@ -30,7 +34,16 @@ class DetailpTolak extends StatefulWidget {
 }
 
 class _DetailpTolakState extends State<DetailpTolak> {
-  // Note: Tambahin validasi di popup agar semua data terisi sebelum ok
+  // ******************** Notif
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final List<Message> messages = [];
+  final TextEditingController titleController =
+      TextEditingController(text: 'Surat Masuk');
+  final TextEditingController bodyController = TextEditingController(
+      text: 'Periksa TODO Anda untuk segera proses surat');
+
+  //*************************** */
   int idUser;
   String noTelepon;
   String nikPref;
@@ -313,12 +326,122 @@ class _DetailpTolakState extends State<DetailpTolak> {
     });
   }
 
+  void setdepanRumahNull() {
+    setState(() {
+      _depanRumah = null;
+    });
+  }
+
+  void setbelakangRumahNull() {
+    setState(() {
+      _belakangRumah = null;
+    });
+  }
+
+  void setspptTerbaruNull() {
+    setState(() {
+      _spptTerbaru = null;
+    });
+  }
+
+  void setlamperNull() {
+    setState(() {
+      _lampiranPer = null;
+    });
+  }
+
+  void setktportu1Null() {
+    setState(() {
+      _ktpOrtu1 = null;
+    });
+  }
+
+  void setktportu2Null() {
+    setState(() {
+      _ktpOrtu2 = null;
+    });
+  }
+
+  void setlunaspbb1Null() {
+    setState(() {
+      _lunasPbb1 = null;
+    });
+  }
+
+  void setakteceraiNull() {
+    setState(() {
+      _akteCerai = null;
+    });
+  }
+
+  void setlunaspbb2Null() {
+    setState(() {
+      _lunasPbb2 = null;
+    });
+  }
+
+  void setskksNull() {
+    setState(() {
+      _skks = null;
+    });
+  }
+
+  void setskksdrsNull() {
+    setState(() {
+      _skksdrs = null;
+    });
+  }
+
+  void setskckNull() {
+    setState(() {
+      _skck = null;
+    });
+  }
+
 //************************************** END File Perbaikan ******** */
   @override
   void initState() {
     setPreference();
     super.initState();
+
+    _firebaseMessaging.onTokenRefresh.listen(sendTokenToServer);
+    _firebaseMessaging.getToken();
+    _firebaseMessaging.subscribeToTopic('all');
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        final notification = message['notification'];
+        setState(() {
+          messages.add(Message(
+              title: notification['title'], body: notification['body']));
+        });
+      },
+      onLaunch: (Map<String, dynamic> message) {},
+      onResume: (Map<String, dynamic> message) async {},
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
+
+// Notif ***********************
+  void sendNotification(BuildContext context, tokenEndUser) async {
+    final response = await Messaging.sendTo(
+        title: titleController.text,
+        body: bodyController.text,
+        fcmToken: '$tokenEndUser');
+    if (response.statusCode != 200) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content:
+            Text('[${response.statusCode}] Error Message: ${response.body}'),
+      ));
+    }
+  }
+
+  void sendTokenToServer(String fcmToken) {
+    print('TokenNya: $fcmToken');
+  }
+
+  //*********************** */
 
   Future<void> setPreference() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -398,7 +521,6 @@ class _DetailpTolakState extends State<DetailpTolak> {
       _extractText = extractText;
       stat = true;
     });
-    print(_extractText);
 
     if (stat == true) {
       normalizationData(context);
@@ -417,7 +539,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
     List<String> arrOCR = _extractText.split("\n");
 
-    if (arrOCR.length >= 11) {
+    if (arrOCR.length > 11) {
       //NIK
 
       if (arrOCR[0].contains(":")) {
@@ -553,6 +675,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
         setState(() {
           namaText = namaArr[1];
         });
+      } else if (namaFill.contains('"')) {
+        var namaArr = List<String>.from(text1.split('"'));
+        setState(() {
+          namaText = namaArr[1];
+        });
       } else {
         var namaArr = List<String>.from(text1.split(' '));
         namaArr.removeAt(0);
@@ -563,6 +690,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
       //Alamat
       var alamatFill;
+
       if (arrOCR[4].split(" ")[0].contains("Alamat")) {
         alamatFill = List<String>.from(arrOCR[4].split(''));
       } else if (arrOCR[4].split(" ")[0].contains("Ala")) {
@@ -584,7 +712,13 @@ class _DetailpTolakState extends State<DetailpTolak> {
       } else if (arrOCR[5].split(" ")[0].contains("Alam")) {
         alamatFill = List<String>.from(arrOCR[5].split(''));
       } else {
-        alamatFill = ["Alamat", ":", "Isi Alamat"];
+        if (arrOCR[4].split(" ")[1].contains("Ala")) {
+          arrOCR[4].split(" ").removeAt(0);
+
+          alamatFill = List<String>.from(arrOCR[4].split(''));
+        } else {
+          alamatFill = ["Alamat", ":", "Isi Alamat"];
+        }
       }
       for (var i = 0; i < alamatFill.length; i++) {
         alamatFill.remove('.');
@@ -597,6 +731,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
       var text2 = alamatFill.join('');
       if (alamatFill.contains(":")) {
         var alamatArr = List<String>.from(text2.split(':'));
+        setState(() {
+          alamatText = alamatArr[1];
+        });
+      } else if (alamatFill.contains('"')) {
+        var alamatArr = List<String>.from(text2.split('"'));
         setState(() {
           alamatText = alamatArr[1];
         });
@@ -633,6 +772,9 @@ class _DetailpTolakState extends State<DetailpTolak> {
         rtrwFill = ["R", "T", "/", "R", "W", " ", ":", "00", "/", "00"];
       }
       for (var i = 0; i < rtrwFill.length; i++) {
+        // Error di else
+        // error samsung
+        // Fix else nya
         rtrwFill.remove('.');
         rtrwFill.remove('_');
         rtrwFill.remove('!');
@@ -643,6 +785,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
       var text3 = rtrwFill.join('');
       if (rtrwFill.contains(":")) {
         var rtrwArr = List<String>.from(text3.split(':'));
+        setState(() {
+          rtrwText = rtrwArr[1];
+        });
+      } else if (rtrwFill.contains('"')) {
+        var rtrwArr = List<String>.from(text3.split('"'));
         setState(() {
           rtrwText = rtrwArr[1];
         });
@@ -697,7 +844,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
       } else if (arrOCR[9].split(" ")[0].contains("Ke")) {
         kelFill = List<String>.from(arrOCR[9].split(''));
       } else {
-        kelFill = ["K", "e", "l", "D", "e", "s", "a", " ", ":", "Isi Desa"];
+        kelFill = ["K", "e", "l", "D", "e", "s", "a", "", ":", "Kosong"];
       }
       for (var i = 0; i < kelFill.length; i++) {
         kelFill.remove('.');
@@ -709,6 +856,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
       var text4 = kelFill.join('');
       if (kelFill.contains(":")) {
         var kelArr = List<String>.from(text4.split(':'));
+        setState(() {
+          kelText = kelArr[1];
+        });
+      } else if (kelFill.contains('"')) {
+        var kelArr = List<String>.from(text4.split('"'));
         setState(() {
           kelText = kelArr[1];
         });
@@ -774,7 +926,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
       } else if (arrOCR[12].split(" ")[0].contains("g")) {
         agamaFill = List<String>.from(arrOCR[12].split(''));
       } else {
-        agamaFill = ["A", "g", "a", "m", "a", " ", ":", "Isi Agama"];
+        agamaFill = ["Agama", " ", ":", "Isi Agama"];
       }
       for (var i = 0; i < agamaFill.length; i++) {
         agamaFill.remove('.');
@@ -787,6 +939,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
       var text5 = agamaFill.join('');
       if (agamaFill.contains(":")) {
         var agamaArr = List<String>.from(text5.split(':'));
+        setState(() {
+          agamaText = agamaArr[1];
+        });
+      } else if (agamaFill.contains('"')) {
+        var agamaArr = List<String>.from(text5.split('"'));
         setState(() {
           agamaText = agamaArr[1];
         });
@@ -830,29 +987,38 @@ class _DetailpTolakState extends State<DetailpTolak> {
         spFill = List<String>.from(arrOCR[11].split(''));
       } else if (arrOCR[11].split(" ")[0].contains("S")) {
         spFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Statu")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("tatus")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("St")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("S")) {
-        spFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Statu")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("tatus")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("St")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("S")) {
-        spFill = List<String>.from(arrOCR[13].split(''));
+      } else if (arrOCR.length == 13) {
+        if (arrOCR[12].split(" ")[0].contains("Statu")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("tatus")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("St")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("S")) {
+          spFill = List<String>.from(arrOCR[12].split(''));
+        } else {
+          spFill = ["Status", ":", "Isi Status Perkawinan"];
+        }
+      } else if (arrOCR.length >= 14) {
+        if (arrOCR[13].split(" ")[0].contains("Statu")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("tatus")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("St")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("S")) {
+          spFill = List<String>.from(arrOCR[13].split(''));
+        } else {
+          spFill = ["Status", ":", "Isi Status Perkawinan"];
+        }
       } else {
-        spFill = ["Status", ":", "Isi Status"];
+        spFill = ["Status", ":", "Isi Status Perkawinan"];
       }
+
       for (var i = 0; i < spFill.length; i++) {
         spFill.remove('.');
         spFill.remove('_');
@@ -867,6 +1033,16 @@ class _DetailpTolakState extends State<DetailpTolak> {
         setState(() {
           spText = spArr[1];
         });
+      } else if (spFill.contains('"')) {
+        var spArr = List<String>.from(text6.split('"'));
+        setState(() {
+          spText = spArr[1];
+        });
+      } else if (spFill.contains('.')) {
+        var spArr = List<String>.from(text6.split('.'));
+        setState(() {
+          spText = spArr[1];
+        });
       } else {
         var spArr = List<String>.from(text6.split(' '));
         spArr.removeAt(0);
@@ -877,59 +1053,132 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
       //Pekerjaan
       var workFill;
-      if (arrOCR[10].split(" ")[0].contains("Pek")) {
+      if (arrOCR[10].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[10].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[10].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[10].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[10].split(" ")[0].contains("K")) {
+      } else if (arrOCR[10].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[10].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("Pek")) {
+      } else if (arrOCR[11].split(" ")[0].contains("rjaa")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("ker")) {
+      } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("jaan")) {
+      } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("Ke")) {
+      } else if (arrOCR[11].split(" ")[0].contains("ja")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[11].split(" ")[0].contains("K")) {
+      } else if (arrOCR[11].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[11].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Pek")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("ker")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("jaan")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("Ke")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[12].split(" ")[0].contains("K")) {
-        workFill = List<String>.from(arrOCR[12].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Pek")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("ker")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("jaan")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("Ke")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[13].split(" ")[0].contains("K")) {
-        workFill = List<String>.from(arrOCR[13].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("Pek")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("ker")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("jaan")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("Ke")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
-      } else if (arrOCR[14].split(" ")[0].contains("K")) {
-        workFill = List<String>.from(arrOCR[14].split(''));
+      } else if (arrOCR.length == 13) {
+        if (arrOCR[11].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else {
+          workFill = ['Pekerjaan', ":", "Isi Pekerjaan"];
+        }
+      } else if (arrOCR.length == 14) {
+        if (arrOCR[11].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else {
+          workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
+        }
+      } else if (arrOCR.length >= 15) {
+        if (arrOCR[11].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[11].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[11].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[12].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[12].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[13].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[13].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("rjaa")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("jaa")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("kerja")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("ja")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else if (arrOCR[14].split(" ")[0].contains("j")) {
+          workFill = List<String>.from(arrOCR[14].split(''));
+        } else {
+          workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
+        }
       } else {
         workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
       }
+
       for (var i = 0; i < workFill.length; i++) {
         workFill.remove('.');
         workFill.remove('_');
@@ -978,13 +1227,6 @@ class _DetailpTolakState extends State<DetailpTolak> {
     if (normProcess == true) {
       popups(context);
     }
-    // print("Nama : ${namaText}");
-    // print("RT/RW : ${rtrwText}");
-    // print("Kelurahan: ${kelText}");
-    // print("Agama: ${agamaText}");
-    // print("Status Perkawinan: ${spText}");
-    // print("Pekerjaan: ${workText}");
-    //
   }
 
   void manageData(List<String> arrFill, String setText) {
@@ -1044,9 +1286,9 @@ class _DetailpTolakState extends State<DetailpTolak> {
                 children: <Widget>[
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
-                      maxLength: 16,
+                      maxLength: 17,
                       inputFormatters: [
                         WhitelistingTextInputFormatter.digitsOnly
                       ],
@@ -1058,7 +1300,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: _valpnik == false
-                            ? "Nik Tidak Boleh Kosong!"
+                            ? "Masukkan NIK Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _nikController,
@@ -1066,7 +1308,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1076,7 +1318,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpnama == false)
-                            ? "Masukan Nama Anda Dengan Benar!"
+                            ? "Masukkan Nama Anda Dengan Benar"
                             : null,
                       ),
                       controller: _namaController,
@@ -1084,7 +1326,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1094,7 +1336,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpalamat == false)
-                            ? "Masukkan Alamat Anda Dengan Benar!"
+                            ? "Masukkan Alamat Anda Dengan Benar"
                             : null,
                       ),
                       controller: _alamatController,
@@ -1102,7 +1344,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1120,7 +1362,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1130,7 +1372,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                           color: Colors.grey[400],
                         ),
                         errorText: (_valpkelurahan == false)
-                            ? "Masukkan Kelurahan Anda Degan Benar!"
+                            ? "Masukkan Kelurahan Anda Dengan Benar!"
                             : null,
                       ),
                       controller: _kelurahanController,
@@ -1138,7 +1380,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1156,7 +1398,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1174,7 +1416,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1192,7 +1434,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                   ),
                   Container(
                     width: 100,
-                    height: 60,
+                    height: 80,
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -1288,7 +1530,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                                               setState(() {
                                                 _valppekerjaan = true;
                                               });
-                                              if (UtilAuth.checkString(
+                                              if (UtilAuth.checkStringRTRW(
                                                       _workController.text
                                                           .toString()) ==
                                                   true) {
@@ -1300,7 +1542,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
                                                   setState(() {
                                                     _valppendidikan = true;
                                                   });
-                                                  if (UtilAuth.checkUsername(
+                                                  if (UtilAuth.checkStringPassword(
                                                           _pendidikanController
                                                               .text
                                                               .toString()) ==
@@ -1431,6 +1673,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
             ],
           );
         });
+
         // );
       },
     );
@@ -1545,45 +1788,79 @@ class _DetailpTolakState extends State<DetailpTolak> {
     List<String> arrOCR = _extractText.split("\n");
 
     var kk;
-    if (arrOCR[1].contains("-")) {
-      kk = arrOCR[1].split('-');
-    } else if (arrOCR[1].contains(".")) {
-      kk = arrOCR[1].split('.');
-    } else if (arrOCR[1].contains(":")) {
-      kk = arrOCR[1].split(':');
+    if (arrOCR.length >= 2) {
+      if (arrOCR[1].contains("-")) {
+        kk = arrOCR[1].split('-');
+      } else if (arrOCR[1].contains(".")) {
+        kk = arrOCR[1].split('.');
+      } else if (arrOCR[1].contains(":")) {
+        kk = arrOCR[1].split(':');
+      } else if (arrOCR[1].contains(" ")) {
+        kk = arrOCR[1].split(" ");
+      } else if (arrOCR[1].contains("B")) {
+        setState(() {
+          nokkText = "Not Good";
+          statkk = true;
+        });
+        return false;
+      } else if (arrOCR[1].contains("H")) {
+        setState(() {
+          nokkText = "Not Good";
+          statkk = true;
+          kkNormProc = true;
+        });
+        if (kkNormProc == true) {
+          popupskk(context);
+        }
+        return false;
+      } else {
+        setState(() {
+          nokkText = "Not Good";
+          statkk = true;
+          kkNormProc = true;
+        });
+        if (kkNormProc == true) {
+          popupskk(context);
+        }
+        return false;
+      }
+
+      var arrKK = new List<String>.from(kk[1].toString().split(''));
+      for (var i = 0; i < arrKK.length; i++) {
+        if (arrKK[i] == "?") {
+          arrKK[i] = '7';
+        } else if (arrKK[i] == 'D') {
+          arrKK[i] = '0';
+        } else if (arrKK[i] == 'L') {
+          arrKK[i] = '1';
+        } else if (arrKK[i] == 'i') {
+          arrKK[i] = '1';
+        } else if (arrKK[i] == 'I') {
+          arrKK[i] = '1';
+        }
+        arrKK.remove(' ');
+      }
+
+      setState(() {
+        nokkText = arrKK.join();
+        kkNormProc = true;
+      });
+
+      if (kkNormProc == true) {
+        popupskk(context);
+      }
+      return true;
     } else {
       setState(() {
         nokkText = "Not Good";
         statkk = true;
+        kkNormProc = true;
       });
+      if (kkNormProc == true) {
+        popupskk(context);
+      }
       return false;
     }
-
-    var arrKK = new List<String>.from(kk[1].toString().split(''));
-    for (var i = 0; i < arrKK.length; i++) {
-      if (arrKK[i] == "?") {
-        arrKK[i] = '7';
-      } else if (arrKK[i] == 'D') {
-        arrKK[i] = '0';
-      } else if (arrKK[i] == 'L') {
-        arrKK[i] = '1';
-      } else if (arrKK[i] == 'i') {
-        arrKK[i] = '1';
-      } else if (arrKK[i] == 'I') {
-        arrKK[i] = '1';
-      }
-      arrKK.remove(' ');
-    }
-
-    setState(() {
-      nokkText = arrKK.join();
-      kkNormProc = true;
-    });
-
-    if (kkNormProc == true) {
-      popupskk(context);
-    }
-    return true;
   }
 
   Widget popupskk(BuildContext context) {
@@ -1600,7 +1877,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
           title: Text('Form No KK'),
           content: Container(
             width: 100,
-            height: 60,
+            height: 95,
             child: TextField(
               maxLength: 17,
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -1696,6 +1973,8 @@ class _DetailpTolakState extends State<DetailpTolak> {
       judulDetail = "Pengajuan Surat Keterangan Kematian";
     } else if (widget.tipe == "8") {
       judulDetail = "Pengajuan Surat Keterangan Pindah";
+    } else if (widget.tipe == "15") {
+      judulDetail = "Pengajuan Surat Penghantar RT&RW";
     }
     return Container(
       child: ListView(
@@ -2319,76 +2598,139 @@ class _DetailpTolakState extends State<DetailpTolak> {
                 widget.tipe == "1"
                     ? Column(
                         children: <Widget>[
-                          FilePickerForm(
-                            title: "Foto Depan Rumah",
-                            setFileAtt: setdepanRumah,
-                          ),
-                          FilePickerForm(
-                            title: "Foto Belakang Rumah",
-                            setFileAtt: setbelakangRumah,
-                          ),
+                          _depanRumah == null
+                              ? FilePickerForm(
+                                  title: "Foto Depan Rumah",
+                                  setFileAtt: setdepanRumah,
+                                )
+                              : CancleBtn(
+                                  title: "Foto Depan Rumah",
+                                  setFileNull: setdepanRumahNull,
+                                ),
+                          _belakangRumah == null
+                              ? FilePickerForm(
+                                  title: "Foto Belakang Rumah",
+                                  setFileAtt: setbelakangRumah,
+                                )
+                              : CancleBtn(
+                                  title: "Foto Belakang Rumah",
+                                  setFileNull: setbelakangRumahNull,
+                                )
                         ],
                       )
                     : Container(),
                 widget.tipe == "2"
-                    ? FilePickerForm(
-                        title: "SPPT Terbaru",
-                        setFileAtt: setspptTerbaru,
-                      )
+                    ? _spptTerbaru == null
+                        ? FilePickerForm(
+                            title: "SPPT Terbaru",
+                            setFileAtt: setspptTerbaru,
+                          )
+                        : CancleBtn(
+                            title: "SPPT Terbaru",
+                            setFileNull: setspptTerbaruNull,
+                          )
                     : Container(),
                 widget.tipe == "3"
-                    ? FilePickerForm(
-                        title: "Lampiran Pernyataan",
-                        setFileAtt: setlamper,
-                      )
+                    ? _lampiranPer == null
+                        ? FilePickerForm(
+                            title: "Lampiran Pernyataan",
+                            setFileAtt: setlamper,
+                          )
+                        : CancleBtn(
+                            title: "Lampiran Pernyataan",
+                            setFileNull: setlamperNull,
+                          )
                     : Container(),
                 widget.tipe == "4"
                     ? Column(
                         children: <Widget>[
-                          FilePickerForm(
-                            title: "KTP Orang Tua-1 (Ayah)",
-                            setFileAtt: setktportu1,
-                          ),
-                          FilePickerForm(
-                            title: "KTP Orang Tua-2 (Ibu)",
-                            setFileAtt: setktportu2,
-                          ),
-                          FilePickerForm(
-                            title: "Tanda Lunas PBB Tahun Berjalan",
-                            setFileAtt: setlunaspbb1,
-                          )
+                          _ktpOrtu1 == null
+                              ? FilePickerForm(
+                                  title: "KTP Orang Tua-1 (Ayah)",
+                                  setFileAtt: setktportu1,
+                                )
+                              : CancleBtn(
+                                  title: "KTP Orang Tua-1 (Ayah)",
+                                  setFileNull: setktportu1Null,
+                                ),
+                          _ktpOrtu2 == null
+                              ? FilePickerForm(
+                                  title: "KTP Orang Tua-2 (Ibu)",
+                                  setFileAtt: setktportu2,
+                                )
+                              : CancleBtn(
+                                  title: "KTP Orang Tua-2 (Ibu)",
+                                  setFileNull: setktportu2Null,
+                                ),
+                          _lunasPbb1 == null
+                              ? FilePickerForm(
+                                  title: "Tanda Lunas PBB Tahun Berjalan",
+                                  setFileAtt: setlunaspbb1,
+                                )
+                              : CancleBtn(
+                                  title: "Tanda Lunas PBB Tahun Berjalan",
+                                  setFileNull: setlunaspbb1Null,
+                                )
                         ],
                       )
                     : Container(),
                 widget.tipe == "5"
                     ? Column(
                         children: <Widget>[
-                          FilePickerForm(
-                            title: "Akte Cerai",
-                            setFileAtt: setaktecerai,
-                          ),
-                          FilePickerForm(
-                              title: "Pelunasan PBB Tahun Berjalan",
-                              setFileAtt: setlunaspbb2),
-                          FilePickerForm(
-                            title: "Surat Keterangan Kematian Suami / Istri",
-                            setFileAtt: setskks,
-                          ),
+                          _akteCerai == null
+                              ? FilePickerForm(
+                                  title: "Akte Cerai",
+                                  setFileAtt: setaktecerai,
+                                )
+                              : CancleBtn(
+                                  title: "Akte Cerai",
+                                  setFileNull: setakteceraiNull,
+                                ),
+                          _lunasPbb2 == null
+                              ? FilePickerForm(
+                                  title: "Pelunasan PBB Tahun Berjalan",
+                                  setFileAtt: setlunaspbb2)
+                              : CancleBtn(
+                                  title: "Pelunasan PBB Tahun Berjalan",
+                                  setFileNull: setlunaspbb2Null,
+                                ),
+                          _skks == null
+                              ? FilePickerForm(
+                                  title:
+                                      "Surat Keterangan Kematian Suami / Istri",
+                                  setFileAtt: setskks,
+                                )
+                              : CancleBtn(
+                                  title:
+                                      "Surat Keterangan Kematian Suami / Istri",
+                                  setFileNull: setskksNull,
+                                )
                         ],
                       )
                     : Container(),
                 widget.tipe == "7"
-                    ? FilePickerForm(
-                        title: "Surat Keterangan Kematian Dari Rumah Sakit",
-                        setFileAtt: setskksdrs,
-                      )
+                    ? _skck == null
+                        ? FilePickerForm(
+                            title: "Surat Keterangan Kematian Dari Rumah Sakit",
+                            setFileAtt: setskksdrs,
+                          )
+                        : CancleBtn(
+                            title: "Surat Keterangan Kematian Dari Rumah Sakit",
+                            setFileNull: setskksdrsNull,
+                          )
                     : Container(),
                 widget.tipe == "8"
-                    ? FilePickerForm(
-                        title:
-                            "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
-                        setFileAtt: setskck,
-                      )
+                    ? _skck == null
+                        ? FilePickerForm(
+                            title:
+                                "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
+                            setFileAtt: setskck,
+                          )
+                        : CancleBtn(
+                            title:
+                                "SKCK (Untuk Pindahan Dari Kabupaten / Provinsi)",
+                            setFileNull: setskckNull,
+                          )
                     : Container()
               ],
             ),
@@ -2476,6 +2818,7 @@ class _DetailpTolakState extends State<DetailpTolak> {
 
   void perbaikiData(BuildContext context) async {
     UtilAuth.loading(context);
+
     Map<String, dynamic> data;
     var datakk;
     if (okPressKtp == true) {
@@ -2523,6 +2866,11 @@ class _DetailpTolakState extends State<DetailpTolak> {
       _skksdrs,
       _skck,
     );
+
+    if (response.data['token'] != null) {
+      sendNotification(context, response.data['token']);
+    }
+
     UtilAuth.successPopupDialog(
         context, response.data['message'], HomePenduduk());
   }
@@ -2549,7 +2897,6 @@ class _DetailpTolakState extends State<DetailpTolak> {
           future: _getDetailSurat(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              print(snapshot.data.dataHistory);
               return _detailWidget(
                 context,
                 snapshot.data.keterangan,

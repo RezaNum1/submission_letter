@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:submission_letter/Penduduk_Page/presenter/selesaip_presenter.dart';
 import 'package:submission_letter/Penduduk_Page/views/detailp_selesai.dart';
+import 'package:submission_letter/Penduduk_Page/views/detailp_selesaip.dart';
 import 'package:submission_letter/Util/util_auth.dart';
 import 'package:submission_letter/Util/util_rtrw.dart';
 
@@ -19,7 +20,7 @@ class _SelesaiPendudukState extends State<SelesaiPenduduk> {
     // Custom Text
     if (tipe == "1") {
       titleName = "SKTM";
-      subTitleName = "Pengajuan Surat Keterangan Kemiskinan";
+      subTitleName = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (tipe == "2") {
       titleName = "SD";
       subTitleName = "Pengajuan Surat Keterangan Domisili";
@@ -41,6 +42,9 @@ class _SelesaiPendudukState extends State<SelesaiPenduduk> {
     } else if (tipe == "8") {
       titleName = "SKP";
       subTitleName = "Pengajuan Surat Keterangan Pindah";
+    } else if (tipe == "15") {
+      titleName = "SP";
+      subTitleName = "Pengajuan Surat Penghantar RT&RW";
     }
     return Card(
       child: ListTile(
@@ -71,7 +75,7 @@ class _SelesaiPendudukState extends State<SelesaiPenduduk> {
                 Text(
                   "$subTitleName",
                   style: TextStyle(
-                    fontSize: height == 716 ? 10 : 13,
+                    fontSize: height == 716 ? 9 : 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -94,12 +98,20 @@ class _SelesaiPendudukState extends State<SelesaiPenduduk> {
           ],
         ),
         onTap: () {
-          UtilAuth.movePage(
-              context,
-              DetailpSelesai(
-                idSurat: idSurat,
-                tipe: tipe,
-              ));
+          if (tipe == "15") {
+            UtilAuth.movePage(
+                context,
+                DetailpSelesaiPenghantar(
+                  idSurat: idSurat,
+                ));
+          } else {
+            UtilAuth.movePage(
+                context,
+                DetailpSelesai(
+                  idSurat: idSurat,
+                  tipe: tipe,
+                ));
+          }
         },
       ),
     );

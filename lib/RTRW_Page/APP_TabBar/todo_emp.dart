@@ -43,6 +43,9 @@ class _TODOEmpState extends State<TODOEmp> {
     } else if (tipe == "8") {
       titleName = "SKP";
       subTitleName = "Pengajuan Surat Keterangan Pindah";
+    } else if (tipe == "15") {
+      titleName = "SP";
+      subTitleName = "Pengajuan Surat Penghantar RT&RW";
     }
     return Card(
       child: ListTile(

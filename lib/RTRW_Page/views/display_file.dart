@@ -74,7 +74,13 @@ class _DisplayFileState extends State<DisplayFile> {
       body: Container(
         child: progress == true
             ? tipe == "jpg" || tipe == "jpeg" || tipe == "png"
-                ? Image.memory(imageBytes)
+                ? RotatedBox(
+                    quarterTurns: 1,
+                    child: Image.memory(
+                      imageBytes,
+                      fit: BoxFit.fill,
+                    ),
+                  )
                 : Container(
                     child: Center(
                       child: Text("PREVIEW PDF MODE"),

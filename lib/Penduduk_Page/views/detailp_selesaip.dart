@@ -1,40 +1,33 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:submission_letter/Penduduk_Page/presenter/detailp_selesai_presenter.dart';
+import 'package:submission_letter/Penduduk_Page/viewmodel/detailp_selesai_viewmodel.dart';
+import 'package:submission_letter/Penduduk_Page/viewmodel/detailp_selesaip_viewmodel.dart';
+import 'package:submission_letter/Penduduk_Page/widget/report_view_penduduk.dart';
 import 'package:submission_letter/RTRW_Page/presenter/detailEmployeeSelesai_presenter.dart';
-import 'package:submission_letter/RTRW_Page/viewmodel/detaiempSelesai_viewmodel.dart';
-import 'package:submission_letter/RTRW_Page/views/home_emp.dart';
-import 'package:submission_letter/RTRW_Page/widget/berkas_widget.dart';
-import 'package:submission_letter/RTRW_Page/widget/berkas_widgetd.dart';
 import 'package:submission_letter/RTRW_Page/widget/report_view.dart';
-import 'package:submission_letter/Theme/theme_emp.dart';
+import 'package:submission_letter/Theme/theme_penduduk.dart';
 import 'package:submission_letter/Util/util_auth.dart';
+import 'package:submission_letter/Util/util_rtrw.dart';
 
-class DetailEmpSelesai extends StatefulWidget {
-  String idJobPos;
+class DetailpSelesaiPenghantar extends StatefulWidget {
   String idSurat;
-  String namaPenduduk;
-  String tanggal;
   String tipe;
 
-  DetailEmpSelesai(
-      {this.idJobPos,
-      this.idSurat,
-      this.namaPenduduk,
-      this.tanggal,
-      this.tipe});
+  DetailpSelesaiPenghantar({this.idSurat, this.tipe});
   @override
-  _DetailEmpSelesaiState createState() => _DetailEmpSelesaiState();
+  _DetailpSelesaiPenghantarState createState() =>
+      _DetailpSelesaiPenghantarState();
 }
 
-class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
-  String nama;
-  String jabatanText;
-  int id;
+class _DetailpSelesaiPenghantarState extends State<DetailpSelesaiPenghantar> {
+  int idUser;
+  String noTelepon;
+  String nik;
 
   String sign1;
   String sign2;
@@ -46,10 +39,6 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
     setPreference();
     getAllSign();
     super.initState();
-  }
-
-  void dispose() {
-    super.dispose();
   }
 
   Future<void> getAllSign() async {
@@ -67,10 +56,14 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
   Future<void> setPreference() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      nama = pref.getString('Nama');
-      jabatanText = pref.getString('Jabatan');
-      id = pref.getInt("Id");
+      idUser = pref.getInt("id");
+      noTelepon = pref.getString("NoTelepon");
+      nik = pref.getString("Nik");
     });
+  }
+
+  void dispose() {
+    super.dispose();
   }
 
   Widget _detailWidget(
@@ -78,6 +71,8 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
       String rtrwText,
       String noSuratRT,
       String noSuratRW,
+      String tglBuat,
+      String noPengajuan,
       List history,
       List namaFile,
       String nama,
@@ -93,86 +88,23 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
     double height = MediaQuery.of(context).size.height;
     double fontSizes = height == 716 ? 13 : 15;
     double titleSizes = height == 716 ? 18 : 20;
+    double tinySizes = height == 716 ? 10 : 13;
+    String tglConv = UtilRTRW.convertDateTime(tglBuat);
+
+    judulDetail = "Pengajuan Surat Penghantar RT&RW";
+
     var arrSplit = rtrwText.split("/");
     var rtText = arrSplit[0].split(" ");
     var rwText = arrSplit[1].split(" ");
-    if (widget.tipe == "1") {
-      judulDetail = "Pengajuan Surat Keterangan Tidak Mampu";
-    } else if (widget.tipe == "2") {
-      judulDetail = "Pengajuan Surat Keterangan Usaha";
-    } else if (widget.tipe == "3") {
-      judulDetail = "Pengajuan Surat Pengantar Izin Keramaian";
-    } else if (widget.tipe == "4") {
-      judulDetail = "Pengajuan Surat Keterangan Belum Menikah";
-    } else if (widget.tipe == "5") {
-      judulDetail = "Pengajuan Surat Keterangan Cerai Hidup / Mati";
-    } else if (widget.tipe == "6") {
-      judulDetail = "Pengajuan Surat Keterangan Domisili";
-    } else if (widget.tipe == "7") {
-      judulDetail = "Pengajuan Surat Keterangan Kematian";
-    } else if (widget.tipe == "8") {
-      judulDetail = "Pengajuan Surat Keterangan Pindah";
-    } else if (widget.tipe == "15") {
-      judulDetail = "Pengajuan Surat Penghantar RT&RW";
-    }
     return Container(
       child: ListView(
         children: <Widget>[
           Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: RaisedButton(
-                    color: Colors.red,
-                    child: Text(
-                      "Kembali",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      UtilAuth.movePage(context, HomeEmp());
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text(
-                      "Preview & Download Surat",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: height == 716 ? 10 : 15),
-                    ),
-                    onPressed: () {
-                      Uint8List docRT = Base64Decoder().convert(sign1);
-
-                      Uint8List docRW = Base64Decoder().convert(sign2);
-                      reportView(
-                          context,
-                          nama,
-                          jk,
-                          ttl,
-                          pekerjaan,
-                          ktp,
-                          kk,
-                          pendidikan,
-                          agama,
-                          alamat,
-                          keterangan,
-                          noSuratRT,
-                          noSuratRW,
-                          rtText[1],
-                          rwText[2],
-                          widget.tanggal,
-                          docRT,
-                          docRW);
-                    },
-                  ),
-                ),
-              ])),
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: <Widget>[],
+            ),
+          ),
           Divider(
             color: Colors.orange,
             thickness: 2,
@@ -234,6 +166,46 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
+                  "No Pengajuan: ",
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "$noPengajuan",
+                  style: TextStyle(fontSize: fontSizes),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Tanggal Pengajuan: ",
+                  style: TextStyle(
+                      fontSize: fontSizes, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "$tglConv",
+                  style: TextStyle(fontSize: fontSizes),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
                   "RT/RW: ",
                   style: TextStyle(
                       fontSize: fontSizes, fontWeight: FontWeight.bold),
@@ -246,50 +218,16 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
             ),
           ),
           SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  "No Surat RT: ",
-                  style: TextStyle(
-                      fontSize: fontSizes, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  noSuratRT != null ? "$noSuratRT" : "",
-                  style: TextStyle(fontSize: fontSizes),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  "No Surat RW:",
-                  style: TextStyle(
-                      fontSize: fontSizes, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  noSuratRW != null ? "$noSuratRW" : "",
-                  style: TextStyle(fontSize: fontSizes),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
             height: 10,
           ),
+          Divider(
+            color: Colors.orange[200],
+            thickness: 3,
+          ),
           Container(
-            margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
             child: Text(
-              "Berkas Pengajuan",
+              "Surat Keterangan",
               style:
                   TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
             ),
@@ -298,56 +236,54 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
             color: Colors.orange[200],
             thickness: 3,
           ),
-          BerkasWidgetd(
-            namaFile: namaFile,
-            tipe: "${widget.tipe}",
-            idSurat: widget.idSurat,
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            child: Text(
+                "Akses Surat Keterangan Dengan Menekan Tombol Di Bawah:",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: tinySizes)),
+          ),
+          SizedBox(
+            height: 10,
           ),
           Container(
-            margin: EdgeInsets.only(left: 10, top: 20, bottom: 10),
-            child: Text(
-              "History Pengajuan",
-              style:
-                  TextStyle(fontSize: titleSizes, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Divider(
-            thickness: 3,
-          ),
-          DataTable(
-            columns: [
-              DataColumn(
-                  label: Text(
-                "Tingkatan",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-              )),
-              DataColumn(
-                label: Text(
-                  "Status",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            width: double.infinity,
+            child: RaisedButton(
+                child: Text(
+                  "Preview & Download Surat Keterangan",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: titleSizes),
                 ),
-              )
-            ],
-            rows: [
-              for (var i = 0; i < history.length; i++)
-                DataRow(
-                  cells: [
-                    DataCell(Text(
-                      history[i]['tingkatan'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    )),
-                    DataCell(
-                      history[i]['status'] == 'Setuju'
-                          ? Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
-                          : Icon(Icons.close, color: Colors.red),
-                    )
-                  ],
+                textColor: Colors.white,
+                color: Colors.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: Colors.orange),
                 ),
-            ],
+                onPressed: () {
+                  Uint8List docRT = Base64Decoder().convert(sign1);
+
+                  Uint8List docRW = Base64Decoder().convert(sign2);
+                  reportView(
+                      context,
+                      nama,
+                      jk,
+                      ttl,
+                      pekerjaan,
+                      ktp,
+                      kk,
+                      pendidikan,
+                      agama,
+                      alamat,
+                      keterangan,
+                      noSuratRT,
+                      noSuratRW,
+                      rtText[1],
+                      rwText[2],
+                      tglBuat,
+                      docRT,
+                      docRW);
+                }),
           ),
           SizedBox(
             height: 20,
@@ -357,10 +293,10 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
     );
   }
 
-  Future<DetailEmpSelesaiViewModel> _getDetailSurat() async {
-    DetailEmpSelesaiPresenter presentesrs = new DetailEmpSelesaiPresenter();
+  Future<DetailpSelesaipViewModel> _getDetailSurat() async {
+    DetailPSelesaiPresenter presentesrs = new DetailPSelesaiPresenter();
     var response =
-        presentesrs.getAllDetailSelesai(widget.idJobPos, widget.idSurat);
+        await presentesrs.getDetailDataSuratPendudukPenghantar(widget.idSurat);
     return response;
   }
 
@@ -380,18 +316,19 @@ class _DetailEmpSelesaiState extends State<DetailEmpSelesai> {
           ),
         ),
       ),
-      drawer:
-          ThemeApp.sideBar(context, nama.toString(), jabatanText.toString()),
+      drawer: ThemeAppPenduduk.sideBar(context, nik, noTelepon),
       body: Container(
         child: FutureBuilder(
           future: _getDetailSurat(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData && prosesInit == true) {
+            if (snapshot.hasData) {
               return _detailWidget(
                 snapshot.data.keterangan,
                 snapshot.data.rtrwText,
                 snapshot.data.noSuratRT,
                 snapshot.data.noSuratRW,
+                snapshot.data.tglBuat,
+                snapshot.data.noPengajuan,
                 snapshot.data.dataHistory,
                 snapshot.data.namaFile,
                 snapshot.data.nama,

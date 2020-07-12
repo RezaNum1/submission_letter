@@ -160,6 +160,8 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
       judulDetail = "Pengajuan Surat Keterangan Kematian";
     } else if (widget.tipe == "8") {
       judulDetail = "Pengajuan Surat Keterangan Pindah";
+    } else if (widget.tipe == "15") {
+      judulDetail = "Pengajuan Surat Penghantar RT&RW";
     }
     return Container(
       child: ListView(
@@ -243,6 +245,7 @@ class _DetailEmployeeDataState extends State<DetailEmployeeData> {
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 "$judulDetail",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,

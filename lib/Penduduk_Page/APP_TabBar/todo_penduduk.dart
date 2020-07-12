@@ -43,7 +43,7 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
     // Custom Text
     if (tipe == "1") {
       titleName = "SKTM";
-      subTitleName = "Pengajuan Surat Keterangan Kemiskinan";
+      subTitleName = "Pengajuan Surat Keterangan Tidak Mampu";
     } else if (tipe == "2") {
       titleName = "SD";
       subTitleName = "Pengajuan Surat Keterangan Domisili";
@@ -65,6 +65,9 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
     } else if (tipe == "8") {
       titleName = "SKP";
       subTitleName = "Pengajuan Surat Keterangan Pindah";
+    } else if (tipe == "15") {
+      titleName = "SP";
+      subTitleName = "Pengajuan Surat Penghantar RT&RW";
     }
     return Card(
       child: ListTile(
@@ -95,7 +98,7 @@ class _ToDoPendudukState extends State<ToDoPenduduk> {
                 Text(
                   "$subTitleName",
                   style: TextStyle(
-                    fontSize: height == 716 ? 10 : 13,
+                    fontSize: height == 716 ? 9 : 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

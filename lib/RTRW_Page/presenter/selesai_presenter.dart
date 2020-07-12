@@ -50,9 +50,12 @@ class SelesaiPresenter {
     });
     var response = await dio.post(url, data: formData);
     var arrData = response.data['data'];
-    for (var i = 0; i < arrData.length; i++) {
-      listSurat.add(arrData[i]);
+    if (response.data['data'] != null) {
+      for (var i = 0; i < arrData.length; i++) {
+        listSurat.add(arrData[i]);
+      }
     }
+
     return listSurat;
   }
 }

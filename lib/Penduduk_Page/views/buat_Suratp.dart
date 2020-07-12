@@ -109,81 +109,81 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   bool normProcess = false;
 
-  Map<String, dynamic> prov = {'31': 'Jakarta'};
+  Map<String, dynamic> prov = {'31': 'JAKARTA'};
   //BBCC
   Map<String, dynamic> kota_kecamatan = {
     '01': {
-      '01': 'Kep Seribu Utara',
-      '02': 'Kep Seribu Selatan',
+      '01': 'KEP SERIBU UTARA',
+      '02': 'KEP SERIBU SELATAN',
     },
     '71': {
-      '01': 'Gambir',
-      '02': 'Sawah besar',
-      '03': 'Kemayoran',
-      '04': 'Senen',
-      '05': 'Cempaka Putih',
-      '06': 'Menteng',
-      '07': 'Tanah Abang',
-      '08': 'Johar Baru'
+      '01': 'GAMBIR',
+      '02': 'SAWAH BESAR',
+      '03': 'KEMAYORAN',
+      '04': 'SENEN',
+      '05': 'CEMPAKA PUTIH',
+      '06': 'MENTENG',
+      '07': 'TANAH ABANG',
+      '08': 'JOHAR BARU'
     },
     '72': {
-      '01': 'Penjaringan',
-      '02': 'Tanjung Priok',
-      '03': 'Koja',
-      '04': 'Cilincing',
-      '05': 'Pademangan',
-      '06': 'Kelapa Gading'
+      '01': 'PENJARINGAN',
+      '02': 'TANJUNG PRIOK',
+      '03': 'KOJA',
+      '04': 'CILINCING',
+      '05': 'PADEMANGAN',
+      '06': 'KELAPA GADING'
     },
     '73': {
-      '01': 'Cengkareng',
-      '02': 'Gerogol Petamburan',
-      '03': 'Taman Sari',
-      '04': 'Tambora',
-      '05': 'Kebon Jeruk',
-      '06': 'Kali Deres',
-      '07': 'Pal Merah',
-      '08': 'Kembangan'
+      '01': 'CENGKARENG',
+      '02': 'GEROGOL PETAMBURAN',
+      '03': 'TAMAN SARI',
+      '04': 'TAMBORA',
+      '05': 'KEBON JERUK',
+      '06': 'KALI DERES',
+      '07': 'PAL MERAH',
+      '08': 'KEMBANGAN'
     },
     '74': {
-      '01': 'Tebet',
-      '02': 'Setia Budi',
-      '03': 'Mapang Perapatan',
-      '04': 'Pasar Minggu',
-      '05': 'Kebayoran Lama',
-      '06': 'Cilandak',
-      '07': 'Kebayoran Baru',
-      '08': 'Pancoran',
-      '09': 'Jagakarsa',
-      '10': 'Pesanggrahan',
+      '01': 'TEBET',
+      '02': 'SETIA BUDI',
+      '03': 'MAMPANG PRAPATAN',
+      '04': 'PASAR MINGGU',
+      '05': 'KEBAYORAN LAMA',
+      '06': 'CILANDAK',
+      '07': 'KEBAYORAN BARU',
+      '08': 'PANCORAN',
+      '09': 'JAGAKARSA',
+      '10': 'PESANGGRAHAN',
     },
     '75': {
-      '01': 'Matraman',
-      '02': 'Pulo Gadung',
-      '03': 'Jatinegara',
-      '04': 'Kramatjati',
-      '05': 'Pasar Rebo',
-      '06': 'Cakung',
-      '07': 'Duren Sawit',
-      '08': 'Makasar',
-      '09': 'Ciracas',
-      '10': 'Cipayung'
+      '01': 'MATRAMAN',
+      '02': 'PULO GADUNG',
+      '03': 'JATINEGARA',
+      '04': 'KRAMATJATI',
+      '05': 'PASAR REBO',
+      '06': 'CAKUNG',
+      '07': 'DUREN SAWIT',
+      '08': 'MAKASAR',
+      '09': 'CIRACAS',
+      '10': 'CIPAYUNG'
     },
   };
 
   //EE
   Map<String, dynamic> bulan = {
-    '01': 'Januari',
-    '02': 'Februari',
-    '03': 'Maret',
-    '04': 'April',
-    '05': 'Mei',
-    '06': 'Juni',
-    '07': 'Juli',
-    '08': 'Agustus',
-    '09': 'September',
-    '10': 'Oktober',
-    '11': 'November',
-    '12': 'Desember',
+    '01': 'JANUARI',
+    '02': 'FEBRUARI',
+    '03': 'MARET',
+    '04': 'APRIL',
+    '05': 'MEI',
+    '06': 'JUNI',
+    '07': 'JULI',
+    '08': 'AGUSTUS',
+    '09': 'SEPTEMBER',
+    '10': 'OKTOBER',
+    '11': 'NOVEMBER',
+    '12': 'DESEMBER',
   };
 
   // OCR KK VARIABLE
@@ -699,6 +699,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
       //Alamat
       var alamatFill;
+
       if (arrOCR[4].split(" ")[0].contains("Alamat")) {
         alamatFill = List<String>.from(arrOCR[4].split(''));
       } else if (arrOCR[4].split(" ")[0].contains("Ala")) {
@@ -720,7 +721,13 @@ class _BuatSuratPState extends State<BuatSuratP> {
       } else if (arrOCR[5].split(" ")[0].contains("Alam")) {
         alamatFill = List<String>.from(arrOCR[5].split(''));
       } else {
-        alamatFill = ["Alamat", ":", "Isi Alamat"];
+        if (arrOCR[4].split(" ")[1].contains("Ala")) {
+          arrOCR[4].split(" ").removeAt(0);
+
+          alamatFill = List<String>.from(arrOCR[4].split(''));
+        } else {
+          alamatFill = ["Alamat", ":", "Isi Alamat"];
+        }
       }
       for (var i = 0; i < alamatFill.length; i++) {
         alamatFill.remove('.');
@@ -990,6 +997,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
       } else if (arrOCR[11].split(" ")[0].contains("S")) {
         spFill = List<String>.from(arrOCR[11].split(''));
       } else if (arrOCR.length == 13) {
+        print("SP a");
         if (arrOCR[12].split(" ")[0].contains("Statu")) {
           spFill = List<String>.from(arrOCR[12].split(''));
         } else if (arrOCR[12].split(" ")[0].contains("Stat")) {
@@ -1003,7 +1011,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
         } else {
           spFill = ["Status", ":", "Isi Status Perkawinan"];
         }
-      } else if (arrOCR.length == 14) {
+      } else if (arrOCR.length >= 14) {
+        print("SP b");
         if (arrOCR[13].split(" ")[0].contains("Statu")) {
           spFill = List<String>.from(arrOCR[13].split(''));
         } else if (arrOCR[13].split(" ")[0].contains("Stat")) {
@@ -1018,6 +1027,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
           spFill = ["Status", ":", "Isi Status Perkawinan"];
         }
       } else {
+        print("SP c");
         spFill = ["Status", ":", "Isi Status Perkawinan"];
       }
 
@@ -1037,6 +1047,11 @@ class _BuatSuratPState extends State<BuatSuratP> {
         });
       } else if (spFill.contains('"')) {
         var spArr = List<String>.from(text6.split('"'));
+        setState(() {
+          spText = spArr[1];
+        });
+      } else if (spFill.contains('.')) {
+        var spArr = List<String>.from(text6.split('.'));
         setState(() {
           spText = spArr[1];
         });
@@ -1071,6 +1086,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
       } else if (arrOCR[11].split(" ")[0].contains("j")) {
         workFill = List<String>.from(arrOCR[11].split(''));
       } else if (arrOCR.length == 13) {
+        print("WA a");
         if (arrOCR[11].split(" ")[0].contains("rjaa")) {
           workFill = List<String>.from(arrOCR[11].split(''));
         } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
@@ -1095,6 +1111,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
           workFill = ['Pekerjaan', ":", "Isi Pekerjaan"];
         }
       } else if (arrOCR.length == 14) {
+        print("WA b");
         if (arrOCR[11].split(" ")[0].contains("rjaa")) {
           workFill = List<String>.from(arrOCR[11].split(''));
         } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
@@ -1128,7 +1145,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
         } else {
           workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
         }
-      } else if (arrOCR.length == 15) {
+      } else if (arrOCR.length >= 15) {
+        print("WA c");
         if (arrOCR[11].split(" ")[0].contains("rjaa")) {
           workFill = List<String>.from(arrOCR[11].split(''));
         } else if (arrOCR[11].split(" ")[0].contains("jaa")) {
@@ -1173,6 +1191,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
           workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
         }
       } else {
+        print("WA d");
         workFill = ["Pekerjaan", ":", "Isi Pekerjaan"];
       }
 
@@ -1252,9 +1271,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
     _kelurahanController.text = kelText;
     _agamaController.text = agamaText;
     _spController.text = spText;
-    print(_workController.text);
     _workController.text = workText;
-    print(workText);
 
     //************************* VALIDATE POPUP */
     bool _valpnik = true;
@@ -1529,7 +1546,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                               setState(() {
                                                 _valppekerjaan = true;
                                               });
-                                              if (UtilAuth.checkString(
+                                              if (UtilAuth.checkStringRTRW(
                                                       _workController.text
                                                           .toString()) ==
                                                   true) {
@@ -1541,50 +1558,52 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                                   setState(() {
                                                     _valppendidikan = true;
                                                   });
-                                                  // if (UtilAuth.checkUsername(
-                                                  //         _pendidikanController
-                                                  //             .text
-                                                  //             .toString()) ==
-                                                  //     true) {
-                                                  setState(() {
-                                                    _valppendidikan = true;
-                                                  });
-                                                  var arrNIK =
-                                                      new List<String>.from(
-                                                          _nikController.text
-                                                              .toString()
-                                                              .split(''));
-                                                  transleteNIK(arrNIK);
-                                                  //SetState di sini
-                                                  setState(() {
-                                                    nikText =
-                                                        _nikController.text;
-                                                    namaText =
-                                                        _namaController.text;
-                                                    alamatText =
-                                                        _alamatController.text;
-                                                    rtrwText =
-                                                        _rtrwController.text;
-                                                    kelText =
-                                                        _kelurahanController
-                                                            .text;
-                                                    agamaText =
-                                                        _agamaController.text;
-                                                    spText = _spController.text;
-                                                    workText =
-                                                        _workController.text;
-                                                    pendidikanText =
-                                                        _pendidikanController
-                                                            .text;
-                                                    okPressKtp = true;
-                                                    ktpImage = val;
-                                                  });
-                                                  Navigator.of(context).pop();
-                                                  // } else {
-                                                  //   setState(() {
-                                                  //     _valppendidikan = false;
-                                                  //   });
-                                                  // }
+                                                  if (UtilAuth.checkStringPassword(
+                                                          _pendidikanController
+                                                              .text
+                                                              .toString()) ==
+                                                      true) {
+                                                    setState(() {
+                                                      _valppendidikan = true;
+                                                    });
+                                                    var arrNIK =
+                                                        new List<String>.from(
+                                                            _nikController.text
+                                                                .toString()
+                                                                .split(''));
+                                                    transleteNIK(arrNIK);
+                                                    //SetState di sini
+                                                    setState(() {
+                                                      nikText =
+                                                          _nikController.text;
+                                                      namaText =
+                                                          _namaController.text;
+                                                      alamatText =
+                                                          _alamatController
+                                                              .text;
+                                                      rtrwText =
+                                                          _rtrwController.text;
+                                                      kelText =
+                                                          _kelurahanController
+                                                              .text;
+                                                      agamaText =
+                                                          _agamaController.text;
+                                                      spText =
+                                                          _spController.text;
+                                                      workText =
+                                                          _workController.text;
+                                                      pendidikanText =
+                                                          _pendidikanController
+                                                              .text;
+                                                      okPressKtp = true;
+                                                      ktpImage = val;
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    setState(() {
+                                                      _valppendidikan = false;
+                                                    });
+                                                  }
                                                 } else {
                                                   setState(() {
                                                     _valppendidikan = false;
@@ -1689,12 +1708,12 @@ class _BuatSuratPState extends State<BuatSuratP> {
       provText = prov[tmpNIK[0]];
       kota_kecText = kota_kecamatan[tmpNIK[1]][tmpNIK[2]];
       if (int.parse(tmpNIK[3]) > 40) {
-        jenis_kelaminText = 'Perempuan';
+        jenis_kelaminText = 'PEREMPUAN';
         var tgl = int.parse(tmpNIK[3]) - 40;
         tgl_lahirText =
             "${prov[tmpNIK[0]]}, $tgl ${bulan[tmpNIK[4]]} 19${tmpNIK[5]}";
       } else if (int.parse(tmpNIK[3]) < 40) {
-        jenis_kelaminText = 'Laki-Laki';
+        jenis_kelaminText = 'LAKI-LAKI';
         tgl_lahirText = "${tmpNIK[3]} ${bulan[tmpNIK[4]]} 19${tmpNIK[5]}";
       } else {
         jenis_kelaminText = 'NULL';
@@ -1783,47 +1802,82 @@ class _BuatSuratPState extends State<BuatSuratP> {
 
   bool normalizationkk(BuildContext context) {
     List<String> arrOCR = _extractText.split("\n");
+    print(arrOCR);
 
     var kk;
-    if (arrOCR[1].contains("-")) {
-      kk = arrOCR[1].split('-');
-    } else if (arrOCR[1].contains(".")) {
-      kk = arrOCR[1].split('.');
-    } else if (arrOCR[1].contains(":")) {
-      kk = arrOCR[1].split(':');
+    if (arrOCR.length >= 2) {
+      if (arrOCR[1].contains("-")) {
+        kk = arrOCR[1].split('-');
+      } else if (arrOCR[1].contains(".")) {
+        kk = arrOCR[1].split('.');
+      } else if (arrOCR[1].contains(":")) {
+        kk = arrOCR[1].split(':');
+      } else if (arrOCR[1].contains(" ")) {
+        kk = arrOCR[1].split(" ");
+      } else if (arrOCR[1].contains("B")) {
+        setState(() {
+          nokkText = "Not Good";
+          statkk = true;
+        });
+        return false;
+      } else if (arrOCR[1].contains("H")) {
+        setState(() {
+          nokkText = "Not Good";
+          statkk = true;
+          kkNormProc = true;
+        });
+        if (kkNormProc == true) {
+          popupskk(context);
+        }
+        return false;
+      } else {
+        setState(() {
+          nokkText = "Not Good";
+          statkk = true;
+          kkNormProc = true;
+        });
+        if (kkNormProc == true) {
+          popupskk(context);
+        }
+        return false;
+      }
+
+      var arrKK = new List<String>.from(kk[1].toString().split(''));
+      for (var i = 0; i < arrKK.length; i++) {
+        if (arrKK[i] == "?") {
+          arrKK[i] = '7';
+        } else if (arrKK[i] == 'D') {
+          arrKK[i] = '0';
+        } else if (arrKK[i] == 'L') {
+          arrKK[i] = '1';
+        } else if (arrKK[i] == 'i') {
+          arrKK[i] = '1';
+        } else if (arrKK[i] == 'I') {
+          arrKK[i] = '1';
+        }
+        arrKK.remove(' ');
+      }
+
+      setState(() {
+        nokkText = arrKK.join();
+        kkNormProc = true;
+      });
+
+      if (kkNormProc == true) {
+        popupskk(context);
+      }
+      return true;
     } else {
       setState(() {
         nokkText = "Not Good";
         statkk = true;
+        kkNormProc = true;
       });
+      if (kkNormProc == true) {
+        popupskk(context);
+      }
       return false;
     }
-
-    var arrKK = new List<String>.from(kk[1].toString().split(''));
-    for (var i = 0; i < arrKK.length; i++) {
-      if (arrKK[i] == "?") {
-        arrKK[i] = '7';
-      } else if (arrKK[i] == 'D') {
-        arrKK[i] = '0';
-      } else if (arrKK[i] == 'L') {
-        arrKK[i] = '1';
-      } else if (arrKK[i] == 'i') {
-        arrKK[i] = '1';
-      } else if (arrKK[i] == 'I') {
-        arrKK[i] = '1';
-      }
-      arrKK.remove(' ');
-    }
-
-    setState(() {
-      nokkText = arrKK.join();
-      kkNormProc = true;
-    });
-
-    if (kkNormProc == true) {
-      popupskk(context);
-    }
-    return true;
   }
 
   Widget popupskk(BuildContext context) {
@@ -1841,7 +1895,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
               title: Text('Form No KK'),
               content: Container(
                 width: 100,
-                height: 60,
+                height: 95,
                 child: TextField(
                   maxLength: 17,
                   inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -1933,6 +1987,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
       judulDetail = "Pengajuan Surat Keterangan Kematian";
     } else if (widget.tipe == "8") {
       judulDetail = "Pengajuan Surat Keterangan Pindah";
+    } else if (widget.tipe == "15") {
+      judulDetail = "Pengajuan Surat Penghantar RT&RW";
     }
     return Scaffold(
       appBar: AppBar(
@@ -2374,7 +2430,7 @@ class _BuatSuratPState extends State<BuatSuratP> {
                                               ? CameraMode.fullscreen
                                               : CameraMode.normal,
                                           orientationEnablePhoto:
-                                              CameraOrientation.all,
+                                              CameraOrientation.landscape,
                                           imageMask: Stack(
                                             children: <Widget>[
                                               Positioned(
@@ -2835,6 +2891,8 @@ class _BuatSuratPState extends State<BuatSuratP> {
                     _valskck = false;
                   });
                 }
+              } else if (widget.tipe == "15") {
+                prosesData(context);
               }
               //
               //

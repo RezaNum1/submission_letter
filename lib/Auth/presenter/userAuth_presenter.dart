@@ -39,10 +39,10 @@ class UserAuthPresenter {
     var otp = randoms.toString();
 
     //Simpan dulu
-    // var url =
-    //     'https://rest.nexmo.com/sms/json?api_key=74d5af9d&api_secret=IMP5chxxcpNhBFOx&to=6285156473893&from="Pengajuan Surat"&text="Kode Aktivasi Anda: $otp. Jangan Berikan Kesiapapun"';
-    // Dio dio = new Dio();
-    // var response = await dio.post(url);
+    var url =
+        'https://rest.nexmo.com/sms/json?api_key=74d5af9d&api_secret=IMP5chxxcpNhBFOx&to=6285156473893&from="Pengajuan Surat"&text="Kode Aktivasi Anda: $otp. Jangan Berikan Kesiapapun"';
+    Dio dio = new Dio();
+    var response = await dio.post(url);
     return otp;
   }
 }

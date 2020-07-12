@@ -33,7 +33,7 @@ reportViewPenduduk(
       build: (Context context) => <Widget>[
             Header(
                 child: Container(
-                    margin: EdgeInsets.only(bottom: 20),
+                    margin: EdgeInsets.only(top: -65),
                     child: Row(children: <Widget>[
                       Container(
                         child: Image(logoImage),
@@ -98,7 +98,7 @@ reportViewPenduduk(
                   child: Header(child: Container())),
               Text("Nomor   : $nosk")
             ]))),
-            SizedBox(height: 30),
+            SizedBox(height: 50),
             Container(
                 child: Text(
                     "Yang bertanda tangan di bawah ini, Menerangkan Bahwa",
@@ -205,16 +205,17 @@ reportViewPenduduk(
                 ),
               ),
             ])),
+            SizedBox(height: 70),
             Container(
                 child: Text(
                     "Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya")),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Container(
               margin: EdgeInsets.only(bottom: 1),
               child: Row(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(left: 360),
+                    margin: EdgeInsets.only(left: 330),
                     child: Text("Jakarta, $tanggal"),
                   ),
                 ],
@@ -226,14 +227,14 @@ reportViewPenduduk(
                 children: <Widget>[
                   Column(children: <Widget>[
                     Text("Mengetahui"),
-                    SizedBox(height: 65),
+                    SizedBox(height: 80),
                     Text("$nama"),
                   ]),
                   Container(
-                    margin: EdgeInsets.only(left: 235),
+                    margin: EdgeInsets.only(left: 200),
                     child: Column(children: <Widget>[
                       Text("LURAH CIPINANG CEMPEDAK"),
-                      SizedBox(height: 60),
+                      SizedBox(height: 80),
                       Text("....................."),
                     ]),
                   ),

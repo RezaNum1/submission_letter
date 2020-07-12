@@ -78,6 +78,8 @@ class _DetailpSelesaiState extends State<DetailpSelesai> {
       judulDetail = "Pengajuan Surat Keterangan Kematian";
     } else if (widget.tipe == "8") {
       judulDetail = "Pengajuan Surat Keterangan Pindah";
+    } else if (widget.tipe == "15") {
+      judulDetail = "Pengajuan Surat Penghantar RT&RW";
     }
     return Container(
       child: ListView(

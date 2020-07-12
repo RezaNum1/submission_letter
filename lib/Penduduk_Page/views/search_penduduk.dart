@@ -46,27 +46,30 @@ class _SearchPendudukState extends State<SearchPenduduk> {
   String startDateText = "Pilih Tanggal Mulai";
   String toDateText = "Pilih Tanggal Selesai";
 
-  String nama;
-  String jabatanText;
-  int id;
-  // @override
-  // void initState() {
-  //   setPreference();
-  //   super.initState();
-  // }
+  int idUserPenduduk;
+  String noTelepon;
+  String nik;
+  int tipeUser;
 
-  // Future<void> setPreference() async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     nama = pref.getString('Nama');
-  //     jabatanText = pref.getString('Jabatan');
-  //     id = pref.getInt("Id");
-  //   });
-  // }
+  @override
+  void initState() {
+    setPreference();
+    super.initState();
+  }
 
-  // void dispose() {
-  //   super.dispose();
-  // }
+  Future<void> setPreference() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      idUserPenduduk = pref.getInt("Id");
+      noTelepon = pref.getString("NoTelepon");
+      nik = pref.getString("Nik");
+      tipeUser = pref.getInt("TipeUser");
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+  }
 
   void resetData() {
     setState(() {
@@ -373,11 +376,11 @@ class _SearchPendudukState extends State<SearchPenduduk> {
     List<Map<String, dynamic>> allData;
     if (searchCode == "1") {
       allData = await presenter.findDataSelesaiApiPenduduk(
-          noPengajuanController.text, searchCode, 1);
+          noPengajuanController.text, searchCode, idUserPenduduk);
     } else if (searchCode == "2") {
       var startEnd = "$startDate $toDate";
-      allData =
-          await presenter.findDataSelesaiApiPenduduk(startEnd, searchCode, 1);
+      allData = await presenter.findDataSelesaiApiPenduduk(
+          startEnd, searchCode, idUserPenduduk);
     }
 
     if (allData.isEmpty) {
